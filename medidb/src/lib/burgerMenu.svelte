@@ -1,16 +1,25 @@
 <script>
     import { goto } from "$app/navigation";
-
-  let menuOpen = $state(false);
+    import { ButtonGroup, Button } from "flowbite-svelte";
+    import { UserCircleSolid, AdjustmentsVerticalOutline, DownloadSolid } from "flowbite-svelte-icons";
+    let menuOpen = $state(false);
 </script>
 
 <button onclick={() => menuOpen = !menuOpen}>☰</button>
 
 {#if menuOpen}
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <button onclick={() => goto('login')}>login</button>
-    <button onclick={() => goto('patient_dashboard')}>Patient dashboard</button>
-    <button>lorem ipsum</button>
-    <button>lorem ipsum</button>
-  </div>
+    <ButtonGroup class="*:ring-primary-700!">
+    <Button>
+        <UserCircleSolid class="me-2 h-4 w-4" />
+        Profile
+    </Button>
+    <Button>
+        <AdjustmentsVerticalOutline class="me-2 h-4 w-4" />
+        Settings
+    </Button>
+    <Button>
+        <DownloadSolid class="me-2 h-4 w-4" />
+        Download
+    </Button>
+    </ButtonGroup>
 {/if}
