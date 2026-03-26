@@ -21,7 +21,7 @@
       </div>
       <Button type="submit" class="w-full" on:click={() => goto('/home')}>Login to your account</Button>
       <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-        Not registered? <a href="/" class="text-primary-700 dark:text-primary-500 hover:underline">Create account</a>
+        Not registered? <a href="/home" class="text-primary-700 dark:text-primary-500 hover:underline">Create account</a>
       </div>
     </form>
   </Card>
