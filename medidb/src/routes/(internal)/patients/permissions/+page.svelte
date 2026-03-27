@@ -22,7 +22,7 @@
   />
 {/each}</div>
 <div>
-  <div class="grid grid-cols-2 gap-4 px-20">
+  <div class="grid grid-cols-4 m-4 px-20">
     <div>
       <Card href="/cards" class="p-4 sm:p-6 md:p-8">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Dr. Elias Thornbridge</h5>
@@ -41,9 +41,9 @@
         <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Read/write blood lab</p>
       </Card>
     </div>
-    <div class="flex justify-end p-4">
-      <Card class="p-4 sm:p-6 md:p-8">
-        <div class="grid grid-cols-2 gap-y-6 gap-x-6">
+    <div class="flex col-start-2 col-span-3 justify-center items-center h-screen">
+      <Card class="w-full p-4 sm:p-6 md:p-8 flex justify-center items-center">
+        <div class="grid grid-cols-2 gap-y-6 gap-x-6 w-full max-w-none">
           <Toggle>Write all</Toggle>
           <Toggle>Read all</Toggle>
           <Toggle>Write prescriptions</Toggle>
