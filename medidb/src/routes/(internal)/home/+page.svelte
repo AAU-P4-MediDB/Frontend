@@ -122,7 +122,7 @@
         {/each}
       </div>
 
-      <div class="col-span-2 pl-[40%] flex gap-6 justify-center items-center">
+      <div class="col-span-2 ml-auto flex gap-1 justify-center items-center">
         <GreyButton href="/patients/dashboard">Patients</GreyButton>
         <GreyButton href="/calendar">Calendar</GreyButton>
         <GreyButton href="/login">Test results</GreyButton>
