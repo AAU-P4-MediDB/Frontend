@@ -1,28 +1,37 @@
 <script lang="ts">
   import { Card, Button, Label, Input, Checkbox } from "flowbite-svelte";
-  import { goto} from "$app/navigation";
+  import { goto } from "$app/navigation";
 </script>
 
-<div class="absolute p-4 text-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-  <Card class="p-4 sm:p-6 md:p-8 ">
-    <form class="flex flex-col space-y-6" action="/">
-      <h3 class="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
-      <Label class="space-y-2">
+<div class="absolute p-4 text-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" >
+  <Card class="p-6 sm:p-8 md:p-11 w-96 bg-center bg-cover" style="background-image: url('https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba4484ec8c29'); filter: brightness(0.9)">
+    <form class="flex flex-col space-y-8" action="/">
+      <h3 class="text-2xl font-medium text-[--medi-cyan]">Sign in to our platform</h3>
+      <Label class="space-y-3 text-[--medi-cyan]/20">
         <span>Email</span>
-        <Input type="email" name="email" placeholder="name@company.com" required />
+        <Input
+          class="text-base py-3 px-4 bg-white/60 backdrop-blur-md"
+          type="email"
+          name="email"
+          placeholder="name@company.com"
+          required
+        />
       </Label>
-      <Label class="space-y-2">
+      <Label class="space-y-3 text-[--medi-cyan]/20">
         <span>Your password</span>
-        <Input type="password" name="password" placeholder="•••••" required />
+        <Input
+          class="text-base py-3 px-4 bg-white/60 backdrop-blur-md"
+          type="password"
+          name="password"
+          placeholder="•••••"
+          required
+        />
       </Label>
       <div class="flex items-start">
-        <Checkbox>Remember me</Checkbox>
-        <a href="/" class="text-primary-700 dark:text-primary-500 ms-auto text-sm hover:underline">Lost password?</a>
+        <Checkbox class="text-base text-[--medi-cyan] shadow-black/20">Remember me</Checkbox>
       </div>
-      <Button type="submit" class="w-full" on:click={() => goto('/home')}>Login to your account</Button>
-      <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-        Not registered? <a href="/home" class="text-primary-700 dark:text-primary-500 hover:underline">Create account</a>
-      </div>
+      <Button type="submit" class="w-full text-base py-3 border-2 border-[--medi-cyan] bg-black/20 text-white backdrop-blur-md hover:!bg-[--medi-cyan]/30" on:click={() => goto('/home')}>Login to your account</Button>
     </form>
   </Card>
 </div>
+
