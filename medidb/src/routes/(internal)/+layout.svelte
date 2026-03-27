@@ -9,8 +9,12 @@
     "text-[--medi-cyan]/80 dark:text-[--medi-cyan]/40 hover:bg-[--medi-cyan]/10 dark:hover:bg-[--medi-cyan]/70 focus:outline-none focus:ring-2 focus:ring-[--medi-cyan]/20 rounded-lg p-2.5";
 </script>
 
-<header class="w-full bg-[--medi-cyan]/80 dark:bg-[--medi-cyan]/70 bg-cyan shadow-md">
-  <div class="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto text-white">
+<header
+  class="w-full bg-[--medi-cyan]/80 dark:bg-[--medi-cyan]/70 bg-cyan shadow-md"
+>
+  <div
+    class="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto text-white"
+  >
     <!-- Burger button -->
     <button
       on:click={() => (menuOpen = !menuOpen)}
@@ -70,7 +74,7 @@
     >
       <nav class="flex flex-col">
         <GreyButton href="/home">Home</GreyButton>
-        <GreyButton href="/patients/overview">Pt. Overview</GreyButton>
+        <GreyButton href="/patientOverview">Pt. Overview</GreyButton>
         <GreyButton href="/patients/dashboard">Pt. Dashboard</GreyButton>
         <GreyButton href="/patients/permissions">Pt. Permissions</GreyButton>
         <GreyButton href="/patients/test_results">Pt. Test results</GreyButton>
@@ -82,4 +86,3 @@
 </header>
 
 <slot />
-
