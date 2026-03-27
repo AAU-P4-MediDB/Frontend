@@ -82,7 +82,7 @@
 
   <div class="grid grid-flow-col grid-rows-3 gap-10 m-4">
     <!-- Left: 3 stacked panels -->
-    <div>
+    <div class="max-w-[400px] flex flex-col gap-4" style="height: 100%">
       <div class="row-span-1">
         <CardOverlay>
           <div class="my-3">Medical History</div>
@@ -117,7 +117,7 @@
         {/each}
       </CardOverlay>
     </div>
-    <div>
+    <div class="max-w-[400px] flex flex-col gap-4" style="height: 100%">
       <!-- Right: tall Tasks & Messages -->
       <div class="row-span-1">
         <CardOverlay>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Card, Button, Label, Input, Checkbox } from "flowbite-svelte";
+  import DefaultButton from "$lib/DefaultButton.svelte";
   import { goto } from "$app/navigation";
 </script>
 
@@ -30,7 +31,7 @@
       <div class="flex items-start">
         <Checkbox class="text-base text-[--medi-cyan] shadow-black/20">Remember me</Checkbox>
       </div>
-      <Button type="submit" class="w-full text-base py-3 border-2 border-[--medi-cyan] bg-black/20 text-white backdrop-blur-md hover:!bg-[--medi-cyan]/30" on:click={() => goto('/home')}>Login to your account</Button>
+      <DefaultButton href="/home">Login</DefaultButton>
     </form>
   </Card>
 </div>
