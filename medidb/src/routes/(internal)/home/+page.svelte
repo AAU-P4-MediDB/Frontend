@@ -67,6 +67,44 @@
       description: "Vitals normal. No concerns reported",
       status: "red",
     },
+    {
+      date: "April 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
+    {
+      date: "April 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
+  ];
+  const appointments = [
+    {
+      date: "Mar 2026",
+      title: "Routine Checkup",
+      description: "Vitals normal. No concerns reported.",
+      status: "blue",
+    },
+    {
+      date: "Feb 2026",
+      title: "Routine Checkup",
+      description: "Vitals normal. No concerns reported.",
+      status: "blue",
+    },
+    {
+      date: "April 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
+    {
+      date: "April 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
   ];
 </script>
 
@@ -93,50 +131,61 @@
   </div>
 
   <hr class="my-6" />
+</div>
 
-  <div class="grid grid-cols-3 gap-4">
-    <div class="col">
-      <CardOverlay>
-        <div class="my-3">Notification</div>
+<div class="grid grid-flow-col grid-rows-3 gap-4 m-4">
+  <div class="col-span-1">
+    <CardOverlay>
+      <div class="my-3">Notification</div>
 
-        {#each notifications as notification}
-          <DefaultCard
-            title={notification.title}
-            date={notification.date}
-            description={notification.description}
-            status={notification.status}
-          />
-        {/each}
-      </CardOverlay>
-
-      <CardOverlay>
-        <div class="my-3">Permission requests</div>
-        {#each permissionRequests as request}
-          <DefaultCard
-            title={request.title}
-            date={request.date}
-            description={request.description}
-            status={request.status}
-          />
-        {/each}
-      </CardOverlay>
-    </div>
+      {#each notifications as notification}
+        <DefaultCard
+          title={notification.title}
+          date={notification.date}
+          description={notification.description}
+          status={notification.status}
+        />
+      {/each}
+    </CardOverlay>
   </div>
-
-  <div class="grid grid-cols-3 gap-4 block">
-    <div class="col-span-full">
-      <CardOverlay>
-        <div class="my-3">Permission requests</div>
-        {#each recentHistory as history}
-          <DefaultCard
-            title={history.title}
-            date={history.date}
-            description={history.description}
-            status={history.status}
-          />
-        {/each}
-      </CardOverlay>
-    </div>
+  <div class="col-span-1 row-span-2">
+    <CardOverlay>
+      <div class="my-3">Permission requests</div>
+      {#each permissionRequests as request}
+        <DefaultCard
+          title={request.title}
+          date={request.date}
+          description={request.description}
+          status={request.status}
+        />
+      {/each}
+    </CardOverlay>
+  </div>
+  <div class="row-span-3">
+    <CardOverlay>
+      <div class="my-3">Recent history</div>
+      {#each recentHistory as history}
+        <DefaultCard
+          title={history.title}
+          date={history.date}
+          description={history.description}
+          status={history.status}
+        />
+      {/each}
+    </CardOverlay>
+  </div>
+  <div class="row-span-3">
+    <CardOverlay>
+      <div class="my-3">Appointments</div>
+      {#each appointments as appointment}
+        <DefaultCard
+          title={appointment.title}
+          date={appointment.date}
+          description={appointment.description}
+          status={appointment.status}
+        />
+      {/each}
+    </CardOverlay>
   </div>
 </div>
 

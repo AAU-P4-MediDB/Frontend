@@ -7,13 +7,12 @@
   export let buttonAction = () => goto(href);
 </script>
 
-<div
+<button
   class="outline-cyan m-2 px-6 py-2 inline-block bg-white text-cyan rounded-lg font-bold transition cursor-pointer hover:bg-cyan hover:text-white"
+  on:click={buttonAction}
 >
-  <button class="button" on:click={buttonAction}>
-    <slot>Go to Page</slot>
-  </button>
-</div>
+  <slot>Go to Page</slot>
+</button>
 
 <style>
 </style>
