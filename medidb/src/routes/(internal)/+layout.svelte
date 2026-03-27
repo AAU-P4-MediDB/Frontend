@@ -69,7 +69,7 @@
   <!-- Dropdown nav menu -->
   {#if menuOpen}
     <div
-      class="ml-auto fixed top-140 left-0 w-1/4 bg-white shadow-xl"
+      class="ml-auto fixed top-140 left-0 w-1/4 bg-white shadow-xl z-99"
       style="left: {menuOpen ? '0' : '-100%'};"
     >
       <nav class="flex flex-col">
