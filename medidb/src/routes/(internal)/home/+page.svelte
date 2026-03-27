@@ -1,26 +1,154 @@
 <script lang="ts">
   import { Card, Button, Label, Input, Checkbox } from "flowbite-svelte";
-  import { goto} from "$app/navigation";
+  import { goto } from "$app/navigation";
+
+  import CyanButton from "$lib/CyanButton.svelte";
+  import DefaultButton from "$lib/DefaultButton.svelte";
+  import GreyButton from "$lib/GreyButton.svelte";
+
+  import CardOverlay from "$lib/CardOverlay.svelte";
+  import ImageCard from "$lib/ImageCard.svelte";
+  import DefaultCard from "$lib/DefaultCard.svelte";
+
+  const patients = [
+    {
+      title: "Pirate",
+      name: "Emma Nielsen",
+      gender: "Female",
+      age: "22",
+      imageUrl:
+        "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba15f58c562b",
+    },
+  ];
+  const notifications = [
+    {
+      date: "Mar 2026",
+      title: "EKG",
+      description: "No heartrate detected",
+      status: "red",
+    },
+    {
+      date: "June 2026",
+      title: "Ultrasound",
+      description: "No baby detected",
+      status: "red",
+    },
+    {
+      date: "Aug 2026",
+      title: "EKG",
+      description: "Heartrate detected",
+      status: "blue",
+    },
+  ];
+  const permissionRequests = [
+    {
+      date: "Mar 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
+  ];
+  const recentHistory = [
+    {
+      date: "Mar 2026",
+      title: "Routine Checkup",
+      description: "Vitals normal. No concerns reported.",
+      status: "blue",
+    },
+    {
+      date: "Feb 2026",
+      title: "Routine Checkup",
+      description: "Vitals normal. No concerns reported.",
+      status: "blue",
+    },
+    {
+      date: "April 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
+  ];
 </script>
 
-
-<div class="flex items-center justify-center absolute p-4 text-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-    <div class="flex flex-col items-center justify-center">
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-        </Card>
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-        </Card>
+<div class="h-auto p-4">
+  <div class="grid grid-cols-3 gap-4">
+    <div class="col">
+      {#each patients as patient}
+        <ImageCard
+          title={patient.title}
+          imageUrl={patient.imageUrl}
+          name={patient.name}
+          gender={patient.gender}
+          age={patient.age}
+        />
+      {/each}
     </div>
-    <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-        <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-    </Card>
-    <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-        <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-    </Card>
+
+    <div class="col-span-2 flex justify-end">
+      <GreyButton href="/patients/dashboard">Patients</GreyButton>
+      <GreyButton href="/calendar">Calendar</GreyButton>
+      <GreyButton href="/login">Test results</GreyButton>
+      <GreyButton href="/login">Permissions</GreyButton>
+    </div>
+  </div>
+
+  <hr class="my-6" />
+
+  <div class="grid grid-cols-3 gap-4">
+    <div class="col">
+      <CardOverlay>
+        <div class="my-3">Notification</div>
+
+        {#each notifications as notification}
+          <DefaultCard
+            title={notification.title}
+            date={notification.date}
+            description={notification.description}
+            status={notification.status}
+          />
+        {/each}
+      </CardOverlay>
+
+      <CardOverlay>
+        <div class="my-3">Permission requests</div>
+        {#each permissionRequests as request}
+          <DefaultCard
+            title={request.title}
+            date={request.date}
+            description={request.description}
+            status={request.status}
+          />
+        {/each}
+      </CardOverlay>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-4 block">
+    <div class="col-span-full">
+      <CardOverlay>
+        <div class="my-3">Permission requests</div>
+        {#each recentHistory as history}
+          <DefaultCard
+            title={history.title}
+            date={history.date}
+            description={history.description}
+            status={history.status}
+          />
+        {/each}
+      </CardOverlay>
+    </div>
+  </div>
 </div>
+
+<style>
+  :global(.text-cyan) {
+    color: var(--medi-cyan);
+  }
+  :global(.bg-cyan) {
+    background-color: var(--medi-cyan);
+  }
+  :global(.outline-cyan) {
+    outline-color: var(--medi-cyan);
+    outline-style: solid;
+  }
+</style>
