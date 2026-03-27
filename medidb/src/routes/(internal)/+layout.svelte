@@ -6,24 +6,26 @@
   let menuOpen = false;
 
   let darkmodebtn =
-    "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-lg p-2.5";
+    "text-[--medi-cyan]/80 dark:text-[--medi-cyan]/40 hover:bg-[--medi-cyan]/10 dark:hover:bg-[--medi-cyan]/70 focus:outline-none focus:ring-2 focus:ring-[--medi-cyan]/20 rounded-lg p-2.5";
 </script>
 
-<header class="w-full bg-cyan-600 dark:bg-cyan-800 shadow-md">
-  <div class="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
+<header class="w-full bg-[--medi-cyan]/80 dark:bg-[--medi-cyan]/70 bg-cyan shadow-md">
+  <div class="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto text-white">
     <!-- Burger button -->
     <button
       on:click={() => (menuOpen = !menuOpen)}
-      class="text-white hover:bg-red-700 dark:hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-white rounded-lg p-2.5 transition-colors"
+      class="dark:text-white text-xl hover:bg-[--medi-cyan]/70 focus:outline-none focus:ring-2 focus:ring-[--medi-cyan]/20 rounded-lg p-2.5 transition-colors"
       aria-label="Toggle menu"
+      style="position: relative;"
     >
       {#if menuOpen}
         <!-- X icon -->
         <svg
-          class="w-6 h-6"
+          class="block w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          style="top: 0; right: 0;"
         >
           <path
             stroke-linecap="round"
@@ -35,10 +37,11 @@
       {:else}
         <!-- Hamburger icon -->
         <svg
-          class="w-6 h-6"
+          class="block w-6 h-6"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
+          style="top: 0; right: 0;"
         >
           <path
             stroke-linecap="round"
@@ -51,7 +54,7 @@
     </button>
 
     <!-- Logo / Title -->
-    <div class="text-white font-bold text-xl tracking-wide">MyApp</div>
+    <div class="dark:text-white font-bold text-xl tracking-wide">MyApp</div>
 
     <!-- Right side controls -->
     <div class="flex items-center gap-2">
@@ -61,38 +64,22 @@
 
   <!-- Dropdown nav menu -->
   {#if menuOpen}
-    <nav class="bg-red-700">
-      <a
-        href="/home"
-        class="text-white hover:text-red-200 transition-colors py-1">Home</a
-      >
-      <a
-        href="/patients/overview"
-        class="text-white hover:text-red-200 transition-colors py-1"
-        >Pt. Overview</a
-      >
-      <a
-        href="/patients/dashboard"
-        class="text-white hover:text-red-200 transition-colors py-1"
-        >Pt. Dashboard</a
-      >
-      <a
-        href="/patients/permissions"
-        class="text-white hover:text-red-200 transition-colors py-1"
-        >Pt. Permissions</a
-      >
-      <a
-        href="/patients/test_results"
-        class="text-white hover:text-red-200 transition-colors py-1"
-        >Pt. Test results</a
-      >
-      <a
-        href="/calendar"
-        class="text-white hover:text-red-200 transition-colors py-1">Calendar</a
-      >
-      <GreyButton href="/componentExamples">Component Examples</GreyButton>
-    </nav>
+    <div
+      class="ml-auto fixed top-140 left-0 w-1/4 bg-white shadow-xl"
+      style="left: {menuOpen ? '0' : '-100%'};"
+    >
+      <nav class="flex flex-col">
+        <GreyButton href="/home">Home</GreyButton>
+        <GreyButton href="/patients/overview">Pt. Overview</GreyButton>
+        <GreyButton href="/patients/dashboard">Pt. Dashboard</GreyButton>
+        <GreyButton href="/patients/permissions">Pt. Permissions</GreyButton>
+        <GreyButton href="/patients/test_results">Pt. Test results</GreyButton>
+        <GreyButton href="/calendar">Calendar</GreyButton>
+        <GreyButton href="/componentExamples">Component Examples</GreyButton>
+      </nav>
+    </div>
   {/if}
 </header>
 
 <slot />
+
