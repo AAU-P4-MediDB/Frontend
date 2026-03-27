@@ -126,7 +126,7 @@
   <div class="grid grid-cols-3 gap-4 block">
     <div class="col-span-full">
       <CardOverlay>
-        <div class="my-3">Permission requests</div>
+        <div class="my-3">Recent history</div>
         {#each recentHistory as history}
           <DefaultCard
             title={history.title}

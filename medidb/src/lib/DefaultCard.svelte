@@ -5,7 +5,7 @@
   export let status;
 </script>
 
-<div class=" flex items-center py-2">
+<div class="flex items-center py-2">
   <div class="block">
     <div class="text-sm font-light">{date}</div>
     <div class="text-md font-bold">

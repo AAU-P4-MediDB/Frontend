@@ -6,6 +6,7 @@
   import CardOverlay from "$lib/CardOverlay.svelte";
   import ImageCard from "$lib/ImageCard.svelte";
   import DefaultCard from "$lib/DefaultCard.svelte";
+  import EmailCard from "$lib/EmailCard.svelte";
 
   const patients = [
     {
@@ -45,6 +46,13 @@
       status: "blue",
     },
   ];
+
+  const fetchEmail = [
+    {
+      title: "Fetch doctor",
+      email: "doctor@aau.dk",
+    },
+  ];
 </script>
 
 <div class="h-auto p-8 mx-auto">
@@ -54,7 +62,7 @@
   <DefaultButton href="/login">Take me Login</DefaultButton>
   <GreyButton href="/login">Grey button</GreyButton>
 
-  <div>
+  <div class="inline-block">
     {#each patients as patient}
       <ImageCard
         title={patient.title}
@@ -88,6 +96,14 @@
         description={card.description}
         status={card.status}
       />
+    {/each}
+  </CardOverlay>
+
+  <CardOverlay>
+    <div class="my-3">Fetch doctor</div>
+
+    {#each fetchEmail as email}
+      <EmailCard title={email.title} email={email.email} />
     {/each}
   </CardOverlay>
 </div>
