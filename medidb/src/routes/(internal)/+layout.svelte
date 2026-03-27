@@ -90,7 +90,9 @@
         href="/calendar"
         class="text-white hover:text-red-200 transition-colors py-1">Calendar</a
       >
-      <GreyButton href="/componentExamples">Component Examples</GreyButton>
+      <GreyButton href="/componentExamples">Component Examples</GreyButton>            
+      <GreyButton href="/PtOverview">Patient overview</GreyButton>
+
     </nav>
   {/if}
 </header>
