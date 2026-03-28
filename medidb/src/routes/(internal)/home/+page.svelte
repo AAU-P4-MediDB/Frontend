@@ -9,6 +9,39 @@
   import CardOverlay from "$lib/CardOverlay.svelte";
   import UserCard from "$lib/UserCard.svelte";
   import DefaultCard from "$lib/DefaultCard.svelte";
+  import AppointmentsTimeline from "$lib/AppointmentsTimeline.svelte";
+  import dayjs from "dayjs";
+
+  const appointments = [
+    {
+      id: 1,
+      title: "Routine Checkup",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      status: "completed" as const,
+      description: "Vitals normal. No concerns reported."
+    },
+    {
+      id: 2,
+      title: "Blood test results",
+      date: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
+      status: "in-progress" as const,
+      description: "Waiting for lab results"
+    },
+    {
+      id: 3,
+      title: "Routine Checkup",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      status: "completed" as const,
+      description: "Vitals normal. No concerns reported."
+    },
+    {
+      id: 4,
+      title: "Follow-up appointment",
+      date: dayjs().subtract(1, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      status: "completed" as const,
+      description: "Follow-up appointment completed successfully."
+    }
+  ];
 
   const users = [
     {
@@ -77,32 +110,32 @@
       status: "red",
     },
   ];
-  const appointments = [
-    {
-      date: "Mar 2026",
-      title: "Routine Checkup",
-      description: "Vitals normal. No concerns reported.",
-      status: "blue",
-    },
-    {
-      date: "Feb 2026",
-      title: "Routine Checkup",
-      description: "Vitals normal. No concerns reported.",
-      status: "blue",
-    },
-    {
-      date: "April 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
-    },
-    {
-      date: "April 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
-    },
-  ];
+  // const appointments = [
+  //   {
+  //     date: "Mar 2026",
+  //     title: "Routine Checkup",
+  //     description: "Vitals normal. No concerns reported.",
+  //     status: "blue",
+  //   },
+  //   {
+  //     date: "Feb 2026",
+  //     title: "Routine Checkup",
+  //     description: "Vitals normal. No concerns reported.",
+  //     status: "blue",
+  //   },
+  //   {
+  //     date: "April 2026",
+  //     title: "Blood test lab results",
+  //     description: "Vitals normal. No concerns reported",
+  //     status: "red",
+  //   },
+  //   {
+  //     date: "April 2026",
+  //     title: "Blood test lab results",
+  //     description: "Vitals normal. No concerns reported",
+  //     status: "red",
+  //   },
+  // ];
 </script>
 
 <div class="grid grid-cols-3 gap-4">
@@ -167,7 +200,10 @@
     </CardOverlay>
   </div>
   <div class="row-span-3">
-    <CardOverlay>
+  <CardOverlay>
+    <AppointmentsTimeline {appointments} />
+  </CardOverlay>
+    <!-- <CardOverlay>
       <div class="my-3">Recent history</div>
       {#each recentHistory as history}
         <DefaultCard
@@ -177,7 +213,7 @@
           status={history.status}
         />
       {/each}
-    </CardOverlay>
+    </CardOverlay> -->
   </div>
   <div class="row-span-3">
     <CardOverlay>
