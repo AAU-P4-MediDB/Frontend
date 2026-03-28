@@ -98,7 +98,7 @@
           <div class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
             <a href="/" class="block px-4 py-2 text-black hover:bg-green-100">Home</a>
             <a href="/settings" class="block px-4 py-2 text-black hover:bg-green-100">Settings</a>
-            <a href="/logout" class="block px-4 py-2 text-red-500 hover:bg-green-100">Logout</a>
+            <a href="/login" class="block px-4 py-2 text-red-500 hover:bg-green-100">Logout</a>
           </div>
         {/if}
       </div>
