@@ -115,7 +115,7 @@
       {#if !$isExpanded}
         <Tooltip
           placement="right"
-          class="border-none bg-light px-4 py-1 text-darker w-max font-medium dark:bg-darker"
+          class="border-none bg-[--medi-darker] px-4 py-1 text-white w-max font-medium dark:bg-darker"
           arrow={false}
         >
           {item.label}
