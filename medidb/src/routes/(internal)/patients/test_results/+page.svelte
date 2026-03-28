@@ -2,54 +2,51 @@
     import { Card } from "flowbite-svelte";
 </script>
 
-<div class="grid grid-cols-3 md:grid-cols-2 gap-4 m-4 p-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 m-4 p-4">
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">John Cena</h5>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Blood Test - 04/10/2026</p>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Status: Definitive</p>
+<div class="flex h-screen gap-6 p-6 max-w-[1200px] mx-auto overflow-hidden bg-gray-50">
+    
+    <div class="flex flex-col gap-4 w-80 shrink-0 overflow-y-auto pr-2">
+        <Card href="#" class="p-4">
+            <h5 class="mb-1 text-lg font-bold text-gray-900">John Cena</h5>
+            <p class="text-sm text-gray-600">Blood Test - 04/10/2026</p>
+            <p class="text-sm text-gray-500">Status: Definitive</p>
         </Card>
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">John Cena</h5>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Blood Test - 04/10/2026</p>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Status: Definitive</p>
+        
+        <Card href="#" class="p-4 opacity-60"> <h5 class="mb-1 text-lg font-bold text-gray-900">John Cena</h5>
+            <p class="text-sm text-gray-600">Blood Test - 04/10/2026</p>
+            <p class="text-sm text-gray-500">Status: Definitive</p>
         </Card>
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">John Cena</h5>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Blood Test - 04/10/2026</p>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Status: Definitive</p>
-        </Card>
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">John Cena</h5>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Blood Test - 04/10/2026</p>
-            <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Status: Definitive</p>
-        </Card>
-    </div>
+        </div>
 
-    <div>
-        <Card class="grid grid-cols-2 md:grid-cols-2 col-span-2 gap-4 m-4 p-4">
-            <div>
-                <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Subject</h5>
-                    <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">John Cena</p>
-                    <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">45 yrs </p>
-                    <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Male </p>
-                </Card>
-                <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Test info</h5>
-                    <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Blood Test</p>
-                    <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">07/10/2026 - Definitive</p>
-                    <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">04/10/2026 - Dr. Vanna Bardot </p>
-                </Card>
+    <div class="flex-1 bg-white rounded-xl border border-gray-200 p-8 overflow-y-auto shadow-sm">
+        <h2 class="text-xl font-bold mb-6 text-gray-800">Information</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div class="flex flex-col gap-6">
+                <div class="p-6 bg-gray-50 rounded-lg border border-gray-100 shadow-sm">
+                    <h3 class="font-bold mb-4">Subject</h3>
+                    <p class="text-gray-700">John Cena</p>
+                    <p class="text-gray-700">45yrs</p>
+                    <p class="text-gray-700">Male</p>
+                </div>
+
+                <div class="p-6 bg-gray-50 rounded-lg border border-gray-100 shadow-sm">
+                    <h3 class="font-bold mb-4">Test Info</h3>
+                    <p class="text-gray-700">Blood test</p>
+                    <p class="text-gray-700">07/10/2026 - Definitive</p>
+                    <p class="text-gray-700">04/10/2026 - Dr. Vanna Bardot</p>
+                </div>
             </div>
-            <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Results</h5>
-                <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget metus risus. Donec ac risus sit amet justo eleifend hendrerit. In dictum velit quis luctus accumsan. Vestibulum sit amet metus nibh. Quisque dapibus in sem non finibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras ultrices mi eu tempor blandit. Nunc at elementum tortor. Nunc eu volutpat justo. Nulla cursus id sem a varius. Fusce tincidunt tempor est in scelerisque. Aenean in libero dolor. Vivamus turpis ex, ultrices vitae erat id, posuere placerat felis. Curabitur tincidunt euismod turpis. In sit amet cursus elit. Maecenas sed finibus ex.
 
-                    Sed magna odio, ullamcorper at lectus hendrerit, convallis aliquet erat. Nulla blandit justo vitae congue convallis. Morbi quis diam eu ipsum bibendum cursus. Nulla eu dapibus nisi, eu mollis urna. Duis posuere vitae dolor nec tristique. Maecenas justo tortor, sodales vel nisl et, placerat lobortis nisi. Nullam sapien neque, pretium et malesuada in, semper id nulla. Sed lacinia dolor ac aliquet euismod. Nullam felis ligula, vestibulum eget nunc et, volutpat efficitur ex.</p>
-                <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Status: Definitive</p>
-            </Card>
-        </Card>
+            <div class="p-6 bg-gray-50 rounded-lg border border-gray-100 shadow-sm">
+                <h3 class="font-bold mb-4">Results</h3>
+                <div class="text-gray-600 space-y-4 text-sm leading-relaxed">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.</p>
+                    <p>In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas.</p>
+                    <p>Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
-
