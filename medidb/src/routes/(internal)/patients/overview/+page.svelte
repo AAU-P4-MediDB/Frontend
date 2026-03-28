@@ -119,57 +119,53 @@
   ];
 </script>
 
-<div class="px-20 max-w-[2000px] mx-auto">
-  <div class="m-6 search_container">
-    <Search>
-      <div class="me-1">Search</div>
-    </Search>
-  </div>
+<Search>
+  <div class="me-1">Search</div>
+</Search>
 
-  <div class="grid grid-cols-4 gap-4 m-4">
-    <div>
-      {#each patients.slice(0, 4) as patient, i}
-        <ImageCard
-          title={patient.title}
-          imageUrl={patient.imageUrl}
-          name={patient.name}
-          gender={patient.gender}
-          age={patient.age}
-        />
-      {/each}
-    </div>
-    <div>
-      {#each patients.slice(4, 8) as patient, i}
-        <ImageCard
-          title={patient.title}
-          imageUrl={patient.imageUrl}
-          name={patient.name}
-          gender={patient.gender}
-          age={patient.age}
-        />
-      {/each}
-    </div>
-    <div>
-      {#each patients.slice(8, 12) as patient, i}
-        <ImageCard
-          title={patient.title}
-          imageUrl={patient.imageUrl}
-          name={patient.name}
-          gender={patient.gender}
-          age={patient.age}
-        />
-      {/each}
-    </div>
-    <div>
-      {#each patients.slice(12, 16) as patient, i}
-        <ImageCard
-          title={patient.title}
-          imageUrl={patient.imageUrl}
-          name={patient.name}
-          gender={patient.gender}
-          age={patient.age}
-        />
-      {/each}
-    </div>
+<div class="grid grid-cols-4 gap-4">
+  <div>
+    {#each patients.slice(0, 4) as patient, i}
+      <ImageCard
+        title={patient.title}
+        imageUrl={patient.imageUrl}
+        name={patient.name}
+        gender={patient.gender}
+        age={patient.age}
+      />
+    {/each}
+  </div>
+  <div>
+    {#each patients.slice(4, 8) as patient, i}
+      <ImageCard
+        title={patient.title}
+        imageUrl={patient.imageUrl}
+        name={patient.name}
+        gender={patient.gender}
+        age={patient.age}
+      />
+    {/each}
+  </div>
+  <div>
+    {#each patients.slice(8, 12) as patient, i}
+      <ImageCard
+        title={patient.title}
+        imageUrl={patient.imageUrl}
+        name={patient.name}
+        gender={patient.gender}
+        age={patient.age}
+      />
+    {/each}
+  </div>
+  <div>
+    {#each patients.slice(12, 16) as patient, i}
+      <ImageCard
+        title={patient.title}
+        imageUrl={patient.imageUrl}
+        name={patient.name}
+        gender={patient.gender}
+        age={patient.age}
+      />
+    {/each}
   </div>
 </div>

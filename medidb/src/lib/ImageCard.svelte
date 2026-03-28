@@ -6,7 +6,7 @@
   export let age;
 </script>
 
-<div class="flex m-2 items-center gap-x-4 rounded-xl bg-white p-4 shadow-lg">
+<div class="flex my-4 items-center gap-4 rounded-xl bg-white p-4 shadow-md">
   <img
     class="aspect-square object-cover size-12 rounded-full"
     src={imageUrl}

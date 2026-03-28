@@ -8,6 +8,9 @@ const config = {
     extend: {
       colors: {
         cyan: "var(--medi-cyan)",
+        light: "var(--medi-light)",
+        dark: "var(--medi-dark)",
+        darker: "var(--medi-darker)",
       },
     },
   },

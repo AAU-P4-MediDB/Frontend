@@ -61,5 +61,8 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/shinokada/flowbite-svelte-starter.git"
+	},
+	"dependencies": {
+		"lucide-svelte": "^1.0.1"
 	}
 }

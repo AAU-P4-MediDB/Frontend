@@ -8,7 +8,7 @@
 </script>
 
 <button
-  class="h-full max-h-11 m-2 px-6 py-2 inline-block bg-white text-gray-700 rounded-lg font-bold transition cursor-pointer shadow-lg hover:shadow-xl hover:bg-cyan hover:text-white"
+  class="h-10 w-full my-4 text-gray-800 font-bold bg-light rounded-lg shadow-md hover:bg-dark hover:text-white duration-300 ease-in-out"
   on:click={buttonAction}
 >
   <slot>Go to Page</slot>
