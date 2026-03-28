@@ -61,5 +61,12 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/shinokada/flowbite-svelte-starter.git"
+	},
+	"dependencies": {
+		"@schedule-x/calendar": "^4.3.1",
+		"@schedule-x/svelte": "^3.0.0",
+		"@schedule-x/theme-default": "^4.3.1",
+		"lucide-svelte": "^1.0.1",
+		"temporal-polyfill": "^0.3.2"
 	}
 }

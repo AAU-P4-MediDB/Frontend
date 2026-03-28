@@ -7,6 +7,22 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@schedule-x/calendar':
+        specifier: ^4.3.1
+        version: 4.3.1(@preact/signals@2.9.0(preact@10.29.0))(preact@10.29.0)(temporal-polyfill@0.3.2)
+      '@schedule-x/svelte':
+        specifier: ^3.0.0
+        version: 3.0.0(@schedule-x/calendar@4.3.1(@preact/signals@2.9.0(preact@10.29.0))(preact@10.29.0)(temporal-polyfill@0.3.2))(@schedule-x/shared@3.7.3(@preact/signals@2.9.0(preact@10.29.0)))(svelte@3.59.2)
+      '@schedule-x/theme-default':
+        specifier: ^4.3.1
+        version: 4.3.1
+      lucide-svelte:
+        specifier: ^1.0.1
+        version: 1.0.1(svelte@3.59.2)
+      temporal-polyfill:
+        specifier: ^0.3.2
+        version: 0.3.2
     devDependencies:
       '@playwright/test':
         specifier: ^1.30.0
@@ -370,6 +386,36 @@ packages:
 
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+
+  '@preact/signals-core@1.14.0':
+    resolution: {integrity: sha512-AowtCcCU/33lFlh1zRFf/u+12rfrhtNakj7UpaGEsmMwUKpKWMVvcktOGcwBBNiB4lWrZWc01LhiyyzVklJyaQ==}
+
+  '@preact/signals@2.9.0':
+    resolution: {integrity: sha512-hYrY0KyUqkDgOl1qba/JGn6y81pXnurn21PMaxfcMwdncdZ3M/oVdmpTvEnsGjh48dIwDVc7bjWHqIsngSjYug==}
+    peerDependencies:
+      preact: '>= 10.25.0 || >=11.0.0-0'
+
+  '@schedule-x/calendar@4.3.1':
+    resolution: {integrity: sha512-lArCIoRmTXLrJcq9VDKLfo1E3h8AwWLXvkEQt3o7rhc8qp9py4xfyjGMBP635eYzRoe3q9iaOS+WzglMz8EefQ==}
+    peerDependencies:
+      '@preact/signals': ^2.0.2
+      preact: ^10.19.2
+      temporal-polyfill: 0.3.0
+
+  '@schedule-x/shared@3.7.3':
+    resolution: {integrity: sha512-VjDnL+3onIynplHqfsQK/eplQl/bsD2XjqnzKQFo6Ji2FYmusALP3Vmtww1brJSAzc+aV9ML2fWCHi14AR/YBg==}
+    peerDependencies:
+      '@preact/signals': ^2.0.2
+
+  '@schedule-x/svelte@3.0.0':
+    resolution: {integrity: sha512-/p91n/sl3iR/pdgvu3QwWTU3OiQoZCm4ftchU8NUcG1exReSxyKnWkiLWc00eK0eS2oTC+cG2v8H8pwggIzIng==}
+    peerDependencies:
+      '@schedule-x/calendar': ^3.0.0
+      '@schedule-x/shared': ^3.0.0
+      svelte: ^4 || ^5
+
+  '@schedule-x/theme-default@4.3.1':
+    resolution: {integrity: sha512-EVJulV9e3DH91j6Hfw8ZIh2kfqi1Juc1155LSz+9BO7S9K1GLaVBZqO413FCI/pPP+rHRE0nuhB/3iS+BidUUA==}
 
   '@sveltejs/adapter-auto@2.0.0':
     resolution: {integrity: sha512-b+gkHFZgD771kgV3aO4avHFd7y1zhmMYy9i6xOK7m/rwmwaRO8gnF5zBc0Rgca80B2PMU1bKNxyBTHA14OzUAQ==}
@@ -1020,6 +1066,11 @@ packages:
   loupe@2.3.7:
     resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}
 
+  lucide-svelte@1.0.1:
+    resolution: {integrity: sha512-WvzZgk0pqzgda+AErLvgWxHkfg/+GgUwqKMRHvzt0IqyMdmyEDzDCk3Z+Wo/3y753oIgx8u9Q4eUbWkghFa8Jg==}
+    peerDependencies:
+      svelte: ^3 || ^4 || ^5.0.0-next.42
+
   magic-string@0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
 
@@ -1236,6 +1287,9 @@ packages:
   postcss@8.5.8:
     resolution: {integrity: sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==}
     engines: {node: ^10 || ^12 || >=14}
+
+  preact@10.29.0:
+    resolution: {integrity: sha512-wSAGyk2bYR1c7t3SZ3jHcM6xy0lcBcDel6lODcs9ME6Th++Dx2KU+6D3HD8wMMKGA8Wpw7OMd3/4RGzYRpzwRg==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -1481,6 +1535,12 @@ packages:
     resolution: {integrity: sha512-3ofp+LL8E+pK/JuPLPggVAIaEuhvIz4qNcf3nA1Xn2o/7fb7s/TYpHhwGDv1ZU3PkBluUVaF8PyCHcm48cKLWQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
+
+  temporal-polyfill@0.3.2:
+    resolution: {integrity: sha512-TzHthD/heRK947GNiSu3Y5gSPpeUDH34+LESnfsq8bqpFhsB79HFBX8+Z834IVX68P3EUyRPZK5bL/1fh437Eg==}
+
+  temporal-spec@0.3.1:
+    resolution: {integrity: sha512-B4TUhezh9knfSIMwt7RVggApDRJZo73uZdj8AacL2mZ8RP5KtLianh2MXxL06GN9ESYiIsiuoLQhgVfwe55Yhw==}
 
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
@@ -1859,6 +1919,31 @@ snapshots:
   '@polka/url@1.0.0-next.29': {}
 
   '@popperjs/core@2.11.8': {}
+
+  '@preact/signals-core@1.14.0': {}
+
+  '@preact/signals@2.9.0(preact@10.29.0)':
+    dependencies:
+      '@preact/signals-core': 1.14.0
+      preact: 10.29.0
+
+  '@schedule-x/calendar@4.3.1(@preact/signals@2.9.0(preact@10.29.0))(preact@10.29.0)(temporal-polyfill@0.3.2)':
+    dependencies:
+      '@preact/signals': 2.9.0(preact@10.29.0)
+      preact: 10.29.0
+      temporal-polyfill: 0.3.2
+
+  '@schedule-x/shared@3.7.3(@preact/signals@2.9.0(preact@10.29.0))':
+    dependencies:
+      '@preact/signals': 2.9.0(preact@10.29.0)
+
+  '@schedule-x/svelte@3.0.0(@schedule-x/calendar@4.3.1(@preact/signals@2.9.0(preact@10.29.0))(preact@10.29.0)(temporal-polyfill@0.3.2))(@schedule-x/shared@3.7.3(@preact/signals@2.9.0(preact@10.29.0)))(svelte@3.59.2)':
+    dependencies:
+      '@schedule-x/calendar': 4.3.1(@preact/signals@2.9.0(preact@10.29.0))(preact@10.29.0)(temporal-polyfill@0.3.2)
+      '@schedule-x/shared': 3.7.3(@preact/signals@2.9.0(preact@10.29.0))
+      svelte: 3.59.2
+
+  '@schedule-x/theme-default@4.3.1': {}
 
   '@sveltejs/adapter-auto@2.0.0(@sveltejs/kit@1.7.2(svelte@3.59.2)(vite@4.5.14(@types/node@25.5.0)(sass@1.98.0)))':
     dependencies:
@@ -2547,6 +2632,10 @@ snapshots:
     dependencies:
       get-func-name: 2.0.2
 
+  lucide-svelte@1.0.1(svelte@3.59.2):
+    dependencies:
+      svelte: 3.59.2
+
   magic-string@0.25.9:
     dependencies:
       sourcemap-codec: 1.4.8
@@ -2723,6 +2812,8 @@ snapshots:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  preact@10.29.0: {}
 
   prelude-ls@1.2.1: {}
 
@@ -2963,6 +3054,12 @@ snapshots:
     transitivePeerDependencies:
       - tsx
       - yaml
+
+  temporal-polyfill@0.3.2:
+    dependencies:
+      temporal-spec: 0.3.1
+
+  temporal-spec@0.3.1: {}
 
   text-table@0.2.0: {}
 

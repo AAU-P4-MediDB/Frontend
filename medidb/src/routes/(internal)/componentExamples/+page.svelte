@@ -55,55 +55,65 @@
   ];
 </script>
 
-<div class="h-auto p-8 mx-auto">
-  <CyanButton href="/patients/dashboard"
-    >Take me to Patient Dashboard</CyanButton
-  >
-  <DefaultButton href="/login">Take me Login</DefaultButton>
-  <GreyButton href="/login">Grey button</GreyButton>
-
-  <div class="inline-block">
-    {#each patients as patient}
-      <ImageCard
-        title={patient.title}
-        imageUrl={patient.imageUrl}
-        name={patient.name}
-        gender={patient.gender}
-        age={patient.age}
-      />
-    {/each}
+<div class="mx-auto">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <GreyButton href="/login">Grey button</GreyButton>
+    <CyanButton href="/patients/dashboard">Cyan button</CyanButton>
+    <DefaultButton href="/login">Default button</DefaultButton>
   </div>
+</div>
 
-  <CardOverlay>
-    <div class="my-3">Notification</div>
+<div class="px-20 max-w-[2000px] mx-auto">
+  <div class="h-auto p-4">
+    <div class="grid grid-cols-3 gap-4">
+      {#each patients as patient}
+        <ImageCard
+          title={patient.title}
+          imageUrl={patient.imageUrl}
+          name={patient.name}
+          gender={patient.gender}
+          age={patient.age}
+        />
+      {/each}
+    </div>
+  </div>
+</div>
 
-    {#each defaultCards as card}
-      <DefaultCard
-        title={card.title}
-        date={card.date}
-        description={card.description}
-        status={card.status}
-      />
-    {/each}
-  </CardOverlay>
+<div class="px-20 max-w-[2000px] mx-auto">
+  <div class="h-auto p-4">
+    <div class="grid grid-cols-3 gap-4">
+      <CardOverlay>
+        <div class="my-3">Notification</div>
 
-  <CardOverlay>
-    <div class="my-3">Hello</div>
-    {#each defaultCards as card}
-      <DefaultCard
-        title={card.title}
-        date={card.date}
-        description={card.description}
-        status={card.status}
-      />
-    {/each}
-  </CardOverlay>
+        {#each defaultCards as card}
+          <DefaultCard
+            title={card.title}
+            date={card.date}
+            description={card.description}
+            status={card.status}
+          />
+        {/each}
+      </CardOverlay>
 
-  <CardOverlay>
-    <div class="my-3">Fetch doctor</div>
+      <CardOverlay>
+        <div class="my-3">Hello</div>
+        {#each defaultCards as card}
+          <DefaultCard
+            title={card.title}
+            date={card.date}
+            description={card.description}
+            status={card.status}
+          />
+        {/each}
+      </CardOverlay>
 
-    {#each fetchEmail as email}
-      <EmailCard title={email.title} email={email.email} />
-    {/each}
-  </CardOverlay>
+      <CardOverlay>
+        <div class="my-3">Fetch doctor</div>
+
+        {#each fetchEmail as email}
+          <EmailCard />
+        {/each}
+      </CardOverlay>
+    </div>
+  </div>
 </div>
