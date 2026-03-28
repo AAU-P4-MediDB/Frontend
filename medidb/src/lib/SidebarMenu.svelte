@@ -40,11 +40,29 @@
       href: "/patients/test_results",
     },
     { icon: CalendarDays, label: "Calendar", href: "/calendar" },
+    // {
+    //   icon: Component,
+    //   label: "Component Examples",
+    //   href: "/componentExamples",
+    // },
     {
-      icon: Component,
-      label: "Component Examples",
+      icon: Settings,
+      label: "Patient Management",
       href: "/componentExamples",
+      // href: "/admin/patients",
     },
+    {
+      icon: Settings,
+      label: "Doctor Management",
+      href: "/componentExamples",
+      // href: "/admin/doctors",
+    },
+    {
+      icon: Settings,
+      label: "Sys Admin",
+      href: "/componentExamples",
+      // href: "/admin/sys_admin",
+    }
   ];
 
   function toggleSidebar() {

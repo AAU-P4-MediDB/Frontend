@@ -17,6 +17,9 @@
     <header
       class="w-full bg-[--medi-cyan]/80 dark:bg-[--medi-cyan]/70 bg-cyan shadow-md"
     >
+      
+      <slot name="header" />
+
     </header>
 
     <div class="p-6 overflow-x-auto">
