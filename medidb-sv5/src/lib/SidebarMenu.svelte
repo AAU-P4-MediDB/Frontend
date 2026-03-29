@@ -28,9 +28,9 @@
     { icon: ListCheck, label: "Patient Permissions", href: "/patients/permissions" },
     { icon: ClipboardList, label: "Patient Test Results", href: "/patients/test_results" },
     { icon: CalendarDays, label: "Calendar", href: "/calendar" },
-    { icon: Settings, label: "Patient Management", href: "/componentExamples" },
-    { icon: Settings, label: "Doctor Management", href: "/componentExamples" },
-    { icon: Settings, label: "Sys Admin", href: "/componentExamples" },
+    { icon: Settings, label: "Patient Management", href: "/settings/admin/patient" },
+    { icon: Settings, label: "Doctor Management", href: "/settings/admin/doctor" },
+    { icon: Settings, label: "Sys Admin", href: "/settings/admin/system" },
   ];
 
   function toggleSidebar() {

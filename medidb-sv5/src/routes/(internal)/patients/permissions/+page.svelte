@@ -41,7 +41,7 @@
         <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">Read/write blood lab</p>
       </Card>
     </div>
-    <div class="flex col-start-2 col-span-3 justify-center items-center h-screen">
+    <div class="flex col-start-2 col-span-3 justify-start items-start mt-4">
       <Card class="w-full p-4 sm:p-6 md:p-8 flex justify-center items-center">
         <div class="grid grid-cols-2 gap-y-6 gap-x-6 w-full max-w-none">
           <Toggle>Write all</Toggle>
