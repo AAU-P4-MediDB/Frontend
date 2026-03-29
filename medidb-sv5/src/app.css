@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@source "../../node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}";
+@source "../../node_modules/flowbite-svelte-icons/**/*.{html,js,svelte,ts}";
+
+@variant dark (&:where(.dark, .dark *));  /* only apply dark mode when .dark class is present */
+
+@theme {
+  --color-cyan: #0085a0;
+  --color-light: #f8f8f8;
+  --color-dark: #146676;
+  --color-darker: #19434c;
+  --color-grey: #005061;
+}
+
+:root {
+  --medi-cyan: #0085a0;
+  --medi-light: #f8f8f8;
+  --medi-dark: #146676;
+  --medi-darker: #19434c;
+  --medi-grey: #005061;
+}
