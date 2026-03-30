@@ -1,18 +1,16 @@
-FROM node:20-alpine
-
-# Install pnpm
+FROM node:20-alpine AS builder
 RUN npm install -g pnpm
-
 WORKDIR /app
-
-# Copy manifests first for better layer caching
 COPY package.json pnpm-lock.yaml ./
-
-RUN pnpm install
-
-# Copy the rest of the source
+RUN pnpm install --frozen-lockfile
 COPY . .
+RUN pnpm run build
 
-EXPOSE 5173
-
-CMD ["pnpm", "run", "dev", "--host"]
+FROM node:20-alpine AS runner
+RUN npm install -g pnpm
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY --from=builder /app/build ./build
+EXPOSE 3000
+CMD ["node", "build"]
