@@ -1,50 +1,23 @@
 <script lang="ts">
-  import { MOCK_USERS } from "$lib/mocks/users"; // Path to your dummy data
   import { goto } from "$app/navigation";
-  import { auth } from "$lib/services/auth";
-  import { session } from "$lib/session.svelte";
 
-  // Set default values from your first mock user
-  let emailValue = $state(MOCK_USERS[0]?.email ?? "");
-  let passwordValue = $state("password123"); // Mock password
-
-  let rememberMe = $state(true);
+  let emailValue = $state("");
+  let passwordValue = $state("");
+  let rememberMe = $state(false);
   let emailError = $state(false);
   let passwordError = $state(false);
-  let loginErrorMessage = $state("");
   let loading = $state(false);
 
-  async function handleLogin() {
-    // Reset errors
+  function handleLogin() {
     emailError = false;
     passwordError = false;
-    loginErrorMessage = "";
 
-    // Basic Client-side Validation
-    if (!emailValue || !emailValue.includes("@")) {
-      emailError = true;
-      return;
-    }
-    if (!passwordValue) {
-      passwordError = true;
-      return;
-    }
+    if (!emailValue || !emailValue.includes("@")) emailError = true;
+    if (!passwordValue) passwordError = true;
 
-    loading = true;
-
-    // Call your Mock Auth Service
-    const result = await auth.login(emailValue);
-
-    if (result.success) {
-      if (rememberMe) {
-        localStorage.setItem("remembered_email", emailValue);
-      }
-      session.refresh();
+    if (!emailError && !passwordError) {
+      loading = true;
       goto("/home");
-    } else {
-      // Handle the "User not found" or "Incorrect password" logic
-      loginErrorMessage = result.message ?? "Invalid credentials";
-      loading = false;
     }
   }
 </script>
@@ -53,12 +26,6 @@
   <div class="card">
     <div class="card-inner">
       <h3>Sign in to your MediDB account</h3>
-
-      {#if loginErrorMessage}
-        <div class="global-error">
-          {loginErrorMessage}
-        </div>
-      {/if}
 
       <div class="field" class:has-error={emailError}>
         <label for="email">Email</label>
@@ -92,78 +59,11 @@
       <button class="login-btn" disabled={loading} onclick={handleLogin}>
         {loading ? "Signing in…" : "Login"}
       </button>
-      <div class="dev-presets">
-        <span>Dev Quick-Login:</span>
-        <div class="preset-buttons">
-          {#each MOCK_USERS as user}
-            <button
-              type="button"
-              onclick={() => {
-                emailValue = user.email;
-                passwordValue = "pass";
-              }}
-              title="Load {user.name}"
-            >
-              {user.position === 3 ? "Dr." : "Staff"}: {user.name.split(
-                " ",
-              )[1] ?? user.name}
-            </button>
-          {/each}
-        </div>
-      </div>
     </div>
   </div>
 </div>
 
 <style>
-  /* ... keeping your existing styles ... */
-
-  .global-error {
-    margin-bottom: 1rem;
-    padding: 10px;
-    background: rgba(160, 40, 40, 0.1);
-    border: 1px solid rgba(160, 40, 40, 0.2);
-    border-radius: 8px;
-    color: #8a3030;
-    font-size: 13px;
-    text-align: center;
-  }
-  .dev-presets {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px dashed rgba(30, 100, 120, 0.2);
-    text-align: center;
-  }
-
-  .dev-presets span {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: rgba(30, 100, 120, 0.4);
-    display: block;
-    margin-bottom: 8px;
-  }
-
-  .preset-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .preset-buttons button {
-    background: rgba(30, 100, 120, 0.05);
-    border: 1px solid rgba(30, 100, 120, 0.1);
-    color: #2a7a90;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    cursor: pointer;
-  }
-
-  .preset-buttons button:hover {
-    background: rgba(30, 100, 120, 0.1);
-  }
-
   .scene {
     position: absolute;
     inset: 0;
@@ -218,10 +118,7 @@
     backdrop-filter: blur(8px);
     color: #1e5060;
     outline: none;
-    transition:
-      border-color 0.15s,
-      box-shadow 0.15s,
-      background 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
   }
 
   .field input:focus {
@@ -284,10 +181,7 @@
     font-weight: 500;
     cursor: pointer;
     letter-spacing: 0.01em;
-    transition:
-      background 0.15s,
-      opacity 0.15s,
-      transform 0.1s;
+    transition: background 0.15s, opacity 0.15s, transform 0.1s;
   }
 
   .login-btn:hover:not(:disabled) {

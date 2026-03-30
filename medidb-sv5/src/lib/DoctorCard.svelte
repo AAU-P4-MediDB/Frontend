@@ -1,11 +1,11 @@
 <script>
-  let { imageUrl, name } = $props();
+  let { pfp, name } = $props();
 </script>
 
 <div class="flex my-4 items-center gap-4">
   <img
     class="aspect-square object-cover size-12 rounded-full"
-    src={imageUrl}
+    src={pfp}
     alt="Avatar for {name}"
   />
   <div>

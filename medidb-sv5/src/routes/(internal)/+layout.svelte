@@ -1,7 +1,31 @@
-<script>
+<script lang="ts">
   import "../../app.css";
   import SidebarMenu from "$lib/SidebarMenu.svelte";
   import { isExpanded } from "$lib/stores/ui.js";
+  import { page } from "$app/state";
+  import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
+  import { MOCK_PATIENTS } from "$lib/mocks/patients";
+
+  // 1. Reactive derivation of path segments
+  // Filter removes empty strings from the split (like the first slash)
+  let pathSegments = $derived(page.url.pathname.split("/").filter(Boolean));
+
+  // 2. Helper to make the labels pretty
+  function getLabel(segment: string) {
+    // If the segment is a UUID (like p-001), look up the patient name
+    const patient = MOCK_PATIENTS.find((p) => p.uuid === segment);
+    if (patient) return patient.name;
+
+    // Otherwise, capitalize the word (e.g., "patients" -> "Patients")
+    return segment.charAt(0).toUpperCase() + segment.slice(1);
+  }
+
+  // 3. Construct the href for each step
+  // e.g., for the second segment in /patients/p-001, the href should be /patients
+  function getHref(index: number) {
+    const segments = page.url.pathname.split("/").filter(Boolean);
+    return "/" + segments.slice(0, index + 1).join("/");
+  }
 
   let { children } = $props();
 </script>
@@ -14,15 +38,29 @@
       ? 'ml-64'
       : 'ml-20'}"
   >
-    <header
-      class="w-full bg-cyan dark:bg-[--medi-cyan]/70  shadow-md"
-    >
+    <header class="w-full">
+      <nav class="pl-6 mt-2">
+        <Breadcrumb aria-label="Global navigation">
+          <BreadcrumbItem href="/home" home>Home</BreadcrumbItem>
+
+          {#each pathSegments as segment, i}
+            {#if segment !== "home"}
+              <BreadcrumbItem href={getHref(i)}>
+                {getLabel(segment)}
+              </BreadcrumbItem>
+            {/if}
+          {/each}
+        </Breadcrumb>
+      </nav>
     </header>
 
     <div class="p-6 overflow-x-auto">
       {@render children()}
     </div>
   </main>
+  {#if page.url.pathname !== "/login"}
+    <Breadcrumb>...</Breadcrumb>
+  {/if}
 </div>
 
 <style>
@@ -35,4 +73,5 @@
   :global(.outline-cyan) {
     outline-color: var(--medi-cyan);
     outline-style: solid;
-  }</style>
+  }
+</style>

@@ -23,7 +23,11 @@
 
   const menuItems = [
     { icon: Home, label: "Home", href: "/home" },
-    { icon: LayoutDashboard, label: "Dashboard", href: "/patients/dashboard" },
+    {
+      icon: LayoutDashboard,
+      label: "Dashboard",
+      href: "/patients/dashboard/uuid",
+    },
     {
       icon: SquareChartGantt,
       label: "Patient Overview",

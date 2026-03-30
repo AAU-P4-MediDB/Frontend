@@ -95,9 +95,8 @@
       date={appointment.date}
       color={itemColor}
       isLast={isLastItem}
-      dateFormat="full-date"
       classes={{ h3: "ml-4" }}
-      datePrefix="Released on"
+      h3Class="text-md "
     >
       {#snippet orientationSlot()}
         <span

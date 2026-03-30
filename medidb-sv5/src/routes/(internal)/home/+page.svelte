@@ -1,55 +1,95 @@
 <script lang="ts">
-  import { Card, Button, Label, Input, Checkbox } from "flowbite-svelte";
-  import { goto } from "$app/navigation";
+  import { session } from "$lib/session.svelte";
+  import { api } from "$lib/services/api";
+  import { onMount } from "svelte";
+  import type { JournalEntry } from "$lib/types";
 
-  import CyanButton from "$lib/CyanButton.svelte";
-  import DefaultButton from "$lib/DefaultButton.svelte";
+  // Mock Data
+  import { MOCK_DOCTORS } from "$lib/mocks/doctors";
+  import { MOCK_PATIENTS } from "$lib/mocks/patients";
+
+  // Components
+  import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
+
   import GreyButton from "$lib/GreyButton.svelte";
-
   import CardOverlay from "$lib/CardOverlay.svelte";
-  import DoctorCard from "$lib/DoctorCard.svelte";
   import DefaultCard from "$lib/DefaultCard.svelte";
+  import DoctorCard from "$lib/DoctorCard.svelte";
+  import PatientCard from "$lib/PatientCard.svelte";
   import AppointmentsTimeline from "$lib/AppointmentsTimeline.svelte";
+
   import dayjs from "dayjs";
 
+  let journals = $state<JournalEntry[]>([]);
+  let loadingJournals = $state(true);
+
+  onMount(async () => {
+    // In a real app, you might fetch journals for a specific patient
+    // or a list of recent updates for the doctor's clinic.
+    // For now, we fetch the mock data.
+    const result = await api.journals.getByPatient(1); // Fetching for Patient ID 1
+    if (result) {
+      // We wrap it in an array if your UI expects a list
+      journals = [result];
+    }
+    loadingJournals = false;
+  });
+  // 1. Get the current logged-in doctor's data
+  const currentDoctor = $derived(
+    MOCK_DOCTORS.find((d) => d.uuid === session.user?.uuid),
+  );
+
+  // 2. Map the IDs in 'assignedPatients' to full Patient objects
+  // 1. Get only the patients for the logged-in doctor
+  const myPatients = $derived(
+    MOCK_PATIENTS.filter((p) => p.doctor === session.user?.uuid),
+  );
+
+  // Helper: Calculate age for the ImageCard
+  const getAge = (dob: string) => dayjs().diff(dayjs(dob), "year");
   const appointments = [
     {
-      id: 1,
+      appointment_id: 1,
       title: "Routine Checkup",
       date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Vitals normal. No concerns reported.",
+      clinic: "uuid", //ref to CCR
       status: "completed" as const,
-      description: "Vitals normal. No concerns reported.",
+      app_type: "routine-checkup" as const,
     },
     {
-      id: 2,
+      appointment_id: 2,
       title: "Blood test results",
-      date: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
-      status: "in-progress" as const,
-      description: "Waiting for lab results",
-    },
-    {
-      id: 3,
-      title: "Routine Checkup",
       date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
-      status: "completed" as const,
-      description: "Vitals normal. No concerns reported.",
+      doctor: "uuid", //ref to CUR
+      notes: "Waiting for lab results",
+      clinic: "uuid", //ref to CCR
+      status: "in-progress" as const,
+      app_type: "screening" as const,
     },
     {
-      id: 4,
-      title: "Follow-up appointment",
-      date: dayjs().subtract(1, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      appointment_id: 3,
+      title: "Vaccination",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Vaccine for Covid",
+      clinic: "uuid", //ref to CCR
       status: "completed" as const,
-      description: "Follow-up appointment completed successfully.",
+      app_type: "immunization" as const,
+    },
+    {
+      appointment_id: 4,
+      title: "Follow-up appointment",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Follow-up appointment completed successfully.",
+      clinic: "uuid", //ref to CCR
+      status: "completed" as const,
+      app_type: "follow-up" as const,
     },
   ];
 
-  const users = [
-    {
-      name: "Olivia Martinez",
-      imageUrl:
-        "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2d1e53c9bf",
-    },
-  ];
   const notifications = [
     {
       date: "Mar 2026",
@@ -114,9 +154,9 @@
 
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
-    {#each users as user}
-      <DoctorCard imageUrl={user.imageUrl} name={user.name} />
-    {/each}
+    {#if session.user}
+      <DoctorCard pfp={session.user.pfp} name={session.user.name} />
+    {/if}
   </div>
 
   <div class="col-span-2">
@@ -142,16 +182,24 @@
 <div class="grid grid-cols-3 grid-flow-col grid-rows-3 gap-4">
   <div class="row-span-2">
     <CardOverlay>
-      <div class="">Notification</div>
+      <div class="my-3">Recent Medical History</div>
 
-      {#each notifications as notification}
-        <DefaultCard
-          title={notification.title}
-          date={notification.date}
-          description={notification.description}
-          status={notification.status}
-        />
-      {/each}
+      {#if loadingJournals}
+        <p>Loading medical records...</p>
+      {:else if journals.length > 0}
+        {#each journals as entry}
+          <DefaultCard
+            title="Medical Entry: {dayjs
+              .unix(entry.journal.date)
+              .format('MMM D, YYYY')}"
+            date={dayjs.unix(entry.journal.date).format("HH:mm")}
+            description={entry.journal.patient_summary}
+            status="blue"
+          />
+        {/each}
+      {:else}
+        <p>No recent history found.</p>
+      {/if}
     </CardOverlay>
   </div>
 
@@ -177,15 +225,24 @@
 
   <div class="row-span-3">
     <CardOverlay>
-      <div class="my-3">Appointments</div>
-      {#each appointments as appointment}
-        <DefaultCard
-          title={appointment.title}
-          date={appointment.date}
-          description={appointment.description}
-          status={appointment.status}
-        />
-      {/each}
+      <section>
+        <div class="flex justify-between items-center mb-2">
+          <h2 class="text-lg font-semibold">Your Assigned Patients</h2>
+          <span class=" text-blue-800 text-xs font-medium">
+            {myPatients.length} Total
+          </span>
+        </div>
+
+        {#each myPatients as patient}
+          <PatientCard
+            uuid={patient.uuid}
+            name={patient.name}
+            pronouns={patient.pronouns}
+            diagnoses={patient.diagnoses}
+            age={dayjs().diff(dayjs(patient.dob), "year").toString()}
+          />
+        {/each}
+      </section>
     </CardOverlay>
   </div>
 </div>

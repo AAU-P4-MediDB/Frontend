@@ -1,16 +1,21 @@
 <script lang="ts">
-  import { Card, Button, Label, Input, Checkbox } from "flowbite-svelte";
-  import { goto } from "$app/navigation";
+  import { page } from "$app/state"; // SvelteKit 5 way to get params
+  import { MOCK_PATIENTS } from "$lib/mocks/patients";
 
-  import CyanButton from "$lib/CyanButton.svelte";
-  import DefaultButton from "$lib/DefaultButton.svelte";
+  // Components
   import GreyButton from "$lib/GreyButton.svelte";
-
   import CardOverlay from "$lib/CardOverlay.svelte";
-  import UserCard from "$lib/UserCard.svelte";
+  import ImageCard from "$lib/ImageCard.svelte";
   import DefaultCard from "$lib/DefaultCard.svelte";
   import AppointmentsTimeline from "$lib/AppointmentsTimeline.svelte";
+
   import dayjs from "dayjs";
+
+  // Grab the [uuid] from the URL
+  const patientId = $derived(page.params.uuid);
+
+  // Find the specific patient in your mock data
+  const patient = $derived(MOCK_PATIENTS.find((p) => p.uuid === patientId));
 
   const appointments = [
     {
@@ -128,14 +133,14 @@
 
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
-    {#each users as user}
-      <UserCard
-        imageUrl={user.imageUrl}
-        name={user.name}
-        age={user.age}
-        cpr={user.cpr}
+    {#if patient}
+      <ImageCard
+        pfp={patient.pfp}
+        name={patient.name}
+        pronouns={patient.pronouns}
+        age={dayjs().diff(dayjs(patient.dob), "year").toString()}
       />
-    {/each}
+    {/if}
   </div>
 
   <div class="col-span-2">
