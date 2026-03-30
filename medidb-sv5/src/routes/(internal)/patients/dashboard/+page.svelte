@@ -14,32 +14,44 @@
 
   const appointments = [
     {
-      id: 1,
+      appointment_id: 1,
       title: "Routine Checkup",
       date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Vitals normal. No concerns reported.",
+      clinic: "uuid", //ref to CCR
       status: "completed" as const,
-      description: "Vitals normal. No concerns reported.",
+      app_type: "routine-checkup" as const,
     },
     {
-      id: 2,
+      appointment_id: 2,
       title: "Blood test results",
-      date: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
-      status: "in-progress" as const,
-      description: "Waiting for lab results",
-    },
-    {
-      id: 3,
-      title: "Routine Checkup",
       date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
-      status: "completed" as const,
-      description: "Vitals normal. No concerns reported.",
+      doctor: "uuid", //ref to CUR
+      notes: "Waiting for lab results",
+      clinic: "uuid", //ref to CCR
+      status: "in-progress" as const,
+      app_type: "screening" as const,
     },
     {
-      id: 4,
-      title: "Follow-up appointment",
-      date: dayjs().subtract(1, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      appointment_id: 3,
+      title: "Vaccination",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Vaccine for Covid",
+      clinic: "uuid", //ref to CCR
       status: "completed" as const,
-      description: "Follow-up appointment completed successfully.",
+      app_type: "immunization" as const,
+    },
+    {
+      appointment_id: 4,
+      title: "Follow-up appointment",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Follow-up appointment completed successfully.",
+      clinic: "uuid", //ref to CCR
+      status: "completed" as const,
+      app_type: "follow-up" as const,
     },
   ];
 
@@ -189,7 +201,7 @@
         <DefaultCard
           title={appointment.title}
           date={appointment.date}
-          description={appointment.description}
+          description={appointment.notes}
           status={appointment.status}
         />
       {/each}
