@@ -15,7 +15,7 @@
       : 'ml-20'}"
   >
     <header
-      class="w-full bg-[--medi-cyan]/80 dark:bg-[--medi-cyan]/70 bg-cyan shadow-md"
+      class="w-full bg-cyan dark:bg-[--medi-cyan]/70  shadow-md"
     >
     </header>
 
@@ -24,3 +24,15 @@
     </div>
   </main>
 </div>
+
+<style>
+  :global(.text-cyan) {
+    color: var(--medi-cyan);
+  }
+  :global(.bg-cyan) {
+    background-color: var(--medi-cyan);
+  }
+  :global(.outline-cyan) {
+    outline-color: var(--medi-cyan);
+    outline-style: solid;
+  }</style>

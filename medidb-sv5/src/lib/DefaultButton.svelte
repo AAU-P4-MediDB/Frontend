@@ -1,6 +1,18 @@
-<script>
+<script lang="ts">
   import { goto } from "$app/navigation";
-  let { href = "/", buttonAction = () => goto(href), children } = $props();
+  import type { MouseEventHandler } from 'svelte/elements';
+
+  interface Props {
+    href?: string;
+    buttonAction?: MouseEventHandler<HTMLButtonElement>;
+    children?: import('svelte').Snippet;
+  }
+
+  let { 
+    href = "/", 
+    buttonAction = () => goto(href), 
+    children 
+  }: Props = $props();
 </script>
 
 <button
