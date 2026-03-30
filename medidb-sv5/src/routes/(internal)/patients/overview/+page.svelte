@@ -1,13 +1,8 @@
 <script>
   import ImageCard from "$lib/ImageCard.svelte";
 
-  import {
-    Table,
-    TableBody,
-    TableBodyCell,
-    TableBodyRow,
-    TableSearch,
-  } from "flowbite-svelte";
+  import { Search } from "flowbite-svelte";
+
   let searchTerm = $state("");
 
   const patients = [
@@ -135,28 +130,18 @@
   );
 </script>
 
-<Table>
-  <TableSearch
-    placeholder="Search by name"
-    hoverable
-    bind:inputValue={searchTerm}
-  >
-    <TableBody>
-      <TableBodyRow>
-        <TableBodyCell>
-          <div class="grid grid-cols-4 gap-4">
-            {#each filteredItems.slice(0, 16) as patient}
-              <ImageCard
-                title={patient.title}
-                imageUrl={patient.imageUrl}
-                name={patient.name}
-                gender={patient.gender}
-                age={patient.age}
-              />
-            {/each}
-          </div>
-        </TableBodyCell>
-      </TableBodyRow>
-    </TableBody>
-  </TableSearch>
-</Table>
+<Search size="md" clearable bind:value={searchTerm} />
+
+<hr class="border-gray-200 my-6" />
+
+<div class="grid grid-cols-4 gap-4">
+  {#each filteredItems.slice(0, 16) as patient}
+    <ImageCard
+      title={patient.title}
+      imageUrl={patient.imageUrl}
+      name={patient.name}
+      gender={patient.gender}
+      age={patient.age}
+    />
+  {/each}
+</div>
