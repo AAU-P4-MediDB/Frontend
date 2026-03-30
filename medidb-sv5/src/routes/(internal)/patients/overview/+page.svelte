@@ -1,6 +1,15 @@
 <script>
   import ImageCard from "$lib/ImageCard.svelte";
-  import { Search } from "flowbite-svelte";
+
+  import {
+    Table,
+    TableBody,
+    TableBodyCell,
+    TableBodyRow,
+    TableSearch,
+  } from "flowbite-svelte";
+  let searchTerm = $state("");
+
   const patients = [
     {
       title: "Pirate",
@@ -117,55 +126,37 @@
         "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2f3ac31dad",
     },
   ];
+  let filteredItems = $derived.by(() =>
+    patients.filter(
+      (patient) =>
+        !searchTerm ||
+        patient.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    ),
+  );
 </script>
 
-<Search>
-  <div class="me-1">Search</div>
-</Search>
-
-<div class="grid grid-cols-4 gap-4">
-  <div>
-    {#each patients.slice(0, 4) as patient, i}
-      <ImageCard
-        title={patient.title}
-        imageUrl={patient.imageUrl}
-        name={patient.name}
-        gender={patient.gender}
-        age={patient.age}
-      />
-    {/each}
-  </div>
-  <div>
-    {#each patients.slice(4, 8) as patient, i}
-      <ImageCard
-        title={patient.title}
-        imageUrl={patient.imageUrl}
-        name={patient.name}
-        gender={patient.gender}
-        age={patient.age}
-      />
-    {/each}
-  </div>
-  <div>
-    {#each patients.slice(8, 12) as patient, i}
-      <ImageCard
-        title={patient.title}
-        imageUrl={patient.imageUrl}
-        name={patient.name}
-        gender={patient.gender}
-        age={patient.age}
-      />
-    {/each}
-  </div>
-  <div>
-    {#each patients.slice(12, 16) as patient, i}
-      <ImageCard
-        title={patient.title}
-        imageUrl={patient.imageUrl}
-        name={patient.name}
-        gender={patient.gender}
-        age={patient.age}
-      />
-    {/each}
-  </div>
-</div>
+<Table>
+  <TableSearch
+    placeholder="Search by name"
+    hoverable
+    bind:inputValue={searchTerm}
+  >
+    <TableBody>
+      <TableBodyRow>
+        <TableBodyCell>
+          <div class="grid grid-cols-4 gap-4">
+            {#each filteredItems.slice(0, 16) as patient}
+              <ImageCard
+                title={patient.title}
+                imageUrl={patient.imageUrl}
+                name={patient.name}
+                gender={patient.gender}
+                age={patient.age}
+              />
+            {/each}
+          </div>
+        </TableBodyCell>
+      </TableBodyRow>
+    </TableBody>
+  </TableSearch>
+</Table>

@@ -45,9 +45,9 @@
 
   const users = [
     {
-      name: "Emma Nielsen",
+      name: "Olivia Martinez",
       imageUrl:
-        "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba15f58c562b",
+        "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2d1e53c9bf",
     },
   ];
   const notifications = [

@@ -45,11 +45,11 @@
 
   const users = [
     {
-      name: "Emma Nielsen",
-      age: "22",
-      cpr: "120303-1234",
+      name: "Sophia Lee",
+      age: "24",
+      cpr: "150303-1234",
       imageUrl:
-        "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba15f58c562b",
+        "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2bc07d8ed9",
     },
   ];
   const notifications = [
@@ -125,7 +125,8 @@
       />
     {/each}
   </div>
-  <div class="col-span-2 ...">
+
+  <div class="col-span-2">
     <div class="grid grid-cols-4 gap-4">
       <div class="...">
         <GreyButton href="/patients/dashboard">Patients</GreyButton>
@@ -143,19 +144,12 @@
   </div>
 </div>
 
-<div class="grid grid-cols-2 gap-4">
-  <div class="col"></div>
-  <div class="mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4"></div>
-  </div>
-</div>
+<hr class="border-gray-200 my-6" />
 
-<hr class="my-6" />
-
-<div class="grid grid-flow-col grid-rows-3 gap-10 m-4">
-  <div class="col-span-1">
+<div class="grid grid-cols-3 grid-flow-col grid-rows-3 gap-4">
+  <div class="row-span-2">
     <CardOverlay>
-      <div class="my-3">Notification</div>
+      <div class="">Notification</div>
 
       {#each notifications as notification}
         <DefaultCard
@@ -167,9 +161,10 @@
       {/each}
     </CardOverlay>
   </div>
-  <div class="col-span-1 row-span-2">
+
+  <div class="...">
     <CardOverlay>
-      <div class="my-3">Permission requests</div>
+      <div class="">Permission requests</div>
       {#each permissionRequests as request}
         <DefaultCard
           title={request.title}
@@ -180,22 +175,13 @@
       {/each}
     </CardOverlay>
   </div>
+
   <div class="row-span-3">
     <CardOverlay>
       <AppointmentsTimeline {appointments} />
     </CardOverlay>
-    <!-- <CardOverlay>
-      <div class="my-3">Recent history</div>
-      {#each recentHistory as history}
-        <DefaultCard
-          title={history.title}
-          date={history.date}
-          description={history.description}
-          status={history.status}
-        />
-      {/each}
-    </CardOverlay> -->
   </div>
+
   <div class="row-span-3">
     <CardOverlay>
       <div class="my-3">Appointments</div>

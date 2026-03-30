@@ -1,9 +1,14 @@
 @import "tailwindcss";
 
+@plugin 'flowbite/plugin';
+
 @source "../../node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}";
 @source "../../node_modules/flowbite-svelte-icons/**/*.{html,js,svelte,ts}";
 
-@variant dark (&:where(.dark, .dark *));  /* only apply dark mode when .dark class is present */
+@source "../node_modules/flowbite-svelte/dist";
+@source "../node_modules/flowbite-svelte-icons/dist";
+
+@variant dark (&:where(.dark, .dark *)); /* only apply dark mode when .dark class is present */
 
 @theme {
   --color-cyan: #0085a0;

@@ -9,7 +9,7 @@
     alt="Avatar for {name}"
   />
   <div>
-    <div class="text-m font-bold">Dr. {name}</div>
+    <div class="text-m font-bold">{name}</div>
     <div class="text-sm font-light">{age} years • CPR {cpr}</div>
   </div>
 </div>

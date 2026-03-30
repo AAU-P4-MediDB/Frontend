@@ -2,7 +2,7 @@
   let { title, imageUrl, name, gender, age } = $props();
 </script>
 
-<div class="flex my-4 items-center gap-4 rounded-xl bg-white p-4 shadow-md">
+<div class="flex my-1 items-center gap-4 rounded-xl bg-white p-4 shadow-md">
   <img
     class="aspect-square object-cover size-12 rounded-full"
     src={imageUrl}

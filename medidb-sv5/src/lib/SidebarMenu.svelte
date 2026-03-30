@@ -24,12 +24,32 @@
   const menuItems = [
     { icon: Home, label: "Home", href: "/home" },
     { icon: LayoutDashboard, label: "Dashboard", href: "/patients/dashboard" },
-    { icon: SquareChartGantt, label: "Patient Overview", href: "/patients/overview" },
-    { icon: ListCheck, label: "Patient Permissions", href: "/patients/permissions" },
-    { icon: ClipboardList, label: "Patient Test Results", href: "/patients/test_results" },
+    {
+      icon: SquareChartGantt,
+      label: "Patient Overview",
+      href: "/patients/overview",
+    },
+    {
+      icon: ListCheck,
+      label: "Patient Permissions",
+      href: "/patients/permissions",
+    },
+    {
+      icon: ClipboardList,
+      label: "Patient Test Results",
+      href: "/patients/test_results",
+    },
     { icon: CalendarDays, label: "Calendar", href: "/calendar" },
-    { icon: Settings, label: "Patient Management", href: "/settings/admin/patient" },
-    { icon: Settings, label: "Doctor Management", href: "/settings/admin/doctor" },
+    {
+      icon: Settings,
+      label: "Patient Management",
+      href: "/settings/admin/patient",
+    },
+    {
+      icon: Settings,
+      label: "Doctor Management",
+      href: "/settings/admin/doctor",
+    },
     { icon: Settings, label: "Sys Admin", href: "/settings/admin/system" },
   ];
 
@@ -45,7 +65,9 @@
 >
   <div class="flex items-center p-4 h-16 transition-all duration-300">
     {#if $isExpanded}
-      <span class="font-bold text-xl overflow-hidden whitespace-nowrap">MediDB</span>
+      <span class="font-bold text-xl overflow-hidden whitespace-nowrap"
+        >MediDB</span
+      >
     {/if}
 
     <button
@@ -72,7 +94,9 @@
           <item.icon size={24} />
         </div>
         {#if $isExpanded}
-          <span class="ml-4 font-medium overflow-hidden whitespace-nowrap">{item.label}</span>
+          <span class="ml-4 font-medium overflow-hidden whitespace-nowrap"
+            >{item.label}</span
+          >
         {/if}
       </a>
       {#if !$isExpanded}
@@ -93,43 +117,45 @@
     <a
       href="/settings"
       class="flex items-center p-3 rounded-xl hover:bg-light hover:text-darker transition-colors group"
-
     >
       <div class="flex items-center justify-center min-w-8">
         <Settings size={24} />
       </div>
       {#if $isExpanded}
-        <span class="ml-4 font-medium overflow-hidden whitespace-nowrap">Settings</span>
+        <span class="ml-4 font-medium overflow-hidden whitespace-nowrap"
+          >Settings</span
+        >
       {/if}
     </a>
-      {#if !$isExpanded}
-        <Tooltip
-          placement="right"
-          class="bg-dark px-4 py-2 text-white font-medium"
-          arrow={false}
+    {#if !$isExpanded}
+      <Tooltip
+        placement="right"
+        class="bg-dark px-4 py-2 text-white font-medium"
+        arrow={false}
         >Settings
-        </Tooltip>
-      {/if}
+      </Tooltip>
+    {/if}
 
     <button
       onclick={handleLogout}
       class="w-full flex items-center p-3 rounded-xl hover:bg-red-500 hover:text-white transition-colors group text-red-400"
-
     >
       <div class="flex items-center justify-center min-w-8">
         <LogOut size={24} />
       </div>
       {#if $isExpanded}
-        <span class="ml-4 font-medium overflow-hidden whitespace-nowrap">Logout</span>
+        <span class="ml-4 font-medium overflow-hidden whitespace-nowrap"
+          >Logout</span
+        >
       {/if}
     </button>
-      {#if !$isExpanded}
-        <Tooltip
-          placement="right"
-          class=" bg-red-600 px-4 py-2 text-white font-medium"
-          arrow={false}
+    {#if !$isExpanded}
+      <Tooltip
+        placement="right"
+        class=" bg-red-600 px-4 py-2 text-white font-medium"
+        arrow={false}
         >Logout
-        </Tooltip>
-      {/if}
+      </Tooltip>
+    {/if}
   </div>
 </aside>

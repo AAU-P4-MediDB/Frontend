@@ -3,7 +3,7 @@
   import DefaultButton from "$lib/DefaultButton.svelte";
   import GreyButton from "$lib/GreyButton.svelte";
 
-  import UserCard from "$lib/UserCard.svelte";
+  import DoctorCard from "$lib/DoctorCard.svelte";
 
   const users = [
     {
@@ -29,7 +29,7 @@
   <div class="...">
     <div class="h2">System Settings</div>
     {#each users as user}
-      <UserCard imageUrl={user.imageUrl} name={user.name} />
+      <DoctorCard imageUrl={user.imageUrl} name={user.name} />
     {/each}
   </div>
   <div class="col-span-2 ...">
