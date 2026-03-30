@@ -1,9 +1,17 @@
 <!-- AppointmentsTimeline.svelte -->
 <script lang="ts">
   import { Timeline, TimelineItem } from "flowbite-svelte";
-  import { CalendarWeekSolid, CheckCircleSolid, ClockSolid } from "flowbite-svelte-icons";
+  import {
+    CalendarWeekSolid,
+    CheckCircleSolid,
+    ClockSolid,
+  } from "flowbite-svelte-icons";
 
-  type AppointmentStatus = "completed" | "in-progress" | "upcoming" | "cancelled";
+  type AppointmentStatus =
+    | "completed"
+    | "in-progress"
+    | "upcoming"
+    | "cancelled";
 
   type Appointment = {
     id: number;
@@ -17,24 +25,32 @@
 
   function getColorForStatus(status: AppointmentStatus) {
     switch (status) {
-      case "completed": return "green";
-      case "in-progress": return "orange";
-      case "upcoming": return "blue";
-      case "cancelled": return "red";
-      default: return "gray";
+      case "completed":
+        return "green";
+      case "in-progress":
+        return "orange";
+      case "upcoming":
+        return "blue";
+      case "cancelled":
+        return "red";
+      default:
+        return "gray";
     }
   }
 
   function getIconForStatus(status: AppointmentStatus) {
     switch (status) {
-      case "completed": return CheckCircleSolid;
-      case "in-progress": return ClockSolid;
-      default: return CalendarWeekSolid;
+      case "completed":
+        return CheckCircleSolid;
+      case "in-progress":
+        return ClockSolid;
+      default:
+        return CalendarWeekSolid;
     }
   }
 </script>
 
-<div class="bg-white p-6 rounded-lg">
+<div class="">
   <Timeline order="vertical">
     {#each appointments as appointment, index}
       {@const isLastItem = index === appointments.length - 1}
@@ -42,7 +58,8 @@
 
       <TimelineItem title={appointment.title} date={appointment.date}>
         <span
-          class="absolute -left-4 flex h-6 w-6 items-center justify-center rounded-full ring-8 ring-white {appointment.status === 'completed'
+          class="absolute -left-4 flex h-6 w-6 items-center justify-center rounded-full ring-8 ring-white {appointment.status ===
+          'completed'
             ? 'bg-green-200'
             : appointment.status === 'in-progress'
               ? 'bg-orange-200'
@@ -65,7 +82,8 @@
             {appointment.description}
           </p>
           <span
-            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {appointment.status === 'completed'
+            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {appointment.status ===
+            'completed'
               ? 'bg-green-100 text-green-800'
               : appointment.status === 'in-progress'
                 ? 'bg-orange-100 text-orange-800'

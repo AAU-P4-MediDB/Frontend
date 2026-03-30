@@ -7,147 +7,206 @@
   import GreyButton from "$lib/GreyButton.svelte";
 
   import CardOverlay from "$lib/CardOverlay.svelte";
-  import ImageCard from "$lib/ImageCard.svelte";
+  import UserCard from "$lib/UserCard.svelte";
   import DefaultCard from "$lib/DefaultCard.svelte";
+  import AppointmentsTimeline from "$lib/AppointmentsTimeline.svelte";
+  import dayjs from "dayjs";
 
-  const patients = [
+  const appointments = [
     {
-      title: "Pirate",
+      id: 1,
+      title: "Routine Checkup",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      status: "completed" as const,
+      description: "Vitals normal. No concerns reported.",
+    },
+    {
+      id: 2,
+      title: "Blood test results",
+      date: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
+      status: "in-progress" as const,
+      description: "Waiting for lab results",
+    },
+    {
+      id: 3,
+      title: "Routine Checkup",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      status: "completed" as const,
+      description: "Vitals normal. No concerns reported.",
+    },
+    {
+      id: 4,
+      title: "Follow-up appointment",
+      date: dayjs().subtract(1, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      status: "completed" as const,
+      description: "Follow-up appointment completed successfully.",
+    },
+  ];
+
+  const users = [
+    {
       name: "Emma Nielsen",
-      cpr: "120303-1234",
       age: "22",
+      cpr: "120303-1234",
       imageUrl:
         "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba15f58c562b",
     },
   ];
-
-  const medicalHistory = [
-    { date: "Jan 2024", title: "Diabetes Type 2", description: "Diagnosed and managed with Metformin.", status: "red" },
-    { date: "Mar 2022", title: "Hypertension", description: "Ongoing. Lisinopril prescribed.", status: "red" },
-    { date: "Jun 2019", title: "Penicillin Allergy", description: "Confirmed allergy. Avoid penicillin-based antibiotics.", status: "red" },
+  const notifications = [
+    {
+      date: "Mar 2026",
+      title: "EKG",
+      description: "No heartrate detected",
+      status: "red",
+    },
+    {
+      date: "June 2026",
+      title: "Ultrasound",
+      description: "No baby detected",
+      status: "red",
+    },
+    {
+      date: "Aug 2026",
+      title: "EKG",
+      description: "Heartrate detected",
+      status: "blue",
+    },
   ];
-
-  const recentMeasurements = [
-    { date: "Mar 2026", title: "Blood Pressure", description: "145e+100/90 — Slightly elevated.", status: "red" },
-    { date: "Mar 2026", title: "HbA1c", description: "7.8% — Above target range.", status: "red" },
-    { date: "Mar 2026", title: "Weight", description: "62kg — Stable.", status: "blue" },
+  const permissionRequests = [
+    {
+      date: "Mar 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
   ];
-
-  const upcomingAppointments = [
-    { date: "Apr 28 2026", title: "Diabetic Check-up", description: "Scheduled with Dr. Hansen.", status: "blue" },
-  ];
-
   const recentHistory = [
-    { date: "Mar 2026", title: "Routine Checkup", description: "Vitals normal. No concerns reported.", status: "blue" },
-    { date: "Feb 2026", title: "Routine Checkup", description: "Vitals normal. No concerns reported.", status: "blue" },
-    { date: "Apr 2026", title: "Blood test lab results", description: "Vitals normal. No concerns reported.", status: "red" },
-    { date: "Apr 2026", title: "Routine Checkup", description: "Vitals normal. No concerns reported.", status: "blue" },
-    { date: "Mar 2026", title: "EKG", description: "No heartrate detected.", status: "red" },
-  ];
-
-  const tasksAndMessages = [
-    { date: "Today", title: "Lab Review", description: "Due today — review pending lab results.", status: "red" },
-    { date: "Mar 2026", title: "Patient Message", description: "Headaches and fatigue reported by patient.", status: "red" },
-    { date: "", title: "Medication List", description: "Quick link — review current medications.", status: "blue" },
-    { date: "", title: "Journal", description: "Quick link — open patient journal.", status: "blue" },
-    { date: "", title: "Referral Form", description: "Quick link — initiate referral.", status: "blue" },
+    {
+      date: "Mar 2026",
+      title: "Routine Checkup",
+      description: "Vitals normal. No concerns reported.",
+      status: "blue",
+    },
+    {
+      date: "Feb 2026",
+      title: "Routine Checkup",
+      description: "Vitals normal. No concerns reported.",
+      status: "blue",
+    },
+    {
+      date: "April 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
+    {
+      date: "April 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
+    {
+      date: "April 2026",
+      title: "Blood test lab results",
+      description: "Vitals normal. No concerns reported",
+      status: "red",
+    },
   ];
 </script>
 
-<div class="px-20 max-w-[2000px] mx-auto">
-  <div class="h-auto p-4">
-    <div class="grid grid-cols-3 gap-4">
-      <div class="col">
-        {#each patients as patient}
-          <ImageCard
-            title={patient.title}
-            imageUrl={patient.imageUrl}
-            name={patient.name}
-            gender={patient.cpr}
-            age={patient.age}
-          />
-        {/each}
-      </div>
-
-      <div class="col-span-2 ml-auto flex gap-1 justify-center items-center">
-        <GreyButton href="/patients/dashboard">Add journal note</GreyButton>
-        <GreyButton href="/calendar">Order tests</GreyButton>
-        <GreyButton href="/login">New prescriptions</GreyButton>
-        <GreyButton href="/login">New diagnosis</GreyButton>
-      </div>
-    </div>
-
-    <hr class="my-6" />
+<div class="grid grid-cols-3 gap-4">
+  <div class="...">
+    {#each users as user}
+      <UserCard
+        imageUrl={user.imageUrl}
+        name={user.name}
+        age={user.age}
+        cpr={user.cpr}
+      />
+    {/each}
   </div>
-
-  <div class="grid grid-flow-col grid-rows-3 gap-10 m-4">
-    <!-- Left: 3 stacked panels -->
-    <div class="max-w-[400px] flex flex-col gap-4" style="height: 100%">
-      <div class="row-span-1">
-        <CardOverlay>
-          <div class="my-3">Medical History</div>
-          {#each medicalHistory as item}
-            <DefaultCard title={item.title} date={item.date} description={item.description} status={item.status} />
-          {/each}
-        </CardOverlay>
+  <div class="col-span-2 ...">
+    <div class="grid grid-cols-4 gap-4">
+      <div class="...">
+        <GreyButton href="/patients/dashboard">Patients</GreyButton>
       </div>
-      <div class="row-span-1">
-        <CardOverlay>
-          <div class="my-3">Recent Measurements</div>
-          {#each recentMeasurements as item}
-            <DefaultCard title={item.title} date={item.date} description={item.description} status={item.status} />
-          {/each}
-        </CardOverlay>
+      <div class="...">
+        <GreyButton href="/calendar">Calendar</GreyButton>
       </div>
-      <div class="row-span-1">
-        <CardOverlay>
-          <div class="my-3">Upcoming Appointment</div>
-          {#each upcomingAppointments as item}
-            <DefaultCard title={item.title} date={item.date} description={item.description} status={item.status} />
-          {/each}
-        </CardOverlay>
+      <div class="...">
+        <GreyButton href="/login">Test results</GreyButton>
       </div>
-    </div>
-    <!-- Middle: tall Timeline -->
-    <div class="row-span-3 w-full">
-      <CardOverlay>
-        <div class="my-3">Timeline</div>
-        {#each recentHistory as history}
-          <DefaultCard title={history.title} date={history.date} description={history.description} status={history.status} />
-        {/each}
-      </CardOverlay>
-    </div>
-    <div class="max-w-[400px] flex flex-col gap-4" style="height: 100%">
-      <!-- Right: tall Tasks & Messages -->
-      <div class="row-span-1">
-        <CardOverlay>
-          <div class="my-3">Tasks & Messages</div>
-          {#each tasksAndMessages as item}
-            <DefaultCard title={item.title} date={item.date} description={item.description} status={item.status} />
-          {/each}
-        </CardOverlay>
-      </div>
-      <div class="row-span-1">
-        <CardOverlay>
-          <div class="my-3">Recent Measurements</div>
-          {#each recentMeasurements as item}
-            <DefaultCard title={item.title} date={item.date} description={item.description} status={item.status} />
-          {/each}
-        </CardOverlay>
+      <div class="...">
+        <GreyButton href="/login">Permissions</GreyButton>
       </div>
     </div>
   </div>
 </div>
 
-<style>
-  :global(.text-cyan) {
-    color: var(--medi-cyan);
-  }
-  :global(.bg-cyan) {
-    background-color: var(--medi-cyan);
-  }
-  :global(.outline-cyan) {
-    outline-color: var(--medi-cyan);
-    outline-style: solid;
-  }
-</style>
+<div class="grid grid-cols-2 gap-4">
+  <div class="col"></div>
+  <div class="mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4"></div>
+  </div>
+</div>
+
+<hr class="my-6" />
+
+<div class="grid grid-flow-col grid-rows-3 gap-10 m-4">
+  <div class="col-span-1">
+    <CardOverlay>
+      <div class="my-3">Notification</div>
+
+      {#each notifications as notification}
+        <DefaultCard
+          title={notification.title}
+          date={notification.date}
+          description={notification.description}
+          status={notification.status}
+        />
+      {/each}
+    </CardOverlay>
+  </div>
+  <div class="col-span-1 row-span-2">
+    <CardOverlay>
+      <div class="my-3">Permission requests</div>
+      {#each permissionRequests as request}
+        <DefaultCard
+          title={request.title}
+          date={request.date}
+          description={request.description}
+          status={request.status}
+        />
+      {/each}
+    </CardOverlay>
+  </div>
+  <div class="row-span-3">
+    <CardOverlay>
+      <AppointmentsTimeline {appointments} />
+    </CardOverlay>
+    <!-- <CardOverlay>
+      <div class="my-3">Recent history</div>
+      {#each recentHistory as history}
+        <DefaultCard
+          title={history.title}
+          date={history.date}
+          description={history.description}
+          status={history.status}
+        />
+      {/each}
+    </CardOverlay> -->
+  </div>
+  <div class="row-span-3">
+    <CardOverlay>
+      <div class="my-3">Appointments</div>
+      {#each appointments as appointment}
+        <DefaultCard
+          title={appointment.title}
+          date={appointment.date}
+          description={appointment.description}
+          status={appointment.status}
+        />
+      {/each}
+    </CardOverlay>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 <script>
-  let { imageUrl, name } = $props();
+  let { imageUrl, name, age, cpr } = $props();
 </script>
 
 <div class="flex my-4 items-center gap-4">
@@ -10,5 +10,6 @@
   />
   <div>
     <div class="text-m font-bold">Dr. {name}</div>
+    <div class="text-sm font-light">{age} years • CPR {cpr}</div>
   </div>
 </div>
