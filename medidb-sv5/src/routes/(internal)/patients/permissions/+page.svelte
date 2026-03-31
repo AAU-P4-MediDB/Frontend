@@ -3,6 +3,7 @@
   import DoctorCard from "$lib/DoctorCard.svelte";
   const patients = [
     {
+      title: "John Cena",
       name: "John Cena",
       gender: "Male",
       pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2b06880c98",

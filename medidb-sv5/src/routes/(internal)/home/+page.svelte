@@ -163,16 +163,16 @@
   <div class="col-span-2">
     <div class="grid grid-cols-4 gap-4">
       <div class="...">
-        <GreyButton href="/patients/dashboard">Patients</GreyButton>
+        <GreyButton href="/patients/overview">Patients</GreyButton>
       </div>
       <div class="...">
         <GreyButton href="/calendar">Calendar</GreyButton>
       </div>
       <div class="...">
-        <GreyButton href="/login">Test results</GreyButton>
+        <GreyButton href="/patients/test_results">Test results</GreyButton>
       </div>
       <div class="...">
-        <GreyButton href="/login">Permissions</GreyButton>
+        <GreyButton href="/patients/permissions">Permissions</GreyButton>
       </div>
     </div>
   </div>
