@@ -17,7 +17,7 @@
 
     if (!emailError && !passwordError) {
       loading = true;
-      goto("/home");
+      // goto("/home");
     }
   }
 </script>

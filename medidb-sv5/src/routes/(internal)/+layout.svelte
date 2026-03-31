@@ -31,6 +31,7 @@
 </script>
 
 <div class="flex min-h-screen w-full overflow-x-hidden">
+
   <SidebarMenu />
 
   <main

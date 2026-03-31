@@ -9,6 +9,8 @@
 
   // 1. First, we identify which patients belong to the current doctor
   // Using Svelte 5 $derived to keep it reactive
+
+  // did someone use ai and forget to remove the comments?
   let assignedPatients = $derived(
     MOCK_PATIENTS.filter((p) => p.doctor === session.user?.uuid),
   );

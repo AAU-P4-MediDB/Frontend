@@ -1,3 +1,5 @@
+/* Let's reintroduce a dark theme, it just looks sexy */
+
 @import "tailwindcss";
 
 @plugin 'flowbite/plugin';

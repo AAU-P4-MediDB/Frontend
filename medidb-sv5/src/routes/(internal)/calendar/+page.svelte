@@ -1,3 +1,5 @@
+<!-- Calendar month view needs expansion, so it's not so... smudged -->
+
 <script lang="ts">
   import { ScheduleXCalendar } from "@schedule-x/svelte";
   import {

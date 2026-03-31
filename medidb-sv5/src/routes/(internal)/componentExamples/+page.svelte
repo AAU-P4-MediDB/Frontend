@@ -1,3 +1,5 @@
+<!-- This page is fucked, and i have no clue why. probably some unknown css issues -->
+
 <script>
   import CyanButton from "$lib/CyanButton.svelte";
   import DefaultButton from "$lib/DefaultButton.svelte";
