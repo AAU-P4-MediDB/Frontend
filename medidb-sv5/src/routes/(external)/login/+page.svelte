@@ -2,7 +2,7 @@
   import { MOCK_USERS } from "$lib/mocks/users"; // Path to your dummy data
   import { goto } from "$app/navigation";
   import { auth } from "$lib/services/auth";
-  import { session } from "$lib/session.svelte";
+  import { session } from "$lib/services/session.svelte";
 
   // Set default values from your first mock user
   let emailValue = $state(MOCK_USERS[0]?.email ?? "");

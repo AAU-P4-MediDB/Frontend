@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { session } from "$lib/session.svelte";
+  import { session } from "$lib/services/session.svelte";
   import { api } from "$lib/services/api";
   import { onMount } from "svelte";
   import type { Notification } from "$lib/types";

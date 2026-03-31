@@ -1,7 +1,7 @@
 <script lang="ts">
   import ImageCard from "$lib/ImageCard.svelte";
   import { Search } from "flowbite-svelte";
-  import { session } from "$lib/session.svelte";
+  import { session } from "$lib/services/session.svelte";
   import { MOCK_PATIENTS } from "$lib/mocks/patients";
   import dayjs from "dayjs";
 
