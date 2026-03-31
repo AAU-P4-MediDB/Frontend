@@ -1,0 +1,16 @@
+{
+	"/(internal)": [],
+	"/(external)": [],
+	"/": [
+		"src/routes/+page.server.js"
+	],
+	"/(internal)/calendar": [],
+	"/(internal)/componentExamples": [],
+	"/(internal)/home": [],
+	"/(external)/login": [],
+	"/(internal)/patients/dashboard": [],
+	"/(internal)/patients/overview": [],
+	"/(internal)/patients/permissions": [],
+	"/(internal)/patients/test_results": [],
+	"/(internal)/settings": []
+}
