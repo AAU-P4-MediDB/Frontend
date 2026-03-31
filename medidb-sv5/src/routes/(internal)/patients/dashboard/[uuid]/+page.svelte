@@ -1,4 +1,8 @@
 <script lang="ts">
+  import { api } from "$lib/services/api";
+  import { onMount } from "svelte";
+  import type { JournalEntry } from "$lib/types";
+
   import { page } from "$app/state"; // SvelteKit 5 way to get params
   import { MOCK_PATIENTS } from "$lib/mocks/patients";
 
@@ -16,6 +20,22 @@
 
   // Find the specific patient in your mock data
   const patient = $derived(MOCK_PATIENTS.find((p) => p.uuid === patientId));
+
+  let journals = $state<JournalEntry[]>([]);
+  let loading = $state(true);
+
+  onMount(async () => {
+    if (!patientId) {
+      loading = false;
+      return;
+    }
+
+    const result = await api.journals.getByPatient(patientId);
+    if (result) {
+      journals = [result];
+    }
+    loading = false;
+  });
 
   const appointments = [
     {
@@ -60,15 +80,6 @@
     },
   ];
 
-  const users = [
-    {
-      name: "Sophia Lee",
-      age: "24",
-      cpr: "150303-1234",
-      imageUrl:
-        "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2bc07d8ed9",
-    },
-  ];
   const notifications = [
     {
       date: "Mar 2026",
@@ -181,18 +192,18 @@
 
   <div class="...">
     <CardOverlay>
-      <div class="">Permission requests</div>
-      {#each permissionRequests as request}
-        <DefaultCard
-          title={request.title}
-          date={request.date}
-          description={request.description}
-          status={request.status}
-        />
+      <div class="">Journals</div>
+
+      {#each journals as journal}
+        <div class="text-sm">
+          {dayjs.unix(journal.journal.date).format("HH:mm DD/MM/YYYY")}
+        </div>
+        <div class="text-sm font-light">
+          {journal.journal.patient_summary}
+        </div>
       {/each}
     </CardOverlay>
   </div>
-
   <div class="row-span-3">
     <CardOverlay>
       <AppointmentsTimeline {appointments} />

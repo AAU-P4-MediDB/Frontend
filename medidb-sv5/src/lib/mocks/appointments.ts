@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 export const MOCK_APPOINTMENTS: Appointment[] = [
   {
     appointment_id: "ap1",
-    title: "Routine Checkup",
+    title: "Routine Checkup 2",
     date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
     doctor: "uuid", //ref to CUR
     notes: "Vitals normal. No concerns reported.",

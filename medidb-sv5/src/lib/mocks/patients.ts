@@ -6,7 +6,6 @@ const JOHN_CENA_UUID = "a2b3c4d5-e6f7-g8h9-i0j1-k2l3m4n5o6p7";
 const NORTH_CLINIC_UUID = "north-clinic-uuid";
 
 export const MOCK_PATIENTS: Patient[] = [
-  // Patients p-001 through p-008 assigned to Sophia Lee
   {
     uuid: "p-001",
     name: "Colby Durdan",

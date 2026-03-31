@@ -2,7 +2,8 @@
   import { session } from "$lib/session.svelte";
   import { api } from "$lib/services/api";
   import { onMount } from "svelte";
-  import type { JournalEntry } from "$lib/types";
+  import type { Notification } from "$lib/types";
+  import { page } from "$app/state"; // SvelteKit 5 way to get params
 
   // Mock Data
   import { MOCK_DOCTORS } from "$lib/mocks/doctors";
@@ -20,20 +21,6 @@
 
   import dayjs from "dayjs";
 
-  let journals = $state<JournalEntry[]>([]);
-  let loadingJournals = $state(true);
-
-  onMount(async () => {
-    // In a real app, you might fetch journals for a specific patient
-    // or a list of recent updates for the doctor's clinic.
-    // For now, we fetch the mock data.
-    const result = await api.journals.getByPatient(1); // Fetching for Patient ID 1
-    if (result) {
-      // We wrap it in an array if your UI expects a list
-      journals = [result];
-    }
-    loadingJournals = false;
-  });
   // 1. Get the current logged-in doctor's data
   const currentDoctor = $derived(
     MOCK_DOCTORS.find((d) => d.uuid === session.user?.uuid),
@@ -45,8 +32,22 @@
     MOCK_PATIENTS.filter((p) => p.doctor === session.user?.uuid),
   );
 
-  // Helper: Calculate age for the ImageCard
-  const getAge = (dob: string) => dayjs().diff(dayjs(dob), "year");
+  let notifications = $state<Notification[]>([]);
+  let loading = $state(true);
+
+  onMount(async () => {
+    if (!currentDoctor) {
+      loading = false;
+      return;
+    }
+
+    const result = await api.notifications.getUnread(currentDoctor.uuid);
+    if (result) {
+      notifications = result;
+    }
+    loading = false;
+  });
+
   const appointments = [
     {
       appointment_id: 1,
@@ -90,7 +91,7 @@
     },
   ];
 
-  const notifications = [
+  const notifications1 = [
     {
       date: "Mar 2026",
       title: "EKG",
@@ -184,18 +185,11 @@
     <CardOverlay>
       <div class="my-3">Recent Medical History</div>
 
-      {#if loadingJournals}
+      {#if loading}
         <p>Loading medical records...</p>
-      {:else if journals.length > 0}
-        {#each journals as entry}
-          <DefaultCard
-            title="Medical Entry: {dayjs
-              .unix(entry.journal.date)
-              .format('MMM D, YYYY')}"
-            date={dayjs.unix(entry.journal.date).format("HH:mm")}
-            description={entry.journal.patient_summary}
-            status="blue"
-          />
+      {:else if notifications.length > 0}
+        {#each notifications as notification}
+          {notification.message} - {notification.type}
         {/each}
       {:else}
         <p>No recent history found.</p>
@@ -206,14 +200,15 @@
   <div class="...">
     <CardOverlay>
       <div class="">Permission requests</div>
-      {#each permissionRequests as request}
-        <DefaultCard
-          title={request.title}
-          date={request.date}
-          description={request.description}
-          status={request.status}
-        />
-      {/each}
+      {#if loading}
+        <p>Loading medical records...</p>
+      {:else if notifications.length > 0}
+        {#each notifications as notification}
+          {notification.message} - {notification.type}
+        {/each}
+      {:else}
+        <p>No recent history found.</p>
+      {/if}
     </CardOverlay>
   </div>
 

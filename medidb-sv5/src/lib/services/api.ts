@@ -51,10 +51,21 @@ export const api = {
   },
 
   notifications: {
-    getUnread: async () => {
+    getUnread: async (doctorUuid: string) => {
+      await networkDelay();
+      // Find the doctor's assigned IDs
+      const doctor = MOCK_DOCTORS.find((d) => d.uuid === doctorUuid);
+      if (!doctor) return [];
+
+      // Return the full patient objects for those IDs
+      return MOCK_NOTIFICATIONS.filter((p) =>
+        doctor.assignedNotifications.includes(p.notificationId),
+      );
+    },
+    /*getUnread: async () => {
       await networkDelay();
       return MOCK_NOTIFICATIONS.filter((n) => !n.read);
-    },
+    },*/
   },
 
   appointments: {
@@ -62,16 +73,16 @@ export const api = {
       await networkDelay();
       return MOCK_APPOINTMENTS;
     },
-    getById: async (id: number) => {
+    getById: async (id: string) => {
       await networkDelay();
       return MOCK_APPOINTMENTS.find((e) => e.appointment_id === id);
     },
   },
 
   journals: {
-    getByPatient: async (cpr_pt: number): Promise<JournalEntry | undefined> => {
+    getByPatient: async (uuid: string): Promise<JournalEntry | undefined> => {
       await networkDelay();
-      return MOCK_JOURNALS.find((j) => j.uuid === cpr_pt);
+      return MOCK_JOURNALS.find((j) => j.uuid === uuid);
     },
     update: async (uuid: number, updatedJournal: any) => {
       await networkDelay();

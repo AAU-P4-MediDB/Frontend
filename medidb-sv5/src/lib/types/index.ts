@@ -1,5 +1,3 @@
-// src/lib/types.ts
-
 /**
  * CUR (Central User Register) - Spec 1.1.1 & 1.3
  */
@@ -57,7 +55,7 @@ export interface JournalResponse {
 }
 
 export interface JournalEntry {
-  uuid: number; // Patient ID (INT) [cite: 422]
+  uuid: string; // Patient ID (INT) [cite: 422]
   journal: JournalResponse; // [cite: 423]
 }
 
@@ -65,12 +63,12 @@ export interface JournalEntry {
  * Appointments - Spec 3.1.5
  */
 export interface Appointment {
-  appointment_id: number; // INT [cite: 467]
+  appointment_id: string; // INT [cite: 467]
+  title: string;
   date: string; // DATE (YYYY-MM-DD) [cite: 468]
-  time: string; // TIME (HH:MM) [cite: 469]
   doctor: string; // UUID (Reference to CUR) [cite: 470]
   clinic: string; // UUID (Reference to CCR) [cite: 472]
-  note: string; // Note text [cite: 471]
+  notes: string; // Note text [cite: 471]
   // UI Helpers
   status: "completed" | "in-progress" | "upcoming" | "cancelled";
   app_type:
@@ -79,4 +77,14 @@ export interface Appointment {
     | "consultation"
     | "immunization"
     | "screening";
+}
+/**
+ * Notifications
+ */
+export interface Notification {
+  notificationId: string;
+  doctor: string;
+  message: string;
+  type: "info" | "urgent" | "alert" | "reminder" | "new-message";
+  read: boolean;
 }
