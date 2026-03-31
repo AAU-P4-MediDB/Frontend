@@ -10,7 +10,6 @@
     Home,
     ChevronLeft,
     ChevronRight,
-    LayoutDashboard,
     SquareChartGantt,
     ListCheck,
     ClipboardList,
@@ -23,11 +22,6 @@
 
   const menuItems = [
     { icon: Home, label: "Home", href: "/home" },
-    {
-      icon: LayoutDashboard,
-      label: "Dashboard",
-      href: "/patients/dashboard/uuid",
-    },
     {
       icon: SquareChartGantt,
       label: "Patient Overview",
@@ -54,7 +48,6 @@
       label: "Doctor Management",
       href: "/settings/admin/doctor",
     },
-    { icon: Settings, label: "Sys Admin", href: "/settings/admin/system" },
   ];
 
   function toggleSidebar() {
@@ -118,28 +111,6 @@
   <div class="flex-1"></div>
 
   <div class="px-3 pb-6 space-y-2 border-t border-white/10 pt-4">
-    <a
-      href="/settings"
-      class="flex items-center p-3 rounded-xl hover:bg-light hover:text-darker transition-colors group"
-    >
-      <div class="flex items-center justify-center min-w-8">
-        <Settings size={24} />
-      </div>
-      {#if $isExpanded}
-        <span class="ml-4 font-medium overflow-hidden whitespace-nowrap"
-          >Settings</span
-        >
-      {/if}
-    </a>
-    {#if !$isExpanded}
-      <Tooltip
-        placement="right"
-        class="bg-dark px-4 py-2 text-white font-medium"
-        arrow={false}
-        >Settings
-      </Tooltip>
-    {/if}
-
     <button
       onclick={handleLogout}
       class="w-full flex items-center p-3 rounded-xl hover:bg-red-500 hover:text-white transition-colors group text-red-400"
