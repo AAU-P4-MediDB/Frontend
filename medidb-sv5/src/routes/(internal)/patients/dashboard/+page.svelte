@@ -149,9 +149,9 @@
 <hr class="border-gray-200 my-6" />
 
 <div class="grid grid-cols-3 grid-flow-col grid-rows-3 gap-4">
-  <div class="row-span-2">
+  <div class="...">
     <CardOverlay>
-      <div class="">Notification</div>
+      <div class="">Medical History</div>
 
       {#each notifications as notification}
         <div>
@@ -163,7 +163,21 @@
 
   <div class="...">
     <CardOverlay>
-      <div class="">Journals</div>
+      <div class="">Recent Measurements</div>
+
+      {#each journals as journal}
+        <div class="text-sm">
+          {dayjs.unix(journal.journal.date).format("HH:mm DD/MM/YYYY")}
+        </div>
+        <div class="text-sm font-light">
+          {journal.journal.patient_summary}
+        </div>
+      {/each}
+    </CardOverlay>
+  </div>
+  <div class="...">
+    <CardOverlay>
+      <div class="">Upcoming Appointments</div>
 
       {#each journals as journal}
         <div class="text-sm">
@@ -177,20 +191,36 @@
   </div>
   <div class="row-span-3">
     <CardOverlay>
+      <div class="">Timeline</div>
       <AppointmentsTimeline {appointments} />
     </CardOverlay>
   </div>
 
-  <div class="row-span-3">
+  <div class="...">
     <CardOverlay>
-      <div class="my-3">Appointments</div>
-      {#each appointments as appointment}
-        <DefaultCard
-          title={appointment.title}
-          date={appointment.date}
-          description={appointment.notes}
-          status={appointment.status}
-        />
+      <div class="">Task & Messages</div>
+
+      {#each journals as journal}
+        <div class="text-sm">
+          {dayjs.unix(journal.journal.date).format("HH:mm DD/MM/YYYY")}
+        </div>
+        <div class="text-sm font-light">
+          {journal.journal.patient_summary}
+        </div>
+      {/each}
+    </CardOverlay>
+  </div>
+  <div class="...">
+    <CardOverlay>
+      <div class="">Quick links</div>
+
+      {#each journals as journal}
+        <div class="text-sm">
+          {dayjs.unix(journal.journal.date).format("HH:mm DD/MM/YYYY")}
+        </div>
+        <div class="text-sm font-light">
+          {journal.journal.patient_summary}
+        </div>
       {/each}
     </CardOverlay>
   </div>
