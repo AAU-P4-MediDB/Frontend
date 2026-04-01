@@ -8,7 +8,7 @@ export const MOCK_USERS: User[] = [
     email: "lee@clinic.dk",
     phone: 4512345678,
     clinic: "north-clinic-uuid",
-    position: 3, // Doctor
+    position: 2, // Doctor
     pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2bc07d8ed9",
   },
   {
@@ -17,7 +17,7 @@ export const MOCK_USERS: User[] = [
     email: "john@clinic.dk",
     phone: 4588888888,
     clinic: "south-clinic-uuid",
-    position: 3, // Doctor
+    position: 2, // Doctor
     pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2b06880c98",
   },
   {
@@ -26,7 +26,7 @@ export const MOCK_USERS: User[] = [
     email: "nguyen@clinic.dk",
     phone: 4511223344,
     clinic: "north-clinic-uuid",
-    position: 1, // Secretary
+    position: 0, // Secretary
     pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2c853ba9ef",
   },
   {
@@ -35,7 +35,7 @@ export const MOCK_USERS: User[] = [
     email: "admin@medidb.dk",
     phone: 4500000000,
     clinic: "central-office-uuid",
-    position: 5, // Sys Admin (Spec 1.1.1)
+    position: 4, // Sys Admin (Spec 1.1.1)
     pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba24b41ed4ea",
   },
 ];
