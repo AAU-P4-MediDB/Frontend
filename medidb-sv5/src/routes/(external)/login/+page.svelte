@@ -1,8 +1,6 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
   import { MOCK_USERS } from "$lib/mocks/users"; // Path to your dummy data
-  import { goto } from "$app/navigation";
-  import { auth } from "$lib/services/auth";
-  import { session } from "$lib/services/session.svelte";
 
   // Set default values from your first mock user
   let emailValue = $state(MOCK_USERS[0]?.email ?? "");
@@ -33,17 +31,21 @@
     loading = true;
 
     // Call your Mock Auth Service
-    const result = await auth.login(emailValue);
+    const result = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email: emailValue, password: passwordValue })
+    });
 
-    if (result.success) {
+    if (result.ok) {
       if (rememberMe) {
         localStorage.setItem("remembered_email", emailValue);
+        goto("/home");
       }
-      session.refresh();
-      goto("/home");
+
     } else {
       // Handle the "User not found" or "Incorrect password" logic
-      loginErrorMessage = result.message ?? "Invalid credentials";
+      loginErrorMessage = "Invalid credentials";
       loading = false;
     }
   }
