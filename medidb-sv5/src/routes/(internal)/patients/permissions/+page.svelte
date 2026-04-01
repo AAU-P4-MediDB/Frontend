@@ -1,12 +1,19 @@
 <script lang="ts">
   import { Card, Toggle, Label, Input, Checkbox } from "flowbite-svelte";
   import DoctorCard from "$lib/DoctorCard.svelte";
+  import ToggleCard from "$lib/ToggleCard.svelte";
   const patients = [
     {
       title: "John Cena",
       name: "John Cena",
       gender: "Male",
       pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2b06880c98",
+    },
+  ];
+  const permissions = [
+    {
+      "dr. uuid": "int",
+      "perm int": "int",
     },
   ];
 </script>
@@ -64,6 +71,7 @@
       <div class="flex col-start-2 col-span-3 justify-start items-start mt-4">
         <Card class="w-full p-4 sm:p-6 md:p-8 flex justify-center items-center">
           <div class="grid grid-cols-2 gap-y-6 gap-x-6 w-full max-w-none">
+            <ToggleCard>Write all</ToggleCard>
             <Toggle>Write all</Toggle>
             <Toggle>Read all</Toggle>
             <Toggle>Write prescriptions</Toggle>

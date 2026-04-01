@@ -1,42 +1,24 @@
 <script lang="ts">
-  import { api } from "$lib/services/api";
-  import { onMount } from "svelte";
-  import type { JournalEntry } from "$lib/types";
-
-  import { page } from "$app/state"; // SvelteKit 5 way to get params
-  import { MOCK_PATIENTS } from "$lib/mocks/patients";
-
   // Components
   import GreyButton from "$lib/GreyButton.svelte";
   import CardOverlay from "$lib/CardOverlay.svelte";
-  import ImageCard from "$lib/ImageCard.svelte";
   import DefaultCard from "$lib/DefaultCard.svelte";
+  import DoctorCard from "$lib/DoctorCard.svelte";
   import AppointmentsTimeline from "$lib/AppointmentsTimeline.svelte";
 
   import dayjs from "dayjs";
 
-  // Grab the [uuid] from the URL
-  const patientId = $derived(page.params.uuid);
-
-  // Find the specific patient in your mock data
-  const patient = $derived(MOCK_PATIENTS.find((p) => p.uuid === patientId));
-
-  let journals = $state<JournalEntry[]>([]);
-  let loading = $state(true);
-
-  onMount(async () => {
-    if (!patientId) {
-      loading = false;
-      return;
-    }
-
-    const result = await api.journals.getByPatient(patientId);
-    if (result) {
-      journals = [result];
-    }
-    loading = false;
-  });
-
+  const users = [
+    {
+      uuid: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+      name: "Sophia Lee",
+      email: "lee@clinic.dk",
+      phone: 4512345678,
+      clinic: "north-clinic-uuid",
+      position: 3, // Doctor
+      pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2bc07d8ed9",
+    },
+  ];
   const appointments = [
     {
       appointment_id: 1,
@@ -82,76 +64,68 @@
 
   const notifications = [
     {
-      date: "Mar 2026",
-      title: "EKG",
-      description: "No heartrate detected",
-      status: "red",
+      notificationId: "n-011",
+      doctor: "Sophia Lee",
+      message: "New lab results available",
+      type: "info" as const,
+      read: false,
     },
     {
-      date: "June 2026",
-      title: "Ultrasound",
-      description: "No baby detected",
-      status: "red",
-    },
-    {
-      date: "Aug 2026",
-      title: "EKG",
-      description: "Heartrate detected",
-      status: "blue",
+      notificationId: "n-012",
+      doctor: "Sophia Lee",
+      message: "Appointment starts in 15 mins",
+      type: "urgent" as const,
+      read: false,
     },
   ];
-  const permissionRequests = [
+  const journals = [
     {
-      date: "Mar 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
-    },
-  ];
-  const recentHistory = [
-    {
-      date: "Mar 2026",
-      title: "Routine Checkup",
-      description: "Vitals normal. No concerns reported.",
-      status: "blue",
-    },
-    {
-      date: "Feb 2026",
-      title: "Routine Checkup",
-      description: "Vitals normal. No concerns reported.",
-      status: "blue",
+      uuid: "p-001", // Matches a Patient CPR or ID
+      journal: {
+        // Spec 3.1.2: date must be 'int' (Unix Timestamp)
+        date: dayjs().subtract(2, "days").unix(),
+        patient_summary:
+          "Patient presented with mild hypertension. Blood pressure 145/90.",
+        eprescription_edispensation:
+          "Amoxicillin 500mg - 1 tablet twice daily.",
+        laboratory_results: "Blood panel clear. Cholesterol slightly elevated.",
+        medical_imaging_and_reports: "Chest X-Ray: Normal findings.",
+        hospital_discharge_reports:
+          "Discharged from Northside Medical with follow-up in 2 weeks.",
+      },
     },
     {
-      date: "April 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
+      uuid: "p-002",
+      journal: {
+        date: dayjs().subtract(1, "month").unix(),
+        patient_summary: "Routine screening for Type 2 Diabetes management.",
+        eprescription_edispensation: "Metformin 500mg.",
+        laboratory_results: "HbA1c: 6.5% - Stable.",
+        medical_imaging_and_reports: "N/A",
+        hospital_discharge_reports: "N/A",
+      },
     },
     {
-      date: "April 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
-    },
-    {
-      date: "April 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
+      uuid: "p-003",
+      journal: {
+        date: dayjs().unix(),
+        patient_summary:
+          "Acute allergic reaction to pollen. Prescribed antihistamines.",
+        eprescription_edispensation: "Cetirizine 10mg.",
+        laboratory_results: "IgE levels elevated.",
+        medical_imaging_and_reports: "N/A",
+        hospital_discharge_reports:
+          "Patient stabilized in clinic; no hospitalization required.",
+      },
     },
   ];
 </script>
 
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
-    {#if patient}
-      <ImageCard
-        pfp={patient.pfp}
-        name={patient.name}
-        pronouns={patient.pronouns}
-        age={dayjs().diff(dayjs(patient.dob), "year").toString()}
-      />
-    {/if}
+    {#each users as user}
+      <DoctorCard pfp={user.pfp} name={user.name} />
+    {/each}
   </div>
 
   <div class="col-span-2">
@@ -180,12 +154,9 @@
       <div class="">Notification</div>
 
       {#each notifications as notification}
-        <DefaultCard
-          title={notification.title}
-          date={notification.date}
-          description={notification.description}
-          status={notification.status}
-        />
+        <div>
+          {notification.message} - {notification.type}
+        </div>
       {/each}
     </CardOverlay>
   </div>

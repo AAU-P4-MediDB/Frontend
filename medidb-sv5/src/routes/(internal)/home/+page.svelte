@@ -1,52 +1,23 @@
 <script lang="ts">
-  import { session } from "$lib/services/session.svelte";
-  import { api } from "$lib/services/api";
-  import { onMount } from "svelte";
-  import type { Notification } from "$lib/types";
-  import { page } from "$app/state"; // SvelteKit 5 way to get params
-
-  // Mock Data
-  import { MOCK_DOCTORS } from "$lib/mocks/doctors";
-  import { MOCK_PATIENTS } from "$lib/mocks/patients";
-
-  // Components
-  import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
-
   import GreyButton from "$lib/GreyButton.svelte";
   import CardOverlay from "$lib/CardOverlay.svelte";
-  import DefaultCard from "$lib/DefaultCard.svelte";
   import DoctorCard from "$lib/DoctorCard.svelte";
   import PatientCard from "$lib/PatientCard.svelte";
   import AppointmentsTimeline from "$lib/AppointmentsTimeline.svelte";
 
   import dayjs from "dayjs";
 
-  // 1. Get the current logged-in doctor's data
-  const currentDoctor = $derived(
-    MOCK_DOCTORS.find((d) => d.uuid === session.user?.uuid),
-  );
-
-  // 2. Map the IDs in 'assignedPatients' to full Patient objects
-  // 1. Get only the patients for the logged-in doctor
-  const myPatients = $derived(
-    MOCK_PATIENTS.filter((p) => p.doctor === session.user?.uuid),
-  );
-
-  let notifications = $state<Notification[]>([]);
-  let loading = $state(true);
-
-  onMount(async () => {
-    if (!currentDoctor) {
-      loading = false;
-      return;
-    }
-
-    const result = await api.notifications.getUnread(currentDoctor.uuid);
-    if (result) {
-      notifications = result;
-    }
-    loading = false;
-  });
+  const users = [
+    {
+      uuid: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+      name: "Sophia Lee",
+      email: "lee@clinic.dk",
+      phone: 4512345678,
+      clinic: "north-clinic-uuid",
+      position: 3, // Doctor
+      pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2bc07d8ed9",
+    },
+  ];
 
   const appointments = [
     {
@@ -91,73 +62,74 @@
     },
   ];
 
-  const notifications1 = [
+  const patients = [
     {
-      date: "Mar 2026",
-      title: "EKG",
-      description: "No heartrate detected",
-      status: "red",
+      uuid: "p-001",
+      name: "Colby Durdan",
+      dob: "1972-04-12",
+      cpr_key: 1023,
+      bio_gender: true,
+      pronouns: "he/him",
+      clinic: "North Clinic",
+      doctor: "Sophia Lee",
+      weight: 88.2,
+      height: 182,
+      diagnoses: ["Hypertension"],
+      vitals: {
+        date: 1711281600,
+        "heart rate": "72 bpm",
+        "blood pressure": "140/90",
+        Sp02: "97%",
+      },
+      prescriptions: { active: ["Lisinopril"] },
+      pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba3026bc4e44",
     },
     {
-      date: "June 2026",
-      title: "Ultrasound",
-      description: "No baby detected",
-      status: "red",
-    },
-    {
-      date: "Aug 2026",
-      title: "EKG",
-      description: "Heartrate detected",
-      status: "blue",
+      uuid: "p-002",
+      name: "Liam Carter",
+      dob: "1972-08-25", // Age 54
+      cpr_key: 4452,
+      bio_gender: true,
+      pronouns: "he/him",
+      clinic: "North Clinic",
+      doctor: "Sophia Lee",
+      weight: 75.0,
+      height: 178,
+      diagnoses: ["Asthma"],
+      vitals: {
+        date: 1711281600,
+        "heart rate": "68 bpm",
+        "blood pressure": "120/80",
+        Sp02: "99%",
+      },
+      prescriptions: { active: ["Albuterol"] },
+      pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2c545a3381",
     },
   ];
-  const permissionRequests = [
+
+  const notifications = [
     {
-      date: "Mar 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
-    },
-  ];
-  const recentHistory = [
-    {
-      date: "Mar 2026",
-      title: "Routine Checkup",
-      description: "Vitals normal. No concerns reported.",
-      status: "blue",
+      notificationId: "n-011",
+      doctor: "Sophia Lee",
+      message: "New lab results available",
+      type: "info" as const,
+      read: false,
     },
     {
-      date: "Feb 2026",
-      title: "Routine Checkup",
-      description: "Vitals normal. No concerns reported.",
-      status: "blue",
-    },
-    {
-      date: "April 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
-    },
-    {
-      date: "April 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
-    },
-    {
-      date: "April 2026",
-      title: "Blood test lab results",
-      description: "Vitals normal. No concerns reported",
-      status: "red",
+      notificationId: "n-012",
+      doctor: "Sophia Lee",
+      message: "Appointment starts in 15 mins",
+      type: "urgent" as const,
+      read: false,
     },
   ];
 </script>
 
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
-    {#if session.user}
-      <DoctorCard pfp={session.user.pfp} name={session.user.name} />
-    {/if}
+    {#each users as user}
+      <DoctorCard pfp={user.pfp} name={user.name} />
+    {/each}
   </div>
 
   <div class="col-span-2">
@@ -183,32 +155,22 @@
 <div class="grid grid-cols-3 grid-flow-col grid-rows-3 gap-4">
   <div class="row-span-2">
     <CardOverlay>
-      <div class="my-3">Recent Medical History</div>
+      <div class="my-3">Notifications</div>
 
-      {#if loading}
-        <p>Loading medical records...</p>
-      {:else if notifications.length > 0}
-        {#each notifications as notification}
+      {#each notifications as notification}
+        <div class="">
           {notification.message} - {notification.type}
-        {/each}
-      {:else}
-        <p>No recent history found.</p>
-      {/if}
+        </div>
+      {/each}
     </CardOverlay>
   </div>
 
   <div class="...">
     <CardOverlay>
       <div class="">Permission requests</div>
-      {#if loading}
-        <p>Loading medical records...</p>
-      {:else if notifications.length > 0}
-        {#each notifications as notification}
-          {notification.message} - {notification.type}
-        {/each}
-      {:else}
-        <p>No recent history found.</p>
-      {/if}
+      {#each notifications as notification}
+        {notification.message} - {notification.type}
+      {/each}
     </CardOverlay>
   </div>
 
@@ -224,11 +186,11 @@
         <div class="flex justify-between items-center mb-2">
           <h2 class="text-lg font-semibold">Your Assigned Patients</h2>
           <span class=" text-blue-800 text-xs font-medium">
-            {myPatients.length} Total
+            {patients.length} Total
           </span>
         </div>
 
-        {#each myPatients as patient}
+        {#each patients as patient}
           <PatientCard
             uuid={patient.uuid}
             name={patient.name}

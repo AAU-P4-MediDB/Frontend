@@ -4,7 +4,6 @@
   import { isExpanded } from "$lib/stores/ui.js";
   import { page } from "$app/state";
   import { Breadcrumb, BreadcrumbItem } from "flowbite-svelte";
-  import { MOCK_PATIENTS } from "$lib/mocks/patients";
 
   // 1. Reactive derivation of path segments
   // Filter removes empty strings from the split (like the first slash)
@@ -12,10 +11,6 @@
 
   // 2. Helper to make the labels pretty
   function getLabel(segment: string) {
-    // If the segment is a UUID (like p-001), look up the patient name
-    const patient = MOCK_PATIENTS.find((p) => p.uuid === segment);
-    if (patient) return patient.name;
-
     // Otherwise, capitalize the word (e.g., "patients" -> "Patients")
     return segment.charAt(0).toUpperCase() + segment.slice(1);
   }
@@ -31,7 +26,6 @@
 </script>
 
 <div class="flex min-h-screen w-full overflow-x-hidden">
-
   <SidebarMenu />
 
   <main

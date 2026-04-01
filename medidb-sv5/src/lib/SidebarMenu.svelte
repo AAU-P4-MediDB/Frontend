@@ -26,7 +26,7 @@
     {
       icon: LayoutDashboard,
       label: "Dashboard",
-      href: "/patients/dashboard/uuid",
+      href: "/patients/dashboard",
     },
     {
       icon: SquareChartGantt,
