@@ -155,7 +155,7 @@
 <div class="grid grid-cols-3 grid-flow-col grid-rows-3 gap-4">
   <div class="row-span-2">
     <CardOverlay>
-      <div class="my-3">Notifications</div>
+      <div class="my-3">Appointments</div>
 
       {#each notifications as notification}
         <div class="">
@@ -176,6 +176,7 @@
 
   <div class="row-span-3">
     <CardOverlay>
+      <h2 class="text-lg font-semibold">Timeline</h2>
       <AppointmentsTimeline {appointments} />
     </CardOverlay>
   </div>
@@ -184,7 +185,7 @@
     <CardOverlay>
       <section>
         <div class="flex justify-between items-center mb-2">
-          <h2 class="text-lg font-semibold">Your Assigned Patients</h2>
+          <h2 class="text-lg font-semibold">Your next Patients</h2>
           <span class=" text-blue-800 text-xs font-medium">
             {patients.length} Total
           </span>
