@@ -3,15 +3,17 @@
 
   interface Props {
     children?: import("svelte").Snippet;
+    checked: boolean;
+    onUpdate?: () => void;
   }
 
-  let { children }: Props = $props();
+  // Use $bindable so changes in the child update the parent state
+  let { children, checked = $bindable(), onUpdate }: Props = $props();
 </script>
 
-<div class="flex my-4 items-center gap-4">
-  <div>
-    <div class="text-m font-bold">
-      <Toggle>{@render children?.()}</Toggle>
-    </div>
-  </div>
+<div class="flex items-center justify-between w-full py-2">
+  <span class="text-base font-normal text-gray-800">
+    {@render children?.()}
+  </span>
+  <Toggle bind:checked onchange={onUpdate} size="default" color="blue" />
 </div>

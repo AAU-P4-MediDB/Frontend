@@ -26,7 +26,7 @@ export const MOCK_USERS: User[] = [
     email: "nguyen@clinic.dk",
     phone: 4511223344,
     clinic: "north-clinic-uuid",
-    position: 0, // Secretary
+    position: 4, // Secretary
     pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2c853ba9ef",
   },
   {
