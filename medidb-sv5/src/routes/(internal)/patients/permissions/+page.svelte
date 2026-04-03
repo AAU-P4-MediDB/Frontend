@@ -35,7 +35,7 @@
       uuid: "dr-004",
       name: "Lila Ravenscroft",
       perm_int: 4,
-      permission_type: "Blod lab r/w",
+      permission_type: "Read/write blood lab",
     },
   ]; // State for Write column
   let writeList = $state([
@@ -100,8 +100,9 @@
   </div>
 
   <hr class="border-gray-200 mt-6 mb-8" />
-  <div class="grid grid-cols-3 gap-4">
-    <div class="col-span-1">
+
+  <div class="grid grid-cols-4 content-between gap-4">
+    <div class="">
       {#each doctorPermissions as permission}
         <DoctorPermissionsCard
           name={permission.name}
@@ -109,94 +110,28 @@
         />
       {/each}
     </div>
-    <div class="flex flex-col">
-      {#each writeList as item, i}
-        <ToggleCard
-          bind:checked={item.checked}
-          onUpdate={() => handleToggleLogic(writeList, i)}
-        >
-          {item.label}
-        </ToggleCard>
-      {/each}
-    </div>
-
-    <div class="flex flex-col">
-      {#each readList as item, i}
-        <ToggleCard
-          bind:checked={item.checked}
-          onUpdate={() => handleToggleLogic(readList, i)}
-        >
-          {item.label}
-        </ToggleCard>
-      {/each}
-    </div>
-  </div>
-
-  <div>
-    <div class="grid grid-cols-4 m-4 px-20">
-      <div>
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-          <h5
-            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-          >
-            Dr. Elias Thornbridge
-          </h5>
-          <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">
-            Full read access
-          </p>
-        </Card>
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-          <h5
-            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-          >
-            Dr. Marissa Vale
-          </h5>
-          <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">
-            Read/write presciptions
-          </p>
-        </Card>
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-          <h5
-            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-          >
-            Dr. Quentin Harlow
-          </h5>
-          <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">
-            Read diagnosis, anonymous
-          </p>
-        </Card>
-        <Card href="/cards" class="p-4 sm:p-6 md:p-8">
-          <h5
-            class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-          >
-            Dr. Lila Ravenscroft
-          </h5>
-          <p class="leading-tight font-normal text-gray-700 dark:text-gray-400">
-            Read/write blood lab
-          </p>
-        </Card>
-      </div>
-      <div class="flex col-start-2 col-span-3 justify-start items-start mt-4">
-        <Card class="w-full p-4 sm:p-6 md:p-8 flex justify-center items-center">
-          <div class="grid grid-cols-2 gap-y-6 gap-x-6 w-full max-w-none">
-            <Toggle>Write all</Toggle>
-            <Toggle>Read all</Toggle>
-            <Toggle>Write prescriptions</Toggle>
-            <Toggle>Read prescriptions</Toggle>
-            <Toggle>Write journal</Toggle>
-            <Toggle>Read journal</Toggle>
-            <Toggle>Write vitals</Toggle>
-            <Toggle>Read vitals</Toggle>
-            <Toggle>Write diagnosis</Toggle>
-            <Toggle>Read diagnosis</Toggle>
-            <Toggle>Write appointments</Toggle>
-            <Toggle>Read appointments</Toggle>
-            <Toggle>Write person info</Toggle>
-            <Toggle>Read person info</Toggle>
-            <Toggle>Write lab results</Toggle>
-            <Toggle>Read lab results</Toggle>
-          </div>
-        </Card>
+    <div class="col-span-3">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 content-between gap-1">
+          {#each writeList as item, i}
+            <ToggleCard
+              bind:checked={item.checked}
+              onUpdate={() => handleToggleLogic(writeList, i)}
+            >
+              {item.label}
+            </ToggleCard>
+          {/each}
+        </div>
+        <div class="grid grid-cols-1 content-between gap-1">
+          {#each readList as item, i}
+            <ToggleCard
+              bind:checked={item.checked}
+              onUpdate={() => handleToggleLogic(readList, i)}
+            >
+              {item.label}
+            </ToggleCard>
+          {/each}
+        </div>
       </div>
     </div>
   </div>
