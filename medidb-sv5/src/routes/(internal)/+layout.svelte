@@ -53,9 +53,6 @@
       {@render children()}
     </div>
   </main>
-  {#if page.url.pathname !== "/login"}
-    <Breadcrumb>...</Breadcrumb>
-  {/if}
 </div>
 
 <style>

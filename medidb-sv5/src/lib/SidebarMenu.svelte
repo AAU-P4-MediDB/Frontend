@@ -49,6 +49,11 @@
       label: "Doctor Management",
       href: "/settings/admin/doctor",
     },
+    {
+      icon: Settings,
+      label: "System Admin",
+      href: "/settings/admin/system",
+    },
   ];
 
   function toggleSidebar() {
