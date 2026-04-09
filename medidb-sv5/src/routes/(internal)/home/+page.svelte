@@ -3,7 +3,8 @@
   import CardOverlay from "$lib/CardOverlay.svelte";
   import DoctorCard from "$lib/DoctorCard.svelte";
   import PatientCard from "$lib/PatientCard.svelte";
-  import AppointmentsTimeline from "$lib/DoctorsTimeline.svelte";
+  import AppointmentsTimeline from "$lib/AppointmentsTimeline.svelte";
+  import DoctorsTimeline from "$lib/DoctorsTimeline.svelte";
 
   import dayjs from "dayjs";
 
@@ -117,12 +118,8 @@
   <div class="row-span-2">
     <CardOverlay>
       <div class="my-3">Appointments</div>
-
-      {#each notifications as notification}
-        <div class="">
-          {notification.message} - {notification.type}
-        </div>
-      {/each}
+      <!-- {console.log(data.appointment_data)} -->
+      <AppointmentsTimeline calendar={data.appointment_data?.calendar ?? []} />
     </CardOverlay>
   </div>
 
@@ -138,7 +135,10 @@
   <div class="row-span-3">
     <CardOverlay>
       <h2 class="text-lg font-semibold">Timeline</h2>
-      <AppointmentsTimeline timeline_data={data.timeline_data} />
+      <!-- {@debug timeline_data} -->
+      <!-- don't show patient -->
+      <!-- {console.log(data.timeline_data)} -->
+      <DoctorsTimeline timeline_data={data.timeline_data.timeline.filter((item) => item.data_type !== 'Patient') ?? null} />
     </CardOverlay>
   </div>
 

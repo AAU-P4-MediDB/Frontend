@@ -4,7 +4,7 @@
   import CardOverlay from "$lib/CardOverlay.svelte";
   import DefaultCard from "$lib/DefaultCard.svelte";
   import DoctorCard from "$lib/DoctorCard.svelte";
-  import AppointmentsTimeline from "$lib/AppointmentsTimeline.svelte";
+  import AppointmentsTimeline from "$lib/PatientTimeline.svelte";
 
   import dayjs from "dayjs";
 
