@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { api } from "$lib/api";
   import GreyButton from "$lib/GreyButton.svelte";
   import CardOverlay from "$lib/CardOverlay.svelte";
   import DoctorCard from "$lib/DoctorCard.svelte";
@@ -6,8 +7,6 @@
   import AppointmentsTimeline from "$lib/DoctorsTimeline.svelte";
 
   import dayjs from "dayjs";
-
-  let { data } = $props();
 
   const users = [
     {
@@ -18,6 +17,49 @@
       clinic: "north-clinic-uuid",
       position: 3, // Doctor
       pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2bc07d8ed9",
+    },
+  ];
+
+  const appointments = [
+    {
+      appointment_id: 1,
+      title: "Routine Checkup",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Vitals normal. No concerns reported.",
+      clinic: "uuid", //ref to CCR
+      status: "completed" as const,
+      app_type: "routine-checkup" as const,
+    },
+    {
+      appointment_id: 2,
+      title: "Blood test results",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Waiting for lab results",
+      clinic: "uuid", //ref to CCR
+      status: "in-progress" as const,
+      app_type: "screening" as const,
+    },
+    {
+      appointment_id: 3,
+      title: "Vaccination",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Vaccine for Covid",
+      clinic: "uuid", //ref to CCR
+      status: "completed" as const,
+      app_type: "immunization" as const,
+    },
+    {
+      appointment_id: 4,
+      title: "Follow-up appointment",
+      date: dayjs().subtract(3, "day").format("YYYY-MM-DDTHH:mm:ss"),
+      doctor: "uuid", //ref to CUR
+      notes: "Follow-up appointment completed successfully.",
+      clinic: "uuid", //ref to CCR
+      status: "completed" as const,
+      app_type: "follow-up" as const,
     },
   ];
 
@@ -83,7 +125,14 @@
     },
   ];
 
+  let timeline_data = $state<any>(null);
 
+  $effect(() => {
+    // api.get("/dpm/{userId}/timeline/get").then(data => {
+    api.get("/dpm/9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d/timeline/get").then(data => {
+      timeline_data = data;
+    });
+  });
 </script>
 
 <div class="grid grid-cols-3 gap-4">
@@ -138,7 +187,7 @@
   <div class="row-span-3">
     <CardOverlay>
       <h2 class="text-lg font-semibold">Timeline</h2>
-      <AppointmentsTimeline timeline_data={data.timeline_data} />
+      <AppointmentsTimeline {timeline_data} />
     </CardOverlay>
   </div>
 
