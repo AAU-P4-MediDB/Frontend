@@ -7,6 +7,7 @@ export interface Patient {
 	pronouns: string;
 	age: number;
 	pfp: string;
+	uuid: string;
 }
 
 // --- 3.1.1 Vitals ---

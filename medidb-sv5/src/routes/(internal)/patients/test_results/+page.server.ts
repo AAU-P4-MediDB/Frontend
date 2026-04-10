@@ -10,6 +10,11 @@ export interface Patients {
 	uuid: string;
 }
 
+export interface TestResults {
+	uuid: string;
+	test_results: Record<string, unknown>;
+}
+
 export const load: PageServerLoad = async ({ cookies }) => {
 	const cookieHeader = cookies
 		.getAll()

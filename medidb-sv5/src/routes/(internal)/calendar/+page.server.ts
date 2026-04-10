@@ -7,7 +7,6 @@ export interface Patients {
 	pronouns: string;
 	age: number;
 	pfp: string; //path to pfp
-	uuid: string;
 }
 
 export const load: PageServerLoad = async ({ cookies }) => {
