@@ -21,37 +21,6 @@ export interface TimelineEntry {
 	severity: TimeLineSeverity;
 }
 
-export const load: PageServerLoad = async ({ cookies }) => {
-	const cookieHeader = cookies
-		.getAll()
-		.map((c) => `${c.name}=${c.value}`)
-		.join('; ');
-
-	// TODO: pull userId from session cookie once auth is wired up
-	const userId = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
-
-	let timeline_data: TimelineEntry[] = [];
-	let appointment_data: AppointmentEntry[] = [];
-
-	try {
-		timeline_data = await api.get<TimelineEntry[]>(
-			`/api/dpm/${userId}/timeline/get`,
-			cookieHeader
-		);
-		appointment_data = await api.get<AppointmentEntry[]>(
-			`/api/dpm/calendar/sync/${userId}`,
-			cookieHeader
-		);
-	} catch (e) {
-		// BE unreachable or returned an error — page still renders, timeline shows empty state
-		console.error('Timeline fetch failed:', e);
-	}
-	// console.warn('Timeline data:', timeline_data);
-	// console.warn('Appointment data:', appointment_data);
-
-	return { timeline_data, appointment_data };
-};
-
 export interface AppointmentEntry {
 	uuid: string;
 	name: string;
@@ -59,3 +28,47 @@ export interface AppointmentEntry {
 	time: number;
 	pfp: string;
 }
+
+export interface PermissionRequest {
+	ptCPR: string;
+	drUUID: number;
+	permInt: number;
+	note: string;
+}
+
+export const load: PageServerLoad = async ({ cookies }) => {
+	const cookieHeader = cookies
+		.getAll()
+		.map((c) => `${c.name}=${c.value}`)
+		.join('; ');
+
+	// TODO: pull doctorID from session cookie once auth is wired up
+	const doctorID = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'; 
+
+	let timeline_data: TimelineEntry[] = [];
+	let appointment_data: AppointmentEntry[] = [];
+	let permission_requests: PermissionRequest[] = [];
+
+	try {
+		timeline_data = await api.get<TimelineEntry[]>(
+			`/api/dpm/${doctorID}/timeline/get`,
+			cookieHeader
+		);
+		appointment_data = await api.get<AppointmentEntry[]>(
+			`/api/dpm/calendar/sync/${doctorID}`,
+			cookieHeader
+		);
+		permission_requests = await api.get<PermissionRequest[]>(
+			`/api/dpm/perm/request/get/${doctorID}`,
+			cookieHeader
+		);
+	} catch (e) {
+		console.error('Data fetch failed:', e);
+	}
+	// DEBUGGING SESSION
+	// console.warn('Timeline data:', timeline_data);
+	// console.warn('Appointment data:', appointment_data);
+	console.warn('Permission requests:', permission_requests);
+
+	return { timeline_data, appointment_data, permission_requests };
+};
