@@ -48,22 +48,29 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	let timeline_data: TimelineEntry[] = [];
 	let appointment_data: AppointmentEntry[] = [];
 	let permission_requests: PermissionRequest[] = [];
-
 	try {
 		timeline_data = await api.get<TimelineEntry[]>(
 			`/api/dpm/${doctorID}/timeline/get`,
 			cookieHeader
 		);
+	} catch (e) {
+		console.error('Timeline fetch failed:', e);
+	}
+	try {
 		appointment_data = await api.get<AppointmentEntry[]>(
 			`/api/dpm/calendar/sync/${doctorID}`,
 			cookieHeader
 		);
+	} catch (e) {
+		console.error('Appointment fetch failed:', e);
+	}
+	try {
 		permission_requests = await api.get<PermissionRequest[]>(
 			`/api/dpm/perm/request/get/${doctorID}`,
 			cookieHeader
 		);
 	} catch (e) {
-		console.error('Data fetch failed:', e);
+		console.error('Permission request fetch failed:', e);
 	}
 	// DEBUGGING SESSION
 	// console.warn('Timeline data:', timeline_data);
