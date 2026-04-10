@@ -183,7 +183,6 @@
               {fetchData.cpr}
             </div>
             <div class="flex gap-2">
-              <span class="text-gray-400">Email:</span>
               {fetchData.email}
             </div>
           {:else if activeTitle === "Assign Patient"}
@@ -201,7 +200,6 @@
               {removeData.cpr}
             </div>
             <div class="flex gap-2">
-              <span class="text-gray-400">Email:</span>
               {removeData.email}
             </div>
           {/if}

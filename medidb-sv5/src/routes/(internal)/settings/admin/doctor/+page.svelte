@@ -14,9 +14,9 @@
     clinic: "",
     position: "",
   });
-  let fetchData = $state({ cpr: "", email: "" });
-  let assignData = $state({ cpr: "", doctorEmail: "" });
-  let removeData = $state({ cpr: "", email: "" });
+  let fetchData = $state({ email: "" });
+  let assignData = $state({ doctorEmail: "" });
+  let removeData = $state({ uuid: "" });
 
   // 2. Logic to detect if ANY form is being filled
   // This helper function checks if an object has any values
@@ -68,11 +68,6 @@
 
 {#snippet fetchFields()}
   <Input
-    placeholder="CPR"
-    bind:value={fetchData.cpr}
-    onfocus={() => setActive("Fetch Doctor")}
-  />
-  <Input
     placeholder="Email"
     bind:value={fetchData.email}
     onfocus={() => setActive("Fetch Doctor")}
@@ -81,13 +76,8 @@
 
 {#snippet removeFields()}
   <Input
-    placeholder="CPR"
-    bind:value={removeData.cpr}
-    onfocus={() => setActive("Remove Doctor")}
-  />
-  <Input
-    placeholder="Email"
-    bind:value={removeData.email}
+    placeholder="uuid"
+    bind:value={removeData.uuid}
     onfocus={() => setActive("Remove Doctor")}
   />
 {/snippet}
