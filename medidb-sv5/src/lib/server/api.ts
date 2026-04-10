@@ -21,8 +21,10 @@ async function request<T>(
 }
 
 export const api = {
-	get: <T>(path: string, cookies?: string) =>
-		request<T>(path, { method: 'GET' }, cookies),
+	get: <T>(path: string, cookies?: string, queryParams?: Record<string, string>) => {
+		const url = queryParams ? `${path}?${new URLSearchParams(queryParams)}` : path;
+		return request<T>(url, { method: 'GET' }, cookies);
+	},
 	post: <T>(path: string, body: unknown, cookies?: string) =>
 		request<T>(path, { method: 'POST', body: JSON.stringify(body) }, cookies),
 	delete: <T>(path: string, cookies?: string) =>

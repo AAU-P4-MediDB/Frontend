@@ -12,7 +12,7 @@ type TimeLineDataType =
 	| 'Appointments';
 
 export interface TimelineEntry {
-	PatientId: number;
+	PatientId: string;
 	doctor_accessing: string;
 	date: string;
 	doctor: string;
@@ -23,6 +23,7 @@ export interface TimelineEntry {
 
 export interface AppointmentEntry {
 	uuid: string;
+	cpr: string;
 	name: string;
 	reason: string;
 	time: number;
@@ -31,9 +32,27 @@ export interface AppointmentEntry {
 
 export interface PermissionRequest {
 	ptCPR: string;
-	drUUID: number;
+	drUUID: string;
 	permInt: number;
 	note: string;
+}
+
+export interface Patients {
+	name: string;
+	pronouns: string;
+	bday: string;
+	bio_sex: boolean;
+	pfp: string;
+}
+
+export interface Doctor {
+	uuid: number;
+	name: string;
+	clinic: string;
+	email: string;
+	position: string;
+	pfp: string;
+	phone: number;
 }
 
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -48,6 +67,9 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	let timeline_data: TimelineEntry[] = [];
 	let appointment_data: AppointmentEntry[] = [];
 	let permission_requests: PermissionRequest[] = [];
+	let patients: Patients[] = [];
+	let doctor: Doctor | null = null;
+	
 	try {
 		timeline_data = await api.get<TimelineEntry[]>(
 			`/api/dpm/${doctorID}/timeline/get`,
@@ -72,10 +94,40 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	} catch (e) {
 		console.error('Permission request fetch failed:', e);
 	}
-	// DEBUGGING SESSION
+	try {
+		patients = await api.get<Patients[]>(
+			`/api/dpm/usrfet/info`,
+			cookieHeader,
+			{
+				// TODO: replace with actual patient CPR from appointments
+				// colby durdan, uuid: e5f6a7b8-c9d0-4123-d0e1-f2a3b4c5d6e7
+				cpr: '120472-1023'
+			}
+		);
+		console.warn('Patients:', patients);
+	} catch (e) {
+		console.error('Patients fetch failed:', e);
+	}
+	try {
+		doctor = await api.get<Doctor>(
+			`/api/um/fetch`,
+			cookieHeader,
+			{
+				uuid: doctorID
+			}
+		);
+		console.warn('Doctor:', doctor);
+	} catch (e) {
+		console.error('Doctor fetch failed:', e);
+	}
+
+	// DEBUGGING SECTION
 	// console.warn('Timeline data:', timeline_data);
 	// console.warn('Appointment data:', appointment_data);
-	console.warn('Permission requests:', permission_requests);
+	// console.warn('Permission requests:', permission_requests);
+	console.warn('Doctor:', doctor);
+	console.warn('Patients:', patients);
 
-	return { timeline_data, appointment_data, permission_requests };
+
+	return { timeline_data, appointment_data, permission_requests, patients, doctor };
 };
