@@ -10,88 +10,12 @@
 
   let { data } = $props();
 
-  const users = [
-    {
-      uuid: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
-      name: "Sophia Lee",
-      email: "lee@clinic.dk",
-      phone: 4512345678,
-      clinic: "north-clinic-uuid",
-      position: 3, // Doctor
-      pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2bc07d8ed9",
-    },
-  ];
-
-  const patients = [
-    {
-      uuid: "p-001",
-      name: "Colby Durdan",
-      dob: "1972-04-12",
-      cpr_key: 1023,
-      bio_gender: true,
-      pronouns: "he/him",
-      clinic: "North Clinic",
-      doctor: "Sophia Lee",
-      weight: 88.2,
-      height: 182,
-      diagnoses: ["Hypertension"],
-      vitals: {
-        date: 1711281600,
-        "heart rate": "72 bpm",
-        "blood pressure": "140/90",
-        Sp02: "97%",
-      },
-      prescriptions: { active: ["Lisinopril"] },
-      pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba3026bc4e44",
-    },
-    {
-      uuid: "p-002",
-      name: "Liam Carter",
-      dob: "1972-08-25", // Age 54
-      cpr_key: 4452,
-      bio_gender: true,
-      pronouns: "he/him",
-      clinic: "North Clinic",
-      doctor: "Sophia Lee",
-      weight: 75.0,
-      height: 178,
-      diagnoses: ["Asthma"],
-      vitals: {
-        date: 1711281600,
-        "heart rate": "68 bpm",
-        "blood pressure": "120/80",
-        Sp02: "99%",
-      },
-      prescriptions: { active: ["Albuterol"] },
-      pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2c545a3381",
-    },
-  ];
-
-  const notifications = [
-    {
-      notificationId: "n-011",
-      doctor: "Sophia Lee",
-      message: "New lab results available",
-      type: "info" as const,
-      read: false,
-    },
-    {
-      notificationId: "n-012",
-      doctor: "Sophia Lee",
-      message: "Appointment starts in 15 mins",
-      type: "urgent" as const,
-      read: false,
-    },
-  ];
-
 
 </script>
 
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
-    {#each users as user}
-      <DoctorCard pfp={user.pfp} name={user.name} />
-    {/each}
+    <!-- Fetch doctor -->
   </div>
 
   <div class="col-span-2">
@@ -126,18 +50,13 @@
   <div class="...">
     <CardOverlay>
       <div class="">Permission requests</div>
-      {#each notifications as notification}
-        {notification.message} - {notification.type}
-      {/each}
+      <!-- Fetch permission requests -->
     </CardOverlay>
   </div>
 
   <div class="row-span-3">
     <CardOverlay>
       <h2 class="text-lg font-semibold">Timeline</h2>
-      <!-- {@debug timeline_data} -->
-      <!-- don't show patient -->
-      <!-- {console.log(data.timeline_data)} -->
       <DoctorsTimeline timeline_data={data.timeline_data.timeline.filter((item) => item.data_type !== 'Patient') ?? null} />
     </CardOverlay>
   </div>
@@ -145,14 +64,14 @@
   <div class="row-span-3">
     <CardOverlay>
       <section>
-        <div class="flex justify-between items-center mb-2">
+        <!-- <div class="flex justify-between items-center mb-2">
           <h2 class="text-lg font-semibold">Your next Patients</h2>
           <span class=" text-blue-800 text-xs font-medium">
-            {patients.length} Total
+            {data.patient_data.length} Total
           </span>
         </div>
 
-        {#each patients as patient}
+        {#each data.patient_data as patient}
           <PatientCard
             uuid={patient.uuid}
             name={patient.name}
@@ -160,7 +79,7 @@
             diagnoses={patient.diagnoses}
             age={dayjs().diff(dayjs(patient.dob), "year").toString()}
           />
-        {/each}
+        {/each} -->
       </section>
     </CardOverlay>
   </div>
