@@ -100,7 +100,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 			// TODO: replace with actual patient CPR from appointments
 			// colby durdan, uuid: e5f6a7b8-c9d0-4123-d0e1-f2a3b4c5d6e7
 			{
-				cpr: '120472-1023'
+				CPR_pt: '120472-1023'
 			},
 			cookieHeader
 		);

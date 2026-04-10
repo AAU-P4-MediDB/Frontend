@@ -11,20 +11,20 @@ export interface Patient {
 
 // --- 3.1.1 Vitals ---
 export interface Vitals {
-	date: number;
+	date: string;
 	heart_rate?: string;
 	blood_pressure?: string;
 	SpO2?: string;
 	[key: string]: unknown;
 }
 export interface VitalsResponse {
-	uuid: number;
+	uuid: string;
 	vitals: Vitals;
 }
 
 // --- 3.1.2 Journal ---
 export interface Journal {
-	date: number;
+	date: string;
 	patient_summary?: string;
 	eprescription_edispensation?: string;
 	laboratory_results?: string;
@@ -32,25 +32,25 @@ export interface Journal {
 	hospital_discharge_reports?: string;
 }
 export interface JournalResponse {
-	uuid: number;
+	uuid: string;
 	journal: Journal;
 }
 
 // --- 3.1.3 Prescription ---
 export interface PrescriptionResponse {
-	uuid: number;
+	uuid: string;
 	prescriptions: Record<string, unknown>;
 }
 
 // --- 3.1.4 Diagnosis ---
 export interface DiagnosisResponse {
-	uuid: number;
+	uuid: string;
 	diagnoses: string[];
 }
 
 // --- 3.1.5 Appointment ---
 export interface Appointment {
-	appointment_id: number;
+	appointment_id: string;
 	date: string;
 	time: string;
 	doctor: string;   // ref to CUR (uuid)
@@ -58,13 +58,13 @@ export interface Appointment {
 	clinic: string;   // ref to CCR (uuid)
 }
 export interface AppointmentResponse {
-	uuid: number;
+	uuid: string;
 	appointments: Appointment[];
 }
 
 // --- 3.1.6 Person Info ---
 export interface PersonInfo {
-	uuid: number;
+	uuid: string;
 	name: string;
 	pronouns: string;
 	bday: string;
@@ -79,7 +79,7 @@ export interface LabResult {
 	test_issuer_clinic: string;  // ref to CCR (uuid)
 	test_executor: string;
 	test_executor_phone: number;
-	result_id: number;
+	result_id: string;
 	date: string;
 	test_name: string;
 	result: Record<string, unknown>;
@@ -88,7 +88,7 @@ export interface LabResult {
 	notes: string;
 }
 export interface LabResultResponse {
-	uuid: number;
+	uuid: string;
 	lab_results: LabResult[];
 }
 
@@ -96,7 +96,7 @@ export interface LabResultResponse {
 
 async function fetchPatientData<T>(
 	endpoint: string,
-	cpr: number,
+	cpr: string,
 	cookieHeader: string
 ): Promise<T | null> {
 	try {
@@ -127,7 +127,7 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 
 	// Selected patient CPR from query param, e.g. ?cpr=1234567890
 	const cprParam = url.searchParams.get('cpr');
-	const selectedCPR = cprParam ? parseInt(cprParam, 10) : null;
+	const selectedCPR = cprParam ? cprParam : null;
 
 	let vitals:        VitalsResponse       | null = null;
 	let journal:       JournalResponse      | null = null;
