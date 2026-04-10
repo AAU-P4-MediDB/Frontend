@@ -95,28 +95,26 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		console.error('Permission request fetch failed:', e);
 	}
 	try {
-		patients = await api.get<Patients[]>(
+		patients = await api.post<Patients[]>(
 			`/api/dpm/usrfet/info`,
-			cookieHeader,
+			// TODO: replace with actual patient CPR from appointments
+			// colby durdan, uuid: e5f6a7b8-c9d0-4123-d0e1-f2a3b4c5d6e7
 			{
-				// TODO: replace with actual patient CPR from appointments
-				// colby durdan, uuid: e5f6a7b8-c9d0-4123-d0e1-f2a3b4c5d6e7
 				cpr: '120472-1023'
-			}
+			},
+			cookieHeader
 		);
-		console.warn('Patients:', patients);
 	} catch (e) {
 		console.error('Patients fetch failed:', e);
 	}
 	try {
-		doctor = await api.get<Doctor>(
+		doctor = await api.post<Doctor>(
 			`/api/um/fetch`,
-			cookieHeader,
 			{
 				uuid: doctorID
-			}
+			},
+			cookieHeader
 		);
-		console.warn('Doctor:', doctor);
 	} catch (e) {
 		console.error('Doctor fetch failed:', e);
 	}

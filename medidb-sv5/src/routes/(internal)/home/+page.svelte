@@ -16,6 +16,7 @@
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
     <!-- Fetch doctor -->
+     1.3
   </div>
 
   <div class="col-span-2">
@@ -51,6 +52,7 @@
     <CardOverlay>
       <div class="">Permission requests</div>
       <!-- Fetch permission requests -->
+       3.5.4
     </CardOverlay>
   </div>
 
@@ -64,6 +66,7 @@
   <div class="row-span-3">
     <CardOverlay>
       <section>
+        3.1.6
         <!-- <div class="flex justify-between items-center mb-2">
           <h2 class="text-lg font-semibold">Your next Patients</h2>
           <span class=" text-blue-800 text-xs font-medium">
