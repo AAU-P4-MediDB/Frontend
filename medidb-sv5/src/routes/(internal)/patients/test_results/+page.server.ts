@@ -38,6 +38,20 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	// DEBUGGING SECTION
 	console.warn('Patients:', patients);
 
+	let testResults: TestResults[] = [];
+	
+	try {
+		testResults = await api.post<TestResults[]>(
+			`/api/dpm/usrfet/labresult`,
+			{"CPR_pt": "120472-1023"},
+			cookieHeader
+		);
+	} catch (e) {
+		console.error('Test results fetch failed:', e);
+	}
 
-	return { patients };
+	console.warn('Test results:', testResults);
+
+
+	return { patients, testResults };
 };
