@@ -123,8 +123,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	// console.warn('Timeline data:', timeline_data);
 	// console.warn('Appointment data:', appointment_data);
 	// console.warn('Permission requests:', permission_requests);
-	console.warn('Doctor:', doctor);
-	console.warn('Patients:', patients);
+	// console.warn('Doctor:', doctor);
+	// console.warn('Patients:', patients);
 
 
 	return { timeline_data, appointment_data, permission_requests, patients, doctor };
