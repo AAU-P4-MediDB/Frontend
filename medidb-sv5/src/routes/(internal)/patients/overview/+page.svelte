@@ -305,3 +305,4 @@
     <p class="text-gray-500">No patients found matching your criteria.</p>
   </div>
 {/if}
+get
