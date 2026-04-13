@@ -11,6 +11,9 @@ importers:
       '@schedule-x/calendar':
         specifier: ^3.0.0
         version: 3.7.3(@preact/signals@2.9.0(preact@10.29.0))(preact@10.29.0)(temporal-polyfill@0.3.0)
+      '@schedule-x/event-modal':
+        specifier: ^4.4.0
+        version: 4.4.0(@preact/signals@2.9.0(preact@10.29.0))(preact@10.29.0)
       '@schedule-x/svelte':
         specifier: 3.0.0
         version: 3.0.0(@schedule-x/calendar@3.7.3(@preact/signals@2.9.0(preact@10.29.0))(preact@10.29.0)(temporal-polyfill@0.3.0))(@schedule-x/shared@3.7.3(@preact/signals@2.9.0(preact@10.29.0)))(svelte@5.55.0)
@@ -680,6 +683,12 @@ packages:
       '@preact/signals': ^2.0.2
       preact: ^10.19.2
       temporal-polyfill: 0.3.0
+
+  '@schedule-x/event-modal@4.4.0':
+    resolution: {integrity: sha512-IEiJ4HCRED3lIt2vGUjWhKIKYUZy88PP44ngb3ae2x52udVlMsTTtYbGvyKM8lhEinm8v7AsWCfl8OSI41zgsg==}
+    peerDependencies:
+      '@preact/signals': ^2.0.2
+      preact: ^10.19.2
 
   '@schedule-x/shared@3.7.3':
     resolution: {integrity: sha512-VjDnL+3onIynplHqfsQK/eplQl/bsD2XjqnzKQFo6Ji2FYmusALP3Vmtww1brJSAzc+aV9ML2fWCHi14AR/YBg==}
@@ -2256,6 +2265,11 @@ snapshots:
       '@preact/signals': 2.9.0(preact@10.29.0)
       preact: 10.29.0
       temporal-polyfill: 0.3.0
+
+  '@schedule-x/event-modal@4.4.0(@preact/signals@2.9.0(preact@10.29.0))(preact@10.29.0)':
+    dependencies:
+      '@preact/signals': 2.9.0(preact@10.29.0)
+      preact: 10.29.0
 
   '@schedule-x/shared@3.7.3(@preact/signals@2.9.0(preact@10.29.0))':
     dependencies:
