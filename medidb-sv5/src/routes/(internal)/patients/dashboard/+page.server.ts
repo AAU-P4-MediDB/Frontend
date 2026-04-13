@@ -119,15 +119,15 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 	// TODO: pull doctorID from session cookie once auth is wired up
 	const doctorID = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d';
 
-	let patients: Patient[] = [];
-	try {
-		patients = await api.get<Patient[]>(`/api/dpm/pf/${doctorID}`, cookieHeader);
-	} catch (e) {
-		console.error('Patients fetch failed:', e);
-	}
+	// let patients: Patient[] = [];
+	// try {
+		// patients = await api.get<Patient[]>(`/api/dpm/pf/${doctorID}`, cookieHeader);
+	// } catch (e) {
+		// console.error('Patients fetch failed:', e);
+	// }
 
 	// Selected patient CPR from query param, e.g. ?cpr=1234567890
-	const cprParam = url.searchParams.get('cpr');
+	const cprParam = '120472-1023';
 	const selectedCPR = cprParam ? cprParam : null;
 
 	let vitals:        VitalsResponse       | null = null;
@@ -141,7 +141,7 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 	if (selectedCPR !== null) {
 		[vitals, journal, prescriptions, diagnoses, appointments, info, labResults] =
 			await Promise.all([
-				fetchPatientData<VitalsResponse>      ('/api/dpm/usrfet/vital',        selectedCPR, cookieHeader),
+				fetchPatientData<VitalsResponse>      ('/api/dpm/usrfet/vitals',        selectedCPR, cookieHeader),
 				fetchPatientData<JournalResponse>     ('/api/dpm/usrfet/journal',       selectedCPR, cookieHeader),
 				fetchPatientData<PrescriptionResponse>('/api/dpm/usrfet/prescription',  selectedCPR, cookieHeader),
 				fetchPatientData<DiagnosisResponse>   ('/api/dpm/usrfet/diagnosis',     selectedCPR, cookieHeader),
@@ -152,12 +152,18 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 	}
 
 	// DEBUGGING SECTION
-	console.warn('Patients:', patients);
-	console.warn('Selected CPR:', selectedCPR);
-	console.warn('Person info:', info);
+	// console.warn('Patients:', patients);
+	// console.warn('Selected CPR:', selectedCPR);
+	// console.warn('Person info:', info);
+	// console.warn('Vitals:', vitals);
+	// console.warn('Journal:', journal);
+	// console.warn('Prescriptions:', prescriptions);
+	// console.warn('Diagnoses:', diagnoses);
+	// console.warn('Appointments:', appointments);
+	// console.warn('Lab results:', labResults);
 
 	return {
-		patients,
+		// patients,
 		selectedCPR,
 		vitals,
 		journal,
