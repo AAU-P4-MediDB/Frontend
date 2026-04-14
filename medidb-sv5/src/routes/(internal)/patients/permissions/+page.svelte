@@ -3,41 +3,10 @@
   import DoctorCard from "$lib/DoctorCard.svelte";
   import DoctorPermissionsCard from "$lib/DoctorPermissionsCard.svelte";
   import ToggleCard from "$lib/ToggleCard.svelte";
+  
+  let { data } = $props();
 
-  const patients = [
-    {
-      title: "John Cena",
-      name: "John Cena",
-      gender: "Male",
-      pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2b06880c98",
-    },
-  ];
-  const doctorPermissions = [
-    {
-      uuid: "dr-001",
-      name: "Elias Thornbridge",
-      perm_int: 1,
-      permission_type: "Full read access",
-    },
-    {
-      uuid: "dr-002",
-      name: "Marissa Vale",
-      perm_int: 2,
-      permission_type: "Read/Write perscriptions",
-    },
-    {
-      uuid: "dr-003",
-      name: "Quentin Harlow",
-      perm_int: 3,
-      permission_type: "Read diagnosis, anonymous",
-    },
-    {
-      uuid: "dr-004",
-      name: "Lila Ravenscroft",
-      perm_int: 4,
-      permission_type: "Read/write blood lab",
-    },
-  ]; // State for Write column
+  // State for Write column
   let writeList = $state([
     { label: "Write All", checked: false },
     { label: "Write Prescription", checked: false },
@@ -93,7 +62,8 @@
 </script>
 
 <div class="grid">
-  <div>
+  <!-- Reference logic for the page -->
+  <!-- <div>
     {#each patients as patient}
       <DoctorCard pfp={patient.pfp} name={patient.name} />
     {/each}
@@ -134,5 +104,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

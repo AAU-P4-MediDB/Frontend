@@ -6,6 +6,8 @@
   // State for the Title
   let activeTitle = $state("");
 
+  let { data } = $props();
+
   // 1. All Form States
   let registrationData = $state({
     name: "",

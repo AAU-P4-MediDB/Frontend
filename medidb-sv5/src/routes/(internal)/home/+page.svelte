@@ -10,6 +10,11 @@
 
   let { data } = $props();
 
+  console.log("doctor", data.doctor);
+  console.log("timeline_data", data.timeline_data);
+  console.log("patients", data.patients);
+  console.log("appointment_data", data.appointment_data);
+  console.log("permission_requests", data.permission_requests);
 
 </script>
 
@@ -17,6 +22,26 @@
   <div class="...">
     <!-- Fetch doctor -->
      1.3
+    <!-- sv3 reference code:  
+     {#each users as user}
+      <UserCard imageUrl={user.imageUrl} name={user.name} />
+    {/each}
+  </div>
+  <div class="col-span-2 ...">
+    <div class="grid grid-cols-4 gap-4">
+      <div class="...">
+        <GreyButton href="/patients/dashboard">Patients</GreyButton>
+      </div>
+      <div class="...">
+        <GreyButton href="/calendar">Calendar</GreyButton>
+      </div>
+      <div class="...">
+        <GreyButton href="/login">Test results</GreyButton>
+      </div>
+      <div class="...">
+        <GreyButton href="/login">Permissions</GreyButton>
+      </div>
+    </div> -->
   </div>
 
   <div class="col-span-2">
@@ -67,7 +92,8 @@
     <CardOverlay>
       <section>
         3.1.6
-        <!-- <div class="flex justify-between items-center mb-2">
+        <!-- sv3 reference code: 
+         <div class="flex justify-between items-center mb-2">
           <h2 class="text-lg font-semibold">Your next Patients</h2>
           <span class=" text-blue-800 text-xs font-medium">
             {data.patient_data.length} Total

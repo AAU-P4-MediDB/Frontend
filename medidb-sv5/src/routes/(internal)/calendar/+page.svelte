@@ -1,3 +1,5 @@
+<!-- Don't mess with this one, I got it - VoxVoltera -->
+
 <script lang="ts">
 import { ScheduleXCalendar } from "@schedule-x/svelte";
 import {

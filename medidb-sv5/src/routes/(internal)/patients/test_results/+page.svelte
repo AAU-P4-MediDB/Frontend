@@ -1,6 +1,14 @@
 <script>
   import { Card } from "flowbite-svelte";
+  
+  let { data } = $props();
+
+  console.log("patients", data.patients);
+  console.log("testResults", data.testResults);
+
 </script>
+
+<!-- well the reference isn't less placeholdery than this, so you're on your own ;) -->
 
 <div
   class="flex h-screen gap-6 p-6 max-w-300 mx-auto overflow-hidden bg-gray-50"

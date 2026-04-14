@@ -1,4 +1,5 @@
 <!-- what is this for??? -->
+ <!-- wonderfull question, of which i have no answer to -->
 
 <script lang="ts">
   let nameValue = "";

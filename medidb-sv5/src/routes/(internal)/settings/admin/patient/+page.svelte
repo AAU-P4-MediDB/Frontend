@@ -1,3 +1,6 @@
+<!-- for all the settings pages you're on your own, as they function fundamentally different to the rest of the app. I suggest you start with other pages first to  get the grasp of it, and then return to here when you're confident -->
+<!-- if you where to experience too many issues, contact @voxvoltera -->
+
 <script lang="ts">
   import { Input, Label, Textarea } from "flowbite-svelte";
   import InputCard from "$lib/InputCard.svelte";
@@ -5,6 +8,8 @@
 
   // State for the Title
   let activeTitle = $state("");
+  
+  let { data } = $props();
 
   // 1. All Form States
   let registrationData = $state({
