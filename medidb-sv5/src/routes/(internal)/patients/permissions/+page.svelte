@@ -3,9 +3,12 @@
   import DoctorCard from "$lib/DoctorCard.svelte";
   import DoctorPermissionsCard from "$lib/DoctorPermissionsCard.svelte";
   import ToggleCard from "$lib/ToggleCard.svelte";
-  
+
   let { data } = $props();
 
+  $effect(() => {
+    console.log("doctor", data.permission_requests);
+  });
   // State for Write column
   let writeList = $state([
     { label: "Write All", checked: false },
