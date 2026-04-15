@@ -1,66 +1,38 @@
-<!-- AppointmentsTimeline.svelte -->
 <script lang="ts">
   import { Timeline, TimelineItem } from "flowbite-svelte";
-  import { CalendarWeekSolid, ClockSolid } from "flowbite-svelte-icons";
+  import dayjs from "dayjs";
 
-  type Appointment = {
-    name: string;
-    patientGuid: string;
-    reason: string;
-    time: number;
-    pfp: string;
-  };
+  // history prop will now receive the array from timeline_data.timeline
+  let { history = [] } = $props();
 
-  let { calendar }: { calendar: Appointment[] } = $props();
-
-  const now = Math.floor(Date.now() / 1000);
-
-  const upcoming = $derived(
-    [...(calendar ?? [])]
-      .filter((a) => a.time >= now)
-      .sort((a, b) => a.time - b.time)
-      .slice(0, 5)
-  );
-
-  function formatTime(unix: number): string {
-    return new Date(unix * 1000).toLocaleString("da-DK", {
-      weekday: "short",
-      day: "numeric",
-      month: "short",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  function formatEntryDate(dateVal: string) {
+    // This handles the "2026-04-09" string format in your logs
+    return dayjs(dateVal).format("MMM D, YYYY");
   }
 </script>
 
-<Timeline order="vertical">
-  {#if upcoming.length > 0}
-    {#each upcoming as appointment, index}
-      {@const isLastItem = index === upcoming.length - 1}
-
+<div class="max-h-125 overflow-y-auto pr-4 custom-scrollbar">
+  <Timeline order="vertical">
+    {#each history as entry, index}
       <TimelineItem
-        title={appointment.name}
-        date={formatTime(appointment.time)}
-        color="blue"
-        isLast={isLastItem}
+        title={entry.data_type === "journal"
+          ? "Medical Journal Update"
+          : "Update"}
+        date={formatEntryDate(entry.date)}
+        color="green"
+        isLast={index === history.length - 1}
       >
-        {#snippet orientationSlot()}
-          <span
-            class="absolute bg-blue-200 dark:bg-blue-900 -left-4.5 flex h-6 w-6 items-center justify-center rounded-full dark:ring-gray-900"
-          >
-            <CalendarWeekSolid class="h-4 w-4 text-blue-600 dark:text-blue-400" />
-          </span>
-        {/snippet}
-
-        <div class="pl-4 flex flex-col gap-1">
-          <p class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
-            <ClockSolid class="h-3.5 w-3.5 shrink-0" />
-            {appointment.reason}
+        <div class="pl-4">
+          <p class="text-sm font-medium text-gray-900 dark:text-white">
+            {entry.changes}
+          </p>
+          <p class="text-xs text-gray-500">
+            Severity: {entry.severity} | Doctor: {entry.doctor_accessing.split(
+              "-",
+            )[0]}...
           </p>
         </div>
       </TimelineItem>
     {/each}
-  {:else}
-    <p class="text-sm text-gray-400 py-4">No upcoming appointments.</p>
-  {/if}
-</Timeline>
+  </Timeline>
+</div>

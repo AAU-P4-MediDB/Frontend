@@ -1,5 +1,5 @@
 <script>
-  let { name, age, pronouns, diagnoses, uuid } = $props();
+  let { name, bday, pronouns, uuid } = $props();
 </script>
 
 <div
@@ -8,12 +8,8 @@
   <div class="col-span-2 inline-block text-md font-bold text-gray-800">
     {name},
     <span class=" text-sm font-light top text-gray-500">
-      {age} years • {pronouns}
+      {bday} years • {pronouns}
     </span>
-  </div>
-
-  <div class="col text-sm font-light">
-    {diagnoses.join(", ")}
   </div>
 
   <div class="col text-right">
@@ -21,7 +17,7 @@
       href="/patients/dashboard/{uuid}"
       class="text-blue-500 text-sm hover:underline"
     >
-      Open Journal →
+       Open Journal →
     </a>
   </div>
 </div>

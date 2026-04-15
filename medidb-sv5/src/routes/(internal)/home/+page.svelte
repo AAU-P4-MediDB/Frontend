@@ -7,41 +7,24 @@
   import DoctorsTimeline from "$lib/DoctorsTimeline.svelte";
 
   import dayjs from "dayjs";
+  import DefaultCard from "$lib/DefaultCard.svelte";
 
   let { data } = $props();
 
-  console.log("doctor", data.doctor);
-  console.log("timeline_data", data.timeline_data);
-  console.log("patients", data.patients);
-  console.log("appointment_data", data.appointment_data);
-  console.log("permission_requests", data.permission_requests);
-
+  $effect(() => {
+    console.log("doctor", data.doctor);
+    console.log("timeline_data", data.timeline_data);
+    console.log("patients", data.patients);
+    console.log("appointment_data", data.appointment_data);
+    console.log("permission_requests", data.permission_requests);
+  });
 </script>
 
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
-    <!-- Fetch doctor -->
-     1.3
-    <!-- sv3 reference code:  
-     {#each users as user}
-      <UserCard imageUrl={user.imageUrl} name={user.name} />
-    {/each}
-  </div>
-  <div class="col-span-2 ...">
-    <div class="grid grid-cols-4 gap-4">
-      <div class="...">
-        <GreyButton href="/patients/dashboard">Patients</GreyButton>
-      </div>
-      <div class="...">
-        <GreyButton href="/calendar">Calendar</GreyButton>
-      </div>
-      <div class="...">
-        <GreyButton href="/login">Test results</GreyButton>
-      </div>
-      <div class="...">
-        <GreyButton href="/login">Permissions</GreyButton>
-      </div>
-    </div> -->
+    <!-- 1.3 Fetch doctor -->
+    <DoctorCard pfp={data.doctor?.pfp} name={data.doctor?.name} />
+    <!-- sv3 reference code: -->
   </div>
 
   <div class="col-span-2">
@@ -67,33 +50,43 @@
 <div class="grid grid-cols-3 grid-flow-col grid-rows-3 gap-4">
   <div class="row-span-2">
     <CardOverlay>
-      <div class="my-3">Appointments</div>
-      <!-- {console.log(data.appointment_data)} -->
-      <AppointmentsTimeline calendar={data.appointment_data?.calendar ?? []} />
+      <div class="">Appointments</div>
+      {#each data.appointment_data?.calendar as appointment}
+        <DefaultCard
+          date={dayjs.unix(appointment.time).format("ddd, MMM D @ h:mm A")}
+          name={appointment.name}
+          reason={appointment.reason}
+          status="green"
+        ></DefaultCard>
+      {/each}
     </CardOverlay>
   </div>
 
   <div class="...">
     <CardOverlay>
       <div class="">Permission requests</div>
-      <!-- Fetch permission requests -->
-       3.5.4
+      <!--3.5.4 Fetch permission requests -->
+      <div class="text-sm font-light">{data.permission_requests.message}</div>
     </CardOverlay>
   </div>
 
   <div class="row-span-3">
     <CardOverlay>
-      <h2 class="text-lg font-semibold">Timeline</h2>
-      <DoctorsTimeline timeline_data={data.timeline_data.timeline.filter((item) => item.data_type !== 'Patient') ?? null} />
+      <div class="">Timeline</div>
+
+      <AppointmentsTimeline history={data.timeline_data.timeline} />
     </CardOverlay>
   </div>
 
   <div class="row-span-3">
     <CardOverlay>
-      <section>
-        3.1.6
-        <!-- sv3 reference code: 
-         <div class="flex justify-between items-center mb-2">
+      <!--<section>
+        3.1.6 Fetch patients 
+        {#each data.patients as patient}
+          {patient.name}
+        {/each}
+        sv3 reference code:
+        <div class="flex justify-between items-center mb-2">
           <h2 class="text-lg font-semibold">Your next Patients</h2>
           <span class=" text-blue-800 text-xs font-medium">
             {data.patient_data.length} Total
@@ -107,6 +100,30 @@
             pronouns={patient.pronouns}
             diagnoses={patient.diagnoses}
             age={dayjs().diff(dayjs(patient.dob), "year").toString()}
+          />
+        {/each} 
+      </section>-->
+      <section>
+        <div class="flex justify-between items-center mb-2">
+          <div class="">Your next Patients</div>
+          <span class="text-blue-800 text-xs font-medium">
+            {data.patients?.length} Total
+          </span>
+        </div>
+
+        <PatientCard
+          uuid={data.patients?.uuid}
+          name={data.patients?.name}
+          pronouns={data.patients?.pronouns}
+          bday={dayjs().diff(dayjs(data.patients?.bday), "year").toString()}
+        />
+
+        <!--{#each data.patients as patient}
+          <PatientCard
+            uuid={patient.name}
+            name={patient.name}
+            pronouns={patient.pronouns}
+            age={dayjs().diff(dayjs(patient.bday), "year").toString()}
           />
         {/each} -->
       </section>
