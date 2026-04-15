@@ -1,5 +1,5 @@
 <script>
-  let { pfp, name, pronouns, age } = $props();
+  let { pfp, name, pronouns, birthdate } = $props();
 </script>
 
 <div class="flex items-center gap-4 rounded-xl bg-light p-4">
@@ -10,6 +10,6 @@
   />
   <div>
     <div class="text-m font-bold">{name}</div>
-    <div class="text-sm font-light">{pronouns} • {age} yrs</div>
+    <div class="text-sm font-light">{pronouns} • {birthdate}</div>
   </div>
 </div>
