@@ -65,6 +65,8 @@
 </script>
 
 <div class="grid">
+  {data.permission_requests?.message}
+
   <!-- Reference logic for the page -->
   <!-- <div>
     {#each patients as patient}

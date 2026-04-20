@@ -39,8 +39,7 @@
 {#if filteredPatients.length > 0}
   <div class="grid grid-cols-4 gap-4">
     {#each filteredPatients as patient}
-      <a href="/patients/dashboard/">
-        <!--<a href="/patients/dashboard/{patient.cpr}"> Hvis patienten linkes gennem cpr nummer-->
+      <a href="/patients/dashboard/{patient.uuid}">
         <ImageCard
           name={patient.name}
           pronouns={patient.pronouns}
