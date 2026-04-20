@@ -26,6 +26,9 @@ importers:
       flowbite-svelte-icons:
         specifier: ^2.0.0
         version: 2.3.0(svelte@5.55.0)
+      jose:
+        specifier: ^6.2.2
+        version: 6.2.2
       lucide-svelte:
         specifier: ^1.0.1
         version: 1.0.1(svelte@5.55.0)
@@ -1328,6 +1331,9 @@ packages:
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
+
+  jose@6.2.2:
+    resolution: {integrity: sha512-d7kPDd34KO/YnzaDOlikGpOurfF0ByC2sEV4cANCtdqLlTfBlw2p14O/5d/zv40gJPbIQxfES3nSx1/oYNyuZQ==}
 
   js-yaml@4.1.1:
     resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
@@ -2971,6 +2977,8 @@ snapshots:
   isexe@2.0.0: {}
 
   jiti@2.6.1: {}
+
+  jose@6.2.2: {}
 
   js-yaml@4.1.1:
     dependencies:

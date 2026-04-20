@@ -12,6 +12,11 @@ declare global {
     namespace App {
         interface Locals {
             token: string | null;
+            user: {
+                uuid: string;
+                email: string;
+                position: 'Doctor' | 'Secretary' | 'Local_administrator';
+            } | null;
         }
     }
 }
