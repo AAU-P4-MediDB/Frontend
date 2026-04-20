@@ -7,7 +7,7 @@
   let { data } = $props();
 
   $effect(() => {
-    console.log("doctor", data.permission_requests);
+    console.log("permission request", data.permission_requests);
   });
   // State for Write column
   let writeList = $state([

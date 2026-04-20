@@ -14,10 +14,10 @@
 
   <div class="col text-right">
     <a
-      href="/patients/dashboard/{uuid}"
+      href="/patients/dashboard/"
       class="text-blue-500 text-sm hover:underline"
     >
-       Open Journal →
+      Open Journal →
     </a>
   </div>
 </div>
