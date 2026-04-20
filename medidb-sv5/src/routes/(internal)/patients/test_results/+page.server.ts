@@ -15,7 +15,7 @@ export interface TestResults {
 	test_results: Record<string, unknown>;
 }
 
-export const load: PageServerLoad = async ({ cookies }) => {
+export const load: PageServerLoad = async ({ cookies, locals }) => {
 	const cookieHeader = cookies
 		.getAll()
 		.map((c) => `${c.name}=${c.value}`)
@@ -29,7 +29,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	try {
 		patients = await api.get<Patients[]>(
 			`/api/dpm/pf/${doctorID}`,
-			cookieHeader
+			cookieHeader,
+			locals.token
 		);
 	} catch (e) {
 		console.error('Patients fetch failed:', e);
@@ -44,7 +45,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		testResults = await api.post<TestResults[]>(
 			`/api/dpm/usrfet/labresult`,
 			{"CPR_pt": "120472-1023"},
-			cookieHeader
+			cookieHeader,
+			locals.token
 		);
 	} catch (e) {
 		console.error('Test results fetch failed:', e);

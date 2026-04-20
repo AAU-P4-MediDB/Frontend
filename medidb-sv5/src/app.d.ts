@@ -8,3 +8,10 @@ declare namespace App {
 	// interface Session {}
 	// interface Stuff {}
 }
+declare global {
+    namespace App {
+        interface Locals {
+            token: string | null;
+        }
+    }
+}
