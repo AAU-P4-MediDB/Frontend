@@ -3,6 +3,9 @@ import { env } from '$env/dynamic/private';
 import * as jose from 'jose';
 
 const secret = new TextEncoder().encode(env.JWT_KEY);
+console.log('JWT_KEY:', env.JWT_KEY);
+console.log('JWT_ISSUER:', env.JWT_ISSUER);
+console.log('JWT_AUDIENCE:', env.JWT_AUDIENCE);
 
 export async function verifyJwt(token: string) {
     try {

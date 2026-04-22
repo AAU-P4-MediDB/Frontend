@@ -13,41 +13,29 @@
   let loading = $state(false);
 
   async function handleLogin() {
-    // Reset errors
-    emailError = false;
-    passwordError = false;
-    loginErrorMessage = "";
+      emailError = false;
+      passwordError = false;
+      loginErrorMessage = "";
 
-    // Basic Client-side Validation
-    if (!emailValue || !emailValue.includes("@")) {
-      emailError = true;
-      return;
-    }
-    if (!passwordValue) {
-      passwordError = true;
-      return;
-    }
+      if (!emailValue || !emailValue.includes("@")) { emailError = true; return; }
+      if (!passwordValue) { passwordError = true; return; }
 
-    loading = true;
+      loading = true;
 
-    // Call your Mock Auth Service
-    const result = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email: emailValue, password: passwordValue })
-    });
+      const result = await fetch("/api/auth/login", {   // ← correct SvelteKit route
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ email: emailValue, password: passwordValue })
+      });
 
-    if (result.ok) {
-      if (rememberMe) {
-        localStorage.setItem("remembered_email", emailValue);
-        goto("/home");
+      if (result.ok) {
+          console.log('Login ok, redirecting...');
+          if (rememberMe) localStorage.setItem("remembered_email", emailValue);
+          goto("/home");   // ← unconditional, not gated on rememberMe
+      } else {
+          loginErrorMessage = "Invalid credentials";
+          loading = false;
       }
-
-    } else {
-      // Handle the "User not found" or "Incorrect password" logic
-      loginErrorMessage = "Invalid credentials";
-      loading = false;
-    }
   }
 </script>
 
