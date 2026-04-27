@@ -11,7 +11,7 @@ export interface AppointmentEntry {
   pfp: string;
 }
 
-export const load: PageServerLoad = async ({ cookies }) => {
+export const load: PageServerLoad = async ({ cookies, locals }) => {
   const cookieHeader = cookies
     .getAll()
     .map((c) => `${c.name}=${c.value}`)
@@ -28,6 +28,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
     appointment_data = await api.get<AppointmentEntry[]>(
       `/api/dpm/calendar/sync/${doctorID}`,
       cookieHeader,
+      locals.token,
     );
   } catch (e) {
     console.error("Appointments fetch failed:", e);

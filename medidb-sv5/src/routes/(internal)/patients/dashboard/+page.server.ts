@@ -98,10 +98,11 @@ export interface LabResultResponse {
 async function fetchPatientData<T>(
 	endpoint: string,
 	cpr: string,
-	cookieHeader: string
+	cookieHeader: string,
+	token: string
 ): Promise<T | null> {
 	try {
-		return await api.post<T>(endpoint, { CPR_pt: cpr }, cookieHeader);
+		return await api.post<T>(endpoint, { CPR_pt: cpr }, cookieHeader, token);
 	} catch (e) {
 		console.error(`Fetch failed [${endpoint}]:`, e);
 		return null;
@@ -110,7 +111,7 @@ async function fetchPatientData<T>(
 
 // --- Load ---
 
-export const load: PageServerLoad = async ({ cookies, url }) => {
+export const load: PageServerLoad = async ({ cookies, url, locals }) => {
 	const cookieHeader = cookies
 		.getAll()
 		.map((c) => `${c.name}=${c.value}`)
@@ -141,13 +142,13 @@ export const load: PageServerLoad = async ({ cookies, url }) => {
 	if (selectedCPR !== null) {
 		[vitals, journal, prescriptions, diagnoses, appointments, info, labResults] =
 			await Promise.all([
-				fetchPatientData<VitalsResponse>      ('/api/dpm/usrfet/vitals',        selectedCPR, cookieHeader),
-				fetchPatientData<JournalResponse>     ('/api/dpm/usrfet/journal',       selectedCPR, cookieHeader),
-				fetchPatientData<PrescriptionResponse>('/api/dpm/usrfet/prescription',  selectedCPR, cookieHeader),
-				fetchPatientData<DiagnosisResponse>   ('/api/dpm/usrfet/diagnosis',     selectedCPR, cookieHeader),
-				fetchPatientData<AppointmentResponse> ('/api/dpm/usrfet/appointment',   selectedCPR, cookieHeader),
-				fetchPatientData<PersonInfo>          ('/api/dpm/usrfet/info',          selectedCPR, cookieHeader),
-				fetchPatientData<LabResultResponse>   ('/api/dpm/usrfet/labresult',     selectedCPR, cookieHeader),
+				fetchPatientData<VitalsResponse>      ('/api/dpm/usrfet/vitals',        selectedCPR, cookieHeader, locals.token),
+				fetchPatientData<JournalResponse>     ('/api/dpm/usrfet/journal',       selectedCPR, cookieHeader, locals.token),
+				fetchPatientData<PrescriptionResponse>('/api/dpm/usrfet/prescription',  selectedCPR, cookieHeader, locals.token),
+				fetchPatientData<DiagnosisResponse>   ('/api/dpm/usrfet/diagnosis',     selectedCPR, cookieHeader, locals.token),
+				fetchPatientData<AppointmentResponse> ('/api/dpm/usrfet/appointment',   selectedCPR, cookieHeader, locals.token),
+				fetchPatientData<PersonInfo>          ('/api/dpm/usrfet/info',          selectedCPR, cookieHeader, locals.token),
+				fetchPatientData<LabResultResponse>   ('/api/dpm/usrfet/labresult',     selectedCPR, cookieHeader, locals.token),
 			]);
 	}
 

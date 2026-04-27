@@ -10,7 +10,7 @@ export interface Patients {
 	uuid: string;
 }
 
-export const load: PageServerLoad = async ({ cookies }) => {
+export const load: PageServerLoad = async ({ cookies, locals }) => {
 	const cookieHeader = cookies
 		.getAll()
 		.map((c) => `${c.name}=${c.value}`)
@@ -24,7 +24,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	try {
 		patients = await api.get<Patients[]>(
 			`/api/dpm/pf/${doctorID}`,
-			cookieHeader
+			cookieHeader,
+			locals.token
 		);
 	} catch (e) {
 		console.error('Patients fetch failed:', e);

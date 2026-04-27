@@ -55,7 +55,7 @@ export interface Doctor {
   phone: number;
 }
 
-export const load: PageServerLoad = async ({ cookies }) => {
+export const load: PageServerLoad = async ({ cookies, locals }) => {
   const cookieHeader = cookies
     .getAll()
     .map((c) => `${c.name}=${c.value}`)
@@ -74,6 +74,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
     timeline_data = await api.get<TimelineEntry[]>(
       `/api/dpm/${doctorID}/timeline/get`,
       cookieHeader,
+      locals.token,
     );
   } catch (e) {
     console.error("Timeline fetch failed:", e);
@@ -82,6 +83,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
     appointment_data = await api.get<AppointmentEntry[]>(
       `/api/dpm/calendar/sync/${doctorID}`,
       cookieHeader,
+      locals.token,
     );
   } catch (e) {
     console.error("Appointment fetch failed:", e);
@@ -90,6 +92,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
     permission_requests = await api.get<PermissionRequest[]>(
       `/api/dpm/perm/request/get/${doctorID}`,
       cookieHeader,
+      locals.token,
     );
   } catch (e) {
     console.error("Permission request fetch failed:", e);
@@ -103,6 +106,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
         CPR_pt: "120472-1023",
       },
       cookieHeader,
+      locals.token,
     );
   } catch (e) {
     console.error("Patients fetch failed:", e);
@@ -114,6 +118,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
         uuid: doctorID,
       },
       cookieHeader,
+      locals.token,
     );
   } catch (e) {
     console.error("Doctor fetch failed:", e);

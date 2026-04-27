@@ -68,7 +68,9 @@
 		"@schedule-x/theme-default": "^3.0.0",
 		"dayjs": "^1.11.20",
 		"flowbite-svelte-icons": "^2.0.0",
+		"jose": "^6.2.2",
 		"lucide-svelte": "^1.0.1",
-		"temporal-polyfill": "0.3.0"
+		"temporal-polyfill": "0.3.0",
+		"zod": "^4.3.6"
 	}
 }

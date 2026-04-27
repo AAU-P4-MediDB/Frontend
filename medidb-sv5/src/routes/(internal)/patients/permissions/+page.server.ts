@@ -9,7 +9,7 @@ export interface permission_requests {
 	Note: string;
 }
 
-export const load: PageServerLoad = async ({ cookies }) => {
+export const load: PageServerLoad = async ({ cookies, locals }) => {
 	const cookieHeader = cookies
 		.getAll()
 		.map((c) => `${c.name}=${c.value}`)
@@ -23,7 +23,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	try {
 		permission_requests = await api.get<permission_requests[]>(
 			`/api/dpm/perm/request/get/${patientID}`,
-			cookieHeader
+			cookieHeader,
+			locals.token
 		);
 	} catch (e) {
 		console.error('Permission requests fetch failed:', e);

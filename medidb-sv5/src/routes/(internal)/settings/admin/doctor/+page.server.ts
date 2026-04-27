@@ -13,7 +13,7 @@ export interface User {
 }
 
 export const actions: Actions = {
-	register: async ({ request, cookies }) => {
+	register: async ({ request, cookies, locals }) => {
 		const cookieHeader = cookies
 			.getAll()
 			.map((c) => `${c.name}=${c.value}`)
@@ -47,7 +47,7 @@ export const actions: Actions = {
 		}
 
 		try {
-			await api.post('/api/um/ac/register', body, cookieHeader);
+			await api.post('/api/um/ac/register', body, cookieHeader, locals.token);
 		} catch (e) {
 			console.error('Register failed:', e);
 			return fail(500, { action: 'register', error: 'Registration failed.' });
@@ -56,7 +56,7 @@ export const actions: Actions = {
 		return { action: 'register', success: true };
 	},
 
-	deleteUser: async ({ request, cookies }) => {
+	deleteUser: async ({ request, cookies, locals }) => {
 		const cookieHeader = cookies
 			.getAll()
 			.map((c) => `${c.name}=${c.value}`)
@@ -68,7 +68,7 @@ export const actions: Actions = {
 		if (!uuid) return fail(400, { action: 'deleteUser', error: 'User UUID is required.' });
 
 		try {
-			await api.delete(`/api/um/${uuid}/del/`, cookieHeader);
+			await api.delete(`/api/um/${uuid}/del/`, cookieHeader, locals.token);
 		} catch (e) {
 			console.error('Delete failed:', e);
 			return fail(500, { action: 'deleteUser', error: 'Deletion failed.' });
@@ -77,7 +77,7 @@ export const actions: Actions = {
 		return { action: 'deleteUser', success: true };
 	},
 
-	fetchUser: async ({ request, cookies }) => {
+	fetchUser: async ({ request, cookies, locals }) => {
 		const cookieHeader = cookies
 			.getAll()
 			.map((c) => `${c.name}=${c.value}`)
@@ -90,7 +90,7 @@ export const actions: Actions = {
 
 		let user: User;
 		try {
-			user = await api.post<User>('/api/um/fetch', { email }, cookieHeader);
+			user = await api.post<User>('/api/um/fetch', { email }, cookieHeader, locals.token);
 		} catch (e) {
 			console.error('Fetch user failed:', e);
 			return fail(500, { action: 'fetchUser', error: 'User fetch failed.' });
