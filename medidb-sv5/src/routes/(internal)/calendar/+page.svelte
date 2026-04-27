@@ -16,10 +16,11 @@ let { data } = $props();
 
 const eventModal = createEventModalPlugin();
 
+// Add defensive programming to prevent crashes
 const calendarApp = createCalendar({
   views: [createViewMonthGrid(), createViewWeek(), createViewDay()],
   plugins: [eventModal],
-  events: data.events,
+  events: data?.events || [],
 });
 </script>
 
