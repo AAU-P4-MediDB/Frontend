@@ -7,6 +7,22 @@
   import AppointmentsTimeline from "$lib/PatientTimeline.svelte";
 
   import dayjs from "dayjs";
+  import PopupCard1 from '$lib/journal_update_menu.svelte';
+  import PopupCard2 from '$lib/appointment_update_menu.svelte';
+  import PopupCard3 from '$lib/prescriptions_update_menu.svelte';
+  import PopupCard4 from '$lib/diagnosis_update_menu.svelte';
+
+  // One open-state per card
+  let openNote         = $state(false);
+  let openAppointment  = $state(false);
+  let openPrescription = $state(false);
+  let openDiagnosis    = $state(false);
+
+  // Handle submit events however you like
+  function onNoteSubmit(e: CustomEvent)         { console.log('note',         e.detail); }
+  function onAppointmentSubmit(e: CustomEvent)  { console.log('appointment',  e.detail); }
+  function onPrescriptionSubmit(e: CustomEvent) { console.log('prescription', e.detail); }
+  function onDiagnosisSubmit(e: CustomEvent)    { console.log('diagnosis',    e.detail); }
 
   let { data } = $props();
 
@@ -21,6 +37,12 @@
   });
 </script>
 
+<PopupCard1 bind:open={openNote}         on:submit={onNoteSubmit} />
+<PopupCard2 bind:open={openAppointment}  on:submit={onAppointmentSubmit} />
+<PopupCard3 bind:open={openPrescription} on:submit={onPrescriptionSubmit} />
+<PopupCard4 bind:open={openDiagnosis}    on:submit={onDiagnosisSubmit} />
+
+
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
     <ImageCard
@@ -33,18 +55,23 @@
 
   <div class="col-span-2">
     <div class="grid grid-cols-4 gap-4">
+
       <div class="...">
-        <CyanButton href="/patients/dashboard">Add Journal Note</CyanButton>
+        <CyanButton onclick={() => (openNote = true)}>Add Journal Note</CyanButton>
       </div>
+
       <div class="...">
-        <CyanButton href="/calendar">New Appointment</CyanButton>
+        <CyanButton onclick={() => (openAppointment = true)}>New Appointment</CyanButton>
       </div>
+
       <div class="...">
-        <CyanButton href="/login">New Prescription</CyanButton>
+        <CyanButton onclick={() => (openPrescription = true)}>New Prescription</CyanButton>
       </div>
+
       <div class="...">
-        <CyanButton href="/login">New Diagnosis</CyanButton>
+        <CyanButton onclick={() => (openDiagnosis = true)}>New Diagnosis</CyanButton>
       </div>
+
     </div>
   </div>
 </div>
