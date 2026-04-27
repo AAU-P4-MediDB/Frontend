@@ -24,10 +24,10 @@
   let selectedTestResult = $state(null);
 
   // Helper function to handle the click
-  function selectPatient(patient: null) {
-    selectedPatient = patient;
+  function selectPatient(patient: any) {
+    selectedPatient = selectedPatient?.name === patient.name ? null : patient;
   }
-  function selectTestResult(testResult: null) {
+  function selectTestResult(testResult: any) {
     selectedTestResult = testResult;
   }
 </script>
@@ -37,7 +37,7 @@
     size="md"
     clearable
     bind:value={searchTerm}
-    placeholder="Search by namebg-cyan"
+    placeholder="Search by name"
   />
   <!-- Reference logic for the page -->
 
@@ -50,16 +50,18 @@
           {#each filteredPatients as patient}
             <button
               type="button"
-              class="text-left transition-transform hover:scale-102 focus:outline-none"
+              class="text-left transition-transform hover:scale-102 focus:outline-none {selectedPatient?.name === patient.name ? '' : 'opacity-50'}"
               onclick={() => selectPatient(patient)}
             >
               <!--<a href="/patients/dashboard/{patient.cpr}"> Hvis patienten linkes gennem cpr nummer-->
-              <ImageCard
-                name={patient.name}
-                pronouns={patient.pronouns}
-                birthdate={patient.birthdate}
-                pfp={patient.pfp}
-              />
+              <div class="{selectedPatient?.name === patient.name ? 'ring-2 ring-blue-500 ring-offset-2' : ''}">
+                <ImageCard
+                  name={patient.name}
+                  pronouns={patient.pronouns}
+                  birthdate={patient.birthdate}
+                  pfp={patient.pfp}
+                />
+              </div>
             </button>
           {/each}
         </div>
