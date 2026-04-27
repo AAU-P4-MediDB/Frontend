@@ -75,7 +75,14 @@
   <div class="...">
     <CardOverlay>
       <div class="">Upcoming Appointments</div>
-      <div class="text-sm font-light">{data.journal?.journal}</div>
+      {#each data.appointments?.appointment as appointment}
+        <DefaultCard
+          date={dayjs.unix(appointment?.time).format("ddd, MMM D @ h:mm A")}
+          name={appointment?.name}
+          reason={appointment?.reason}
+          status="green"
+        ></DefaultCard>
+      {/each}
     </CardOverlay>
   </div>
   <div class="row-span-3">
