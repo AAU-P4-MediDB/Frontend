@@ -65,7 +65,7 @@
     onfocus={() => setActive("Patient Registration")}
   />
   <Textarea
-    placeholder="Diagnoses"
+    placeholder="Diagnoses (comma separated)"
     class="w-full"
     bind:value={registrationData.diagnoses}
     onfocus={() => setActive("Patient Registration")}
