@@ -21,6 +21,7 @@ export interface TimelineEntry {
   severity: TimeLineSeverity;
 }
 
+
 export interface AppointmentEntry {
   patientGuid: string;
   cpr: string;
@@ -80,10 +81,22 @@ export const load: PageServerLoad = async ({ cookies, locals }) => {
     console.error("Timeline fetch failed:", e);
   }
   try {
-    appointment_data = await api.get<AppointmentEntry[]>(
-      `/api/dpm/calendar/sync/${doctorID}`,
-      cookieHeader,
-      locals.token,
+    const res = await api.get<{
+      code: number;
+      calender: AppointmentEntry[];
+    }>(
+        `/api/dpm/calendar/sync/${doctorID}`,
+        cookieHeader,
+        locals.token,
+    );
+
+    console.log("APPOINTMENT RAW RESPONSE:", res);
+    appointment_data = Array.isArray(res.calendar)
+        ? res.calendar
+        : [];
+
+    appointment_data = appointment_data.sort(
+        (a, b) => a.time - b.time
     );
   } catch (e) {
     console.error("Appointment fetch failed:", e);

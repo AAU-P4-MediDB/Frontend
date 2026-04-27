@@ -51,7 +51,7 @@
   <div class="row-span-2">
     <CardOverlay>
       <div class="">Appointments</div>
-      {#each data.appointment_data?.calendar as appointment}
+      {#each data.appointment_data as appointment}
         <DefaultCard
           date={dayjs.unix(appointment.time).format("ddd, MMM D @ h:mm A")}
           name={appointment.name}
