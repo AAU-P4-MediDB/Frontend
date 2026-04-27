@@ -37,7 +37,7 @@
         <CyanButton href="/patients/dashboard">Add Journal Note</CyanButton>
       </div>
       <div class="...">
-        <CyanButton href="/calendar">Order Tests</CyanButton>
+        <CyanButton href="/calendar">New Appointment</CyanButton>
       </div>
       <div class="...">
         <CyanButton href="/login">New Prescription</CyanButton>
