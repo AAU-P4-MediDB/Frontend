@@ -5,6 +5,7 @@
   import PatientCard from "$lib/PatientCard.svelte";
   import AppointmentsTimeline from "$lib/AppointmentsTimeline.svelte";
   import DoctorsTimeline from "$lib/DoctorsTimeline.svelte";
+  import DoctorPermissionsCard from "$lib/DoctorPermissionsCard.svelte";
 
   import dayjs from "dayjs";
   import DefaultCard from "$lib/DefaultCard.svelte";
@@ -62,11 +63,15 @@
     </CardOverlay>
   </div>
 
-  <div class="...">
+  <div class="row-span-1">
     <CardOverlay>
       <div class="">Permission requests</div>
       <!--3.5.4 Fetch permission requests -->
-      <div class="text-sm font-light">{data.permission_requests.message}</div>
+      <div class="max-h-24">
+        {#each data.permission_requests?.dr_perm_requests as request}
+          <DoctorPermissionsCard pt_cpr={request.pt_cpr} note={request.note} />
+        {/each}
+      </div>
     </CardOverlay>
   </div>
 
@@ -105,8 +110,8 @@
       </section>-->
       <section>
         <div class="flex justify-between items-center mb-2">
-          <div class="">Your next Patients</div>
-          <span class="text-blue-800 text-xs font-medium">
+          <div class="">Your Patients</div>
+          <span class="text-blue-800 text-xs font-medium mr-4">
             {data.patients?.length} Total
           </span>
         </div>
