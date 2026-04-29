@@ -6,24 +6,33 @@
   import DefaultCard from "$lib/DefaultCard.svelte";
   import AppointmentsTimeline from "$lib/PatientTimeline.svelte";
   import PrescriptionCard from "$lib/PrescriptionCard.svelte";
+  import DiagnosesCard from "$lib/DiagnosesCard.svelte";
 
   import dayjs from "dayjs";
-  import PopupCard1 from '$lib/journal_update_menu.svelte';
-  import PopupCard2 from '$lib/appointment_update_menu.svelte';
-  import PopupCard3 from '$lib/prescriptions_update_menu.svelte';
-  import PopupCard4 from '$lib/diagnosis_update_menu.svelte';
+  import PopupCard1 from "$lib/journal_update_menu.svelte";
+  import PopupCard2 from "$lib/appointment_update_menu.svelte";
+  import PopupCard3 from "$lib/prescriptions_update_menu.svelte";
+  import PopupCard4 from "$lib/diagnosis_update_menu.svelte";
 
   // One open-state per card
-  let openNote         = $state(false);
-  let openAppointment  = $state(false);
+  let openNote = $state(false);
+  let openAppointment = $state(false);
   let openPrescription = $state(false);
-  let openDiagnosis    = $state(false);
+  let openDiagnosis = $state(false);
 
   // Handle submit events however you like
-  function onNoteSubmit(e: CustomEvent)         { console.log('note',         e.detail); }
-  function onAppointmentSubmit(e: CustomEvent)  { console.log('appointment',  e.detail); }
-  function onPrescriptionSubmit(e: CustomEvent) { console.log('prescription', e.detail); }
-  function onDiagnosisSubmit(e: CustomEvent)    { console.log('diagnosis',    e.detail); }
+  function onNoteSubmit(e: CustomEvent) {
+    console.log("note", e.detail);
+  }
+  function onAppointmentSubmit(e: CustomEvent) {
+    console.log("appointment", e.detail);
+  }
+  function onPrescriptionSubmit(e: CustomEvent) {
+    console.log("prescription", e.detail);
+  }
+  function onDiagnosisSubmit(e: CustomEvent) {
+    console.log("diagnosis", e.detail);
+  }
 
   let { data } = $props();
 
@@ -38,11 +47,10 @@
   });
 </script>
 
-<PopupCard1 bind:open={openNote}         on:submit={onNoteSubmit} />
-<PopupCard2 bind:open={openAppointment}  on:submit={onAppointmentSubmit} />
+<PopupCard1 bind:open={openNote} on:submit={onNoteSubmit} />
+<PopupCard2 bind:open={openAppointment} on:submit={onAppointmentSubmit} />
 <PopupCard3 bind:open={openPrescription} on:submit={onPrescriptionSubmit} />
-<PopupCard4 bind:open={openDiagnosis}    on:submit={onDiagnosisSubmit} />
-
+<PopupCard4 bind:open={openDiagnosis} on:submit={onDiagnosisSubmit} />
 
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
@@ -56,23 +64,29 @@
 
   <div class="col-span-2">
     <div class="grid grid-cols-4 gap-4">
-
       <div class="...">
-        <CyanButton onclick={() => (openNote = true)}>Add Journal Note</CyanButton>
+        <CyanButton onclick={() => (openNote = true)}
+          >Add Journal Note</CyanButton
+        >
       </div>
 
       <div class="...">
-        <CyanButton onclick={() => (openAppointment = true)}>New Appointment</CyanButton>
+        <CyanButton onclick={() => (openAppointment = true)}
+          >New Appointment</CyanButton
+        >
       </div>
 
       <div class="...">
-        <CyanButton onclick={() => (openPrescription = true)}>New Prescription</CyanButton>
+        <CyanButton onclick={() => (openPrescription = true)}
+          >New Prescription</CyanButton
+        >
       </div>
 
       <div class="...">
-        <CyanButton onclick={() => (openDiagnosis = true)}>New Diagnosis</CyanButton>
+        <CyanButton onclick={() => (openDiagnosis = true)}
+          >New Diagnosis</CyanButton
+        >
       </div>
-
     </div>
   </div>
 </div>
@@ -132,14 +146,16 @@
   <div class="...">
     <CardOverlay>
       <div class="">Prescriptions</div>
-      <PrescriptionCard prescriptions={data.prescriptions?.prescription}/>
+      <PrescriptionCard prescriptions={data.prescriptions?.prescription} />
     </CardOverlay>
   </div>
   <div class="...">
     <CardOverlay>
       <div class="">Diagnoses</div>
-      <div class="text-sm font-light">{data.diagnoses?.diagnosis}</div>
+      {#each data.diagnoses?.diagnosis as diagnosis}
+        <DiagnosesCard name={diagnosis?.name} temp={diagnosis.temp}
+        ></DiagnosesCard>
+      {/each}
     </CardOverlay>
   </div>
 </div>
-
