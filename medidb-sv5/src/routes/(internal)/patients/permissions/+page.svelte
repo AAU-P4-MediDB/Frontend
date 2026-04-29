@@ -1,15 +1,14 @@
 <script lang="ts">
-  import { Card, Toggle, Label, Input, Checkbox } from "flowbite-svelte";
-  import DoctorCard from "$lib/DoctorCard.svelte";
   import DoctorPermissionsCard from "$lib/DoctorPermissionsCard.svelte";
   import ToggleCard from "$lib/ToggleCard.svelte";
+  import CardOverlay from "$lib/CardOverlay.svelte";
 
   let { data } = $props();
 
   $effect(() => {
     console.log("permission request", data.permission_requests);
   });
-  // State for Write column
+  // State for Write column using the $state rune
   let writeList = $state([
     { label: "Write All", checked: false },
     { label: "Write Prescription", checked: false },
@@ -21,7 +20,7 @@
     { label: "Write Lab Results", checked: false },
   ]);
 
-  // State for Read column
+  // State for Read column using the $state rune
   let readList = $state([
     { label: "Read All", checked: false },
     { label: "Read Prescription", checked: false },
@@ -34,27 +33,22 @@
   ]);
 
   /**
-   * Logic to handle Master Toggles
-   * @param list The array to modify (writeList or readList)
-   * @param index The index of the item clicked
+   * Handles the Master/Individual toggle logic
    */
   function handleToggleLogic(list: typeof writeList, index: number) {
-    // If we clicked "All" (index 0)
     if (index === 0) {
-      // We use the current state of the "All" toggle
+      // "All" was toggled - sync everything to its value
       const isAllChecked = list[0].checked;
-
-      // Force every other item to match it exactly
       for (let i = 1; i < list.length; i++) {
         list[i].checked = isAllChecked;
       }
     } else {
-      // Logic for individual toggles:
-      // If any individual item is unchecked, "All" cannot be checked
+      // Individual item toggled
       if (!list[index].checked) {
+        // If one is unchecked, "All" must be unchecked
         list[0].checked = false;
       } else {
-        // If every single individual item is now checked, turn "All" on
+        // Check if every item (except index 0) is now checked
         const allOthersChecked = list.slice(1).every((item) => item.checked);
         if (allOthersChecked) {
           list[0].checked = true;
@@ -65,25 +59,25 @@
 </script>
 
 <div class="grid">
-  {data.permission_requests?.message}
-
   <!-- Reference logic for the page -->
   <!-- <div>
     {#each patients as patient}
       <DoctorCard pfp={patient.pfp} name={patient.name} />
     {/each}
-  </div>
+  </div>-->
 
   <hr class="border-gray-200 mt-6 mb-8" />
 
   <div class="grid grid-cols-4 content-between gap-4">
     <div class="">
-      {#each doctorPermissions as permission}
-        <DoctorPermissionsCard
-          name={permission.name}
-          permission_type={permission.permission_type}
-        />
-      {/each}
+      <CardOverlay>
+        {#each data.permission_requests?.dr_perm_requests as permission}
+          <DoctorPermissionsCard
+            pt_cpr={permission.pt_cpr}
+            note={permission.note}
+          />
+        {/each}
+      </CardOverlay>
     </div>
     <div class="col-span-3">
       <div class="grid grid-cols-2 gap-4">
@@ -109,5 +103,5 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 </div>

@@ -115,7 +115,7 @@
   </div>
   <div class="row-span-3">
     <CardOverlay>
-      <div class="">Timeline</div>
+      <div class="">Journal</div>
       <!-- <AppointmentsTimeline {appointments} /> -->
 
       {#each data.appointments?.appointment as appointment}
