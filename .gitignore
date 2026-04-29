@@ -7,6 +7,7 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
+medidb-sv5/.idea
 
 # OS
 .DS_Store

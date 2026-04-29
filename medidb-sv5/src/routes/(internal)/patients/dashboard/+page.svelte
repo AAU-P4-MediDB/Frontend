@@ -5,6 +5,7 @@
   import ImageCard from "$lib/ImageCard.svelte";
   import DefaultCard from "$lib/DefaultCard.svelte";
   import AppointmentsTimeline from "$lib/PatientTimeline.svelte";
+  import PrescriptionCard from "$lib/PrescriptionCard.svelte";
 
   import dayjs from "dayjs";
   import PopupCard1 from '$lib/journal_update_menu.svelte';
@@ -131,7 +132,7 @@
   <div class="...">
     <CardOverlay>
       <div class="">Prescriptions</div>
-      <div class="text-sm font-light">{data.prescriptions?.prescription}</div>
+      <PrescriptionCard prescriptions={data.prescriptions?.prescription}/>
     </CardOverlay>
   </div>
   <div class="...">

@@ -40,7 +40,15 @@ export interface JournalResponse {
 // --- 3.1.3 Prescription ---
 export interface PrescriptionResponse {
 	uuid: string;
-	prescriptions: Record<string, unknown>;
+	prescriptions: Prescription[];
+}
+
+export interface Prescription {
+	date: string;
+	name: string;
+	dosage?: string;
+	instructions?: string;
+	status?: "active" | "expired" | "paused";
 }
 
 // --- 3.1.4 Diagnosis ---
