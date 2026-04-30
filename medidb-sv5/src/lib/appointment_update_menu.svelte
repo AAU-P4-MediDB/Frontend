@@ -16,6 +16,7 @@
 		?.join('; ') || '';
 
   let patientUuid = "e5f6a7b8-c9d0-4123-d0e1-f2a3b4c5d6e7";
+  let cpr = "041272-1023"
 
   let { open = $bindable(false), token }: Props = $props();
 
@@ -44,9 +45,11 @@
     const unixTime = date ? Math.floor(new Date(date).getTime() / 1000) : null;
 
     const payload = {
-      title,
+      name: {title},
+      id: patientUuid,
+      cpr,
       time: unixTime,
-      note,
+      reason: note,
       duration_minutes: duration ? Number(duration) : null,
     };
 
