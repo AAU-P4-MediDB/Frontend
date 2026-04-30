@@ -1,10 +1,9 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-  import { MOCK_USERS } from "$lib/mocks/users"; // Path to your dummy data
 
   // Set default values from your first mock user
-  let emailValue = $state(MOCK_USERS[0]?.email ?? "");
-  let passwordValue = $state("password123"); // Mock password
+  let emailValue: string | null = null;
+  let passwordValue: string | null = null; // Mock password
 
   let rememberMe = $state(true);
   let emailError = $state(false);
@@ -83,7 +82,7 @@
         {loading ? "Signing in…" : "Login"}
       </button>
       <div class="dev-presets">
-        <span>Dev Quick-Login:</span>
+        <!-- <span>Dev Quick-Login:</span>
         <div class="preset-buttons">
           {#each MOCK_USERS as user}
             <button
@@ -99,7 +98,7 @@
               )[1] ?? user.name}
             </button>
           {/each}
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

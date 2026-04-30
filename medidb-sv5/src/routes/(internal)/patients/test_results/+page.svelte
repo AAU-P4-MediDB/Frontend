@@ -1,3 +1,5 @@
+<!-- REMOVE MOCK DATA IN JUNE REVISION -->
+
 <script lang="ts">
   import { Card } from "flowbite-svelte";
   import ImageCard from "$lib/ImageCard.svelte";
