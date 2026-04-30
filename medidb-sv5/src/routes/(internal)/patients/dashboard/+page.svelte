@@ -51,7 +51,7 @@
 </script>
 
 <PopupCard1 bind:open={openNote} on:submit={onNoteSubmit} />
-<PopupCard2 bind:open={openAppointment} on:submit={onAppointmentSubmit} />
+<PopupCard2 bind:open={openAppointment} token={data.token} on:submit={onAppointmentSubmit} />
 <PopupCard3 bind:open={openPrescription} on:submit={onPrescriptionSubmit} />
 <PopupCard4 bind:open={openDiagnosis} on:submit={onDiagnosisSubmit} />
 

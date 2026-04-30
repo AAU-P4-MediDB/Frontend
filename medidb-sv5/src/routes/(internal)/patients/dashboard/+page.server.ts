@@ -157,6 +157,7 @@ export const load: PageServerLoad = async ({ cookies, url, locals }) => {
 	let appointments:  AppointmentResponse  | null = null;
 	let info:          PersonInfo           | null = null;
 	let labResults:    LabResultResponse    | null = null;
+	let token = locals.token;
 
 	if (selectedCPR !== null) {
 		[vitals, journal, prescriptions, diagnoses, appointments, info, labResults] =
@@ -188,5 +189,6 @@ export const load: PageServerLoad = async ({ cookies, url, locals }) => {
 		appointments,
 		info,
 		labResults,
+		token,
 	};
 };

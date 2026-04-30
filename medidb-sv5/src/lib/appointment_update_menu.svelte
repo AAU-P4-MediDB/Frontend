@@ -4,6 +4,7 @@
 
   interface Props {
     open?: boolean;
+    token: string;
     // patientUuid: string;
   }
 
@@ -16,7 +17,7 @@
 
   let patientUuid = "e5f6a7b8-c9d0-4123-d0e1-f2a3b4c5d6e7";
 
-  let { open = $bindable(false) }: Props = $props();
+  let { open = $bindable(false), token }: Props = $props();
 
   let title    = $state('');
   let date     = $state('');
@@ -55,7 +56,7 @@
         headers: { 
           'Content-Type': 'application/json',
           'Cookie': cookieHeader,
-          'Authorization': `Bearer ${locals.token}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(payload),
       });
