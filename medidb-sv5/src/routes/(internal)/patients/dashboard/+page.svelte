@@ -131,13 +131,15 @@
     <CardOverlay>
       <div class="">Journal</div>
       <!-- <AppointmentsTimeline {appointments} /> -->
-
-      {#each data.appointments?.appointment as appointment}
+      {#each data.journal?.journal as journalEntry}
+        <!-- {console.log(journalEntry?.date)} -->
         <DefaultCard
-          date={dayjs.unix(appointment?.time).format("ddd, MMM D @ h:mm A")}
-          name={appointment?.name}
-          reason={appointment?.reason}
-          status="green"
+          date={dayjs.unix(journalEntry?.date).format("ddd, MMM D @ h:mm A")}
+          name={journalEntry?.patient_summary}
+          eprescription_edispensation={journalEntry?.eprescription_edispensation}
+          laboratory_results={journalEntry?.laboratory_results}
+          medical_imaging_and_reports={journalEntry?.medical_imaging_and_reports}
+          hospital_discharge_reports={journalEntry?.hospital_discharge_reports}
         ></DefaultCard>
       {/each}
     </CardOverlay>
