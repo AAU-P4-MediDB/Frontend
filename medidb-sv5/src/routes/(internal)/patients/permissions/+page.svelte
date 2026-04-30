@@ -1,3 +1,5 @@
+<!-- TO BE FIXED IN JUNE REVISION -->
+
 <script lang="ts">
   import DoctorPermissionsCard from "$lib/DoctorPermissionsCard.svelte";
   import ToggleCard from "$lib/ToggleCard.svelte";

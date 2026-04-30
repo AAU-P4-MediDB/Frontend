@@ -39,21 +39,22 @@
       href: "/patients/test_results",
     },
     { icon: CalendarDays, label: "Calendar", href: "/calendar" },
-    {
-      icon: Settings,
-      label: "Patient Management",
-      href: "/settings/admin/patient",
-    },
-    {
-      icon: Settings,
-      label: "Doctor Management",
-      href: "/settings/admin/doctor",
-    },
-    {
-      icon: Settings,
-      label: "System Admin",
-      href: "/settings/admin/system",
-    },
+    // to be uncommented in june revision
+    // {
+    //   icon: Settings,
+    //   label: "Patient Management",
+    //   href: "/settings/admin/patient",
+    // },
+    // {
+    //   icon: Settings,
+    //   label: "Doctor Management",
+    //   href: "/settings/admin/doctor",
+    // },
+    // {
+    //   icon: Settings,
+    //   label: "System Admin",
+    //   href: "/settings/admin/system",
+    // },
   ];
 
   function toggleSidebar() {
