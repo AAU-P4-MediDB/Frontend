@@ -13,6 +13,7 @@
   import PopupCard2 from "$lib/appointment_update_menu.svelte";
   import PopupCard3 from "$lib/prescriptions_update_menu.svelte";
   import PopupCard4 from "$lib/diagnosis_update_menu.svelte";
+  import VitalCard from "$lib/VitalCard.svelte";
 
   // One open-state per card
   let openNote = $state(false);
@@ -97,7 +98,7 @@
   <div class="...">
     <CardOverlay>
       <div class="">Vitals</div>
-      <div class="text-sm font-light">{data.vitals?.vitals}</div>
+      <VitalCard vitals={data.vitals?.vitals}></VitalCard>
     </CardOverlay>
   </div>
 
