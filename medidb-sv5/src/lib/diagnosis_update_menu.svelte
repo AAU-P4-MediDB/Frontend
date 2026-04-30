@@ -1,27 +1,53 @@
 <!-- POST /api/dpm/usrup/{uuid}/diagnosis -->
 
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-
   interface Props {
     open?: boolean;
+    patientUuid: string;
+    onsubmitted?: (detail: { id: string; name: string; temporary: boolean }) => void;
   }
 
-  let { open = $bindable(false) }: Props = $props();
+  let { open = $bindable(false), patientUuid, onsubmitted }: Props = $props();
 
   let id        = $state('');
   let name      = $state('');
   let temporary = $state(false);
 
-  const dispatch = createEventDispatcher<{
-    submit: { id: string; name: string; temporary: boolean };
-  }>();
+  let loading = $state(false);
+  let error   = $state<string | null>(null);
 
-  function close() { open = false; }
+  function close() {
+    open = false;
+    error = null;
+  }
 
-  function submit() {
-    dispatch('submit', { id, name, temporary });
-    close();
+  async function submit() {
+    error = null;
+    loading = true;
+
+    const payload = { id, name, temporary };
+
+    try {
+      const res = await fetch(`/api/dpm/usrup/${patientUuid}/diagnosis`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.message ?? `Request failed (${res.status})`);
+      }
+
+      onsubmitted?.({ id, name, temporary });
+      close();
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'Something went wrong.';
+    } finally {
+      loading = false;
+    }
   }
 </script>
 
@@ -39,14 +65,17 @@
       </div>
 
       <div class="card-body">
+        {#if error}
+          <div class="error-banner">{error}</div>
+        {/if}
         <div class="row">
           <div class="field">
             <label for="c4-id">ID</label>
-            <input id="c4-id" type="text" bind:value={id} placeholder="DGN-001…" />
+            <input id="c4-id" type="text" bind:value={id} placeholder="DGN-001…" disabled={loading} />
           </div>
           <div class="field">
             <label for="c4-name">Name</label>
-            <input id="c4-name" type="text" bind:value={name} placeholder="Diagnosis name…" />
+            <input id="c4-name" type="text" bind:value={name} placeholder="Diagnosis name…" disabled={loading} />
           </div>
         </div>
 
@@ -58,6 +87,7 @@
             aria-checked={temporary}
             onclick={() => (temporary = !temporary)}
             type="button"
+            disabled={loading}
           >
             <span class="checkbox" class:checked={temporary}>
               {#if temporary}
@@ -85,8 +115,14 @@
       </div>
 
       <div class="card-footer">
-        <button class="btn-ghost" onclick={close}>Cancel</button>
-        <button class="btn-primary" class:warning={temporary} onclick={submit}>Submit</button>
+        <button class="btn-ghost" onclick={close} disabled={loading}>Cancel</button>
+        <button class="btn-primary" class:warning={temporary} onclick={submit} disabled={loading}>
+          {#if loading}
+            <span class="spinner"></span> Saving…
+          {:else}
+            Submit
+          {/if}
+        </button>
       </div>
     </div>
   </div>
@@ -193,6 +229,21 @@
   .btn-primary.warning { background: #f59e0b; }
   .btn-primary.warning:hover { background: #d97706; box-shadow: 0 4px 12px rgba(245,158,11,.3); }
   .btn-primary:active { transform: scale(.98); }
+  .error-banner {
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    color: #b91c1c; background: #fef2f2;
+    border: 1.5px solid #fecaca; border-radius: 8px;
+    padding: 9px 12px;
+  }
+  .spinner {
+    display: inline-block; width: 11px; height: 11px;
+    border: 2px solid rgba(255,255,255,.4);
+    border-top-color: #fff; border-radius: 50%;
+    animation: spin .6s linear infinite;
+    vertical-align: middle; margin-right: 4px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  input:disabled, .flag-toggle:disabled { opacity: 0.6; cursor: not-allowed; }
   @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
   @keyframes slide-up {
     from { opacity: 0; transform: translateY(12px) scale(.97); }

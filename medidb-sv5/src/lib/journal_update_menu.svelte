@@ -1,30 +1,66 @@
 <!-- POST /api/dpm/usrup/{uuid}/journal -->
 
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-
   interface Props {
     open?: boolean;
+    patientUuid: string;
+    onsubmitted?: (detail: { patient_summary: string; summary: string; category: string; notes: string }) => void;
   }
 
-  let { open = $bindable(false) }: Props = $props();
+  let { open = $bindable(false), patientUuid, onsubmitted }: Props = $props();
 
-  let title    = $state('');
+  let patient_summary    = $state('');
   let summary  = $state('');
   let category = $state('');
   let notes    = $state('');
 
+  let loading = $state(false);
+  let error   = $state<string | null>(null);
+
   const categories = ['General', 'Follow-up', 'Urgent', 'Routine', 'Specialist', 'Emergency'];
 
-  const dispatch = createEventDispatcher<{
-    submit: { title: string; summary: string; category: string; notes: string };
-  }>();
+  function close() {
+    open = false;
+    error = null;
+  }
 
-  function close() { open = false; }
+  async function submit() {
+    error = null;
+    loading = true;
 
-  function submit() {
-    dispatch('submit', { title, summary, category, notes });
-    close();
+    const unixTime = Math.floor(Date.now() / 1000);
+    
+    const payload = {
+      journal: {
+        date: unixTime,
+        patient_summary,
+        summary,
+        category,
+        notes,
+      }
+    };
+
+    try {
+      const res = await fetch(`/api/dpm/usrup/${patientUuid}/journal`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.message ?? `Request failed (${res.status})`);
+      }
+
+      onsubmitted?.({ patient_summary, summary, category, notes });
+      close();
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'Something went wrong.';
+    } finally {
+      loading = false;
+    }
   }
 </script>
 
@@ -42,18 +78,21 @@
       </div>
 
       <div class="card-body">
+        {#if error}
+          <div class="error-banner">{error}</div>
+        {/if}
         <div class="field">
-          <label for="c1-title">Title</label>
-          <input id="c1-title" type="text" bind:value={title} placeholder="Entry title…" />
+          <label for="c1-patient_summary">patient_summary</label>
+          <input id="c1-patient_summary" type="text" bind:value={patient_summary} placeholder="Entry patient_summary…" disabled={loading} />
         </div>
         <div class="field">
           <label for="c1-summary">Summary</label>
-          <input id="c1-summary" type="text" bind:value={summary} placeholder="Brief summary…" />
+          <input id="c1-summary" type="text" bind:value={summary} placeholder="Brief summary…" disabled={loading} />
         </div>
         <div class="field">
           <label for="c1-category">Category</label>
           <div class="select-wrap">
-            <select id="c1-category" bind:value={category}>
+            <select id="c1-category" bind:value={category} disabled={loading}>
               <option value="" disabled>Select category…</option>
               {#each categories as cat}
                 <option value={cat}>{cat}</option>
@@ -66,13 +105,19 @@
         </div>
         <div class="field">
           <label for="c1-notes">Notes</label>
-          <textarea id="c1-notes" bind:value={notes} placeholder="Additional notes…" rows="3"></textarea>
+          <textarea id="c1-notes" bind:value={notes} placeholder="Additional notes…" rows="3" disabled={loading}></textarea>
         </div>
       </div>
 
       <div class="card-footer">
-        <button class="btn-ghost" onclick={close}>Cancel</button>
-        <button class="btn-primary" onclick={submit}>Submit</button>
+        <button class="btn-ghost" onclick={close} disabled={loading}>Cancel</button>
+        <button class="btn-primary" onclick={submit} disabled={loading}>
+          {#if loading}
+            <span class="spinner"></span> Saving…
+          {:else}
+            Submit
+          {/if}
+        </button>
       </div>
     </div>
   </div>
@@ -151,6 +196,21 @@
   }
   .btn-primary:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37,99,235,.3); }
   .btn-primary:active { transform: scale(.98); }
+  .error-banner {
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    color: #b91c1c; background: #fef2f2;
+    border: 1.5px solid #fecaca; border-radius: 8px;
+    padding: 9px 12px;
+  }
+  .spinner {
+    display: inline-block; width: 11px; height: 11px;
+    border: 2px solid rgba(255,255,255,.4);
+    border-top-color: #fff; border-radius: 50%;
+    animation: spin .6s linear infinite;
+    vertical-align: middle; margin-right: 4px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  input:disabled, select:disabled, textarea:disabled { opacity: 0.6; cursor: not-allowed; }
   @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
   @keyframes slide-up {
     from { opacity: 0; transform: translateY(12px) scale(.97); }

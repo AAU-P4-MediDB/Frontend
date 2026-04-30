@@ -1,36 +1,22 @@
 <!-- POST http://192.168.134.6:10140/api/dpm/usrup/{uuid}/appointment -->
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-
   interface Props {
     open?: boolean;
-    token: string;
-    // patientUuid: string;
+    patientUuid: string;
+    cpr: string;
+    onsubmitted?: (detail: { title: string; date: string; note: string; duration: string }) => void;
   }
 
-  const cookies = null;
-
-  const cookieHeader = cookies
-		?.getAll()
-		?.map((c) => `${c.name}=${c.value}`)
-		?.join('; ') || '';
-
-  let patientUuid = "e5f6a7b8-c9d0-4123-d0e1-f2a3b4c5d6e7";
-  let cpr = "041272-1023"
-
-  let { open = $bindable(false), token }: Props = $props();
+  let { open = $bindable(false), patientUuid, cpr, onsubmitted }: Props = $props();
 
   let title    = $state('');
   let date     = $state('');
+  let time     = $state('09:00');
   let note     = $state('');
-  let duration = $state('');
+  // let duration = $state('');
 
   let loading = $state(false);
   let error   = $state<string | null>(null);
-
-  const dispatch = createEventDispatcher<{
-    submitted: { title: string; date: string; note: string; duration: string };
-  }>();
 
   function close() {
     open = false;
@@ -41,25 +27,22 @@
     error = null;
     loading = true;
 
-    // Convert date string + duration to a Unix timestamp
-    const unixTime = date ? Math.floor(new Date(date).getTime() / 1000) : null;
+    const unixTime = date && time ? Math.floor(new Date(`${date}T${time}`).getTime() / 1000) : null;
 
     const payload = {
-      name: {title},
+      name: title,
       id: patientUuid,
       cpr,
       time: unixTime,
       reason: note,
-      duration_minutes: duration ? Number(duration) : null,
+      // duration_minutes: duration ? Number(duration) : null,
     };
 
     try {
-      const res = await fetch(`http://192.168.134.6:10140/api/dpm/usrup/${patientUuid}/appointment`, {
+      const res = await fetch(`/api/dpm/usrup/${patientUuid}/appointment`, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Cookie': cookieHeader,
-          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(payload),
       });
@@ -69,7 +52,7 @@
         throw new Error(body?.message ?? `Request failed (${res.status})`);
       }
 
-      dispatch('submitted', { title, date, note, duration });
+      onsubmitted?.({ title, date, note, duration: '' });
       close();
     } catch (e) {
       error = e instanceof Error ? e.message : 'Something went wrong.';
@@ -106,9 +89,15 @@
             <input id="c2-date" type="date" bind:value={date} disabled={loading} />
           </div>
           <div class="field">
+            <label for="c2-time">Time</label>
+            <input id="c2-time" type="time" bind:value={time} disabled={loading} />
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
             <label for="c2-duration">Duration</label>
             <div class="input-unit">
-              <input id="c2-duration" type="number" min="5" step="5" bind:value={duration} placeholder="30" disabled={loading} />
+              <input id="c2-duration" type="number" min="5" step="5" value="30" placeholder="30" disabled={loading} />
               <span class="unit">min</span>
             </div>
           </div>
@@ -207,7 +196,7 @@
   }
   .btn-primary:hover { background: #0e7490; box-shadow: 0 4px 12px rgba(8,145,178,.3); }
   .btn-primary:active { transform: scale(.98); }
-    .error-banner {
+  .error-banner {
     font-family: 'DM Sans', sans-serif; font-size: 13px;
     color: #b91c1c; background: #fef2f2;
     border: 1.5px solid #fecaca; border-radius: 8px;
