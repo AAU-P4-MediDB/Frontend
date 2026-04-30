@@ -1,3 +1,5 @@
+<!-- POST /api/dpm/usrup/{uuid}/diagnosis -->
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 

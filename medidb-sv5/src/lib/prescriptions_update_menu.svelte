@@ -1,3 +1,6 @@
+<!-- name, instruction, dosage, duration, date -->
+ <!-- POST /api/dpm/usrup/{uuid}/prescription -->
+
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
@@ -7,19 +10,20 @@
 
   let { open = $bindable(false) }: Props = $props();
 
-  let id       = $state('');
   let name     = $state('');
+  let instruction = $state('');
   let dose     = $state('');
   let duration = $state('');
+  let date     = $state('');
 
   const dispatch = createEventDispatcher<{
-    submit: { id: string; name: string; dose: string; duration: string };
+    submit: { name: string; instruction: string; dose: string; duration: string; date: string };
   }>();
 
   function close() { open = false; }
 
   function submit() {
-    dispatch('submit', { id, name, dose, duration });
+    dispatch('submit', { name, instruction, dose, duration, date });
     close();
   }
 </script>
@@ -40,12 +44,12 @@
       <div class="card-body">
         <div class="row">
           <div class="field">
-            <label for="c3-id">ID</label>
-            <input id="c3-id" type="text" bind:value={id} placeholder="MED-001…" />
+            <label for="c3-id">Name</label>
+            <input id="c3-id" type="text" bind:value={name} placeholder="Medication name..." />
           </div>
           <div class="field">
-            <label for="c3-name">Name</label>
-            <input id="c3-name" type="text" bind:value={name} placeholder="Medication name…" />
+            <label for="c3-name">Instruction</label>
+            <input id="c3-name" type="text" bind:value={instruction} placeholder="Instructions..." />
           </div>
         </div>
         <div class="row">
@@ -62,6 +66,12 @@
               <input id="c3-duration" type="number" min="1" bind:value={duration} placeholder="7" />
               <span class="unit">days</span>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="c3-date">Start date</label>
+            <input id="c3-date" type="date" bind:value={date} />
           </div>
         </div>
         <div class="info-strip">

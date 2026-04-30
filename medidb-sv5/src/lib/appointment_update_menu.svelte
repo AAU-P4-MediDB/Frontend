@@ -1,9 +1,20 @@
+<!-- POST http://192.168.134.6:10140/api/dpm/usrup/{uuid}/appointment -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
   interface Props {
     open?: boolean;
+    // patientUuid: string;
   }
+
+  const cookies = null;
+
+  const cookieHeader = cookies
+		?.getAll()
+		?.map((c) => `${c.name}=${c.value}`)
+		?.join('; ') || '';
+
+  let patientUuid = "e5f6a7b8-c9d0-4123-d0e1-f2a3b4c5d6e7";
 
   let { open = $bindable(false) }: Props = $props();
 
@@ -12,15 +23,55 @@
   let note     = $state('');
   let duration = $state('');
 
+  let loading = $state(false);
+  let error   = $state<string | null>(null);
+
   const dispatch = createEventDispatcher<{
-    submit: { title: string; date: string; note: string; duration: string };
+    submitted: { title: string; date: string; note: string; duration: string };
   }>();
 
-  function close() { open = false; }
+  function close() {
+    open = false;
+    error = null;
+  }
 
-  function submit() {
-    dispatch('submit', { title, date, note, duration });
-    close();
+  async function submit() {
+    error = null;
+    loading = true;
+
+    // Convert date string + duration to a Unix timestamp
+    const unixTime = date ? Math.floor(new Date(date).getTime() / 1000) : null;
+
+    const payload = {
+      title,
+      time: unixTime,
+      note,
+      duration_minutes: duration ? Number(duration) : null,
+    };
+
+    try {
+      const res = await fetch(`http://192.168.134.6:10140/api/dpm/usrup/${patientUuid}/appointment`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Cookie': cookieHeader,
+          'Authorization': `Bearer ${locals.token}`
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.message ?? `Request failed (${res.status})`);
+      }
+
+      dispatch('submitted', { title, date, note, duration });
+      close();
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'Something went wrong.';
+    } finally {
+      loading = false;
+    }
   }
 </script>
 
@@ -38,32 +89,41 @@
       </div>
 
       <div class="card-body">
+        {#if error}
+          <div class="error-banner">{error}</div>
+        {/if}
         <div class="field">
           <label for="c2-title">Title</label>
-          <input id="c2-title" type="text" bind:value={title} placeholder="Appointment title…" />
+          <input id="c2-title" type="text" bind:value={title} placeholder="Appointment title…" disabled={loading} />
         </div>
         <div class="row">
           <div class="field">
             <label for="c2-date">Date</label>
-            <input id="c2-date" type="date" bind:value={date} />
+            <input id="c2-date" type="date" bind:value={date} disabled={loading} />
           </div>
           <div class="field">
             <label for="c2-duration">Duration</label>
             <div class="input-unit">
-              <input id="c2-duration" type="number" min="5" step="5" bind:value={duration} placeholder="30" />
+              <input id="c2-duration" type="number" min="5" step="5" bind:value={duration} placeholder="30" disabled={loading} />
               <span class="unit">min</span>
             </div>
           </div>
         </div>
         <div class="field">
           <label for="c2-note">Note</label>
-          <textarea id="c2-note" bind:value={note} placeholder="Additional notes…" rows="3"></textarea>
+          <textarea id="c2-note" bind:value={note} placeholder="Additional notes…" rows="3" disabled={loading}></textarea>
         </div>
       </div>
 
       <div class="card-footer">
-        <button class="btn-ghost" onclick={close}>Cancel</button>
-        <button class="btn-primary" onclick={submit}>Submit</button>
+        <button class="btn-ghost" onclick={close} disabled={loading}>Cancel</button>
+        <button class="btn-primary" onclick={submit} disabled={loading}>
+          {#if loading}
+            <span class="spinner"></span> Saving…
+          {:else}
+            Submit
+          {/if}
+        </button>
       </div>
     </div>
   </div>
@@ -143,6 +203,21 @@
   }
   .btn-primary:hover { background: #0e7490; box-shadow: 0 4px 12px rgba(8,145,178,.3); }
   .btn-primary:active { transform: scale(.98); }
+    .error-banner {
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    color: #b91c1c; background: #fef2f2;
+    border: 1.5px solid #fecaca; border-radius: 8px;
+    padding: 9px 12px;
+  }
+  .spinner {
+    display: inline-block; width: 11px; height: 11px;
+    border: 2px solid rgba(255,255,255,.4);
+    border-top-color: #fff; border-radius: 50%;
+    animation: spin .6s linear infinite;
+    vertical-align: middle; margin-right: 4px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  input:disabled, textarea:disabled { opacity: 0.6; cursor: not-allowed; }
   @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
   @keyframes slide-up {
     from { opacity: 0; transform: translateY(12px) scale(.97); }

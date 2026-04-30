@@ -11,7 +11,7 @@ import {
 import { createEventModalPlugin } from "@schedule-x/event-modal";
 import "@schedule-x/theme-default/dist/calendar.css";
 import "temporal-polyfill/global";
-import CyanButton from "$lib/CyanButton.svelte";
+// import CyanButton from "$lib/CyanButton.svelte";
 import PopupCard2 from '$lib/appointment_update_menu.svelte';
 
 let { data } = $props();
