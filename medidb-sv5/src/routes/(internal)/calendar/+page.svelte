@@ -32,13 +32,13 @@ function onAppointmentSubmit(e: CustomEvent)  { console.log('appointment',  e.de
 </script>
 <PopupCard2 bind:open={openAppointment}  on:submit={onAppointmentSubmit} />
 
-<div class="col-span-2">
+<!-- <div class="col-span-2">
   <div class="grid grid-cols-4 gap-4">
     <div class="...">
       <CyanButton onclick={() => (openAppointment = true)}>New Appointment</CyanButton>
     </div>
   </div>
-</div>
+</div> -->
 <div class="p-4">
   <ScheduleXCalendar {calendarApp} />
 </div>
