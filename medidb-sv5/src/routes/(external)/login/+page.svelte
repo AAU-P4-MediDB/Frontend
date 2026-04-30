@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   // Set default values from your first mock user
-  let emailValue: string | null = null;
-  let passwordValue: string | null = null; // Mock password
+  let emailValue = $state("");
+  let passwordValue = $state("");
 
   let rememberMe = $state(true);
   let emailError = $state(false);
@@ -12,29 +12,44 @@
   let loading = $state(false);
 
   async function handleLogin() {
-      emailError = false;
-      passwordError = false;
-      loginErrorMessage = "";
+    // 1. Validation
+    if (!emailValue.includes("@")) {
+      emailError = true;
+      return;
+    }
+    if (!passwordValue) {
+      passwordError = true;
+      return;
+    }
 
-      if (!emailValue || !emailValue.includes("@")) { emailError = true; return; }
-      if (!passwordValue) { passwordError = true; return; }
+    loading = true;
+    loginErrorMessage = "";
 
-      loading = true;
-
-      const result = await fetch("/api/auth/login", {   // ← correct SvelteKit route
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ email: emailValue, password: passwordValue })
+    try {
+      const result = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          email: emailValue,
+          password: passwordValue,
+        }),
       });
 
       if (result.ok) {
-          console.log('Login ok, redirecting...');
-          if (rememberMe) localStorage.setItem("remembered_email", emailValue);
-          goto("/home");   // ← unconditional, not gated on rememberMe
+        if (rememberMe) {
+          localStorage.setItem("remembered_email", emailValue);
+        }
+        // Successful login - move to home
+        goto("/home");
       } else {
-          loginErrorMessage = "Invalid credentials";
-          loading = false;
+        const errorData = await result.json();
+        loginErrorMessage = errorData.message || "Invalid credentials";
       }
+    } catch (e) {
+      loginErrorMessage = "Connection timed out. Is the backend running?";
+    } finally {
+      loading = false;
+    }
   }
 </script>
 
@@ -83,22 +98,22 @@
       </button>
       <div class="dev-presets">
         <!-- <span>Dev Quick-Login:</span>
-        <div class="preset-buttons">
-          {#each MOCK_USERS as user}
-            <button
-              type="button"
-              onclick={() => {
-                emailValue = user.email;
-                passwordValue = "pass";
-              }}
-              title="Load {user.name}"
-            >
-              {user.position === 3 ? "Dr." : "Staff"}: {user.name.split(
-                " ",
-              )[1] ?? user.name}
-            </button>
-          {/each}
-        </div> -->
+          <div class="preset-buttons">
+            {#each MOCK_USERS as user}
+              <button
+                type="button"
+                onclick={() => {
+                  emailValue = user.email;
+                  passwordValue = "pass";
+                }}
+                title="Load {user.name}"
+              >
+                {user.position === 3 ? "Dr." : "Staff"}: {user.name.split(
+                  " ",
+                )[1] ?? user.name}
+              </button>
+            {/each}
+          </div> -->
       </div>
     </div>
   </div>

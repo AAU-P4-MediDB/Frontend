@@ -3,20 +3,19 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare namespace App {
-	// interface Locals {}
-	// interface Platform {}
-	// interface Session {}
-	// interface Stuff {}
-}
-declare global {
-    namespace App {
-        interface Locals {
-            token: string | null;
-            user: {
-                uuid: string;
-                email: string;
-                position: 'Doctor' | 'Secretary' | 'Local_administrator';
-            } | null;
+  // interface Locals {}
+  // interface Platform {}
+  // interface Session {}
+  // interface Stuff {}
+
+  interface Locals {
+    token: string | undefined;
+    user:
+      | {
+          uuid: string;
+          email: string;
+          position: "Doctor" | "Secretary" | "Local_administrator";
         }
-    }
+      | undefined;
+  }
 }
