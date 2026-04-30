@@ -17,27 +17,27 @@
   import PopupCard4 from "$lib/diagnosis_update_menu.svelte";
   import VitalCard from "$lib/VitalCard.svelte";
 
+  let { data } = $props();
+
   // One open-state per card
   let openNote = $state(false);
   let openAppointment = $state(false);
   let openPrescription = $state(false);
   let openDiagnosis = $state(false);
 
-  // Handle submit events however you like
-  function onNoteSubmit(e: CustomEvent) {
-    console.log("note", e.detail);
+  // Handle submit callbacks
+  function onNoteSubmit(detail: any) {
+    console.log("note", detail);
   }
-  function onAppointmentSubmit(e: CustomEvent) {
-    console.log("appointment", e.detail);
+  function onAppointmentSubmit(detail: any) {
+    console.log("appointment", detail);
   }
-  function onPrescriptionSubmit(e: CustomEvent) {
-    console.log("prescription", e.detail);
+  function onPrescriptionSubmit(detail: any) {
+    console.log("prescription", detail);
   }
-  function onDiagnosisSubmit(e: CustomEvent) {
-    console.log("diagnosis", e.detail);
+  function onDiagnosisSubmit(detail: any) {
+    console.log("diagnosis", detail);
   }
-
-  let { data } = $props();
 
   $effect(() => {
     console.log("vitals", data.vitals);
@@ -50,10 +50,27 @@
   });
 </script>
 
-<PopupCard1 bind:open={openNote} on:submit={onNoteSubmit} />
-<PopupCard2 bind:open={openAppointment} token={data.token} on:submit={onAppointmentSubmit} />
-<PopupCard3 bind:open={openPrescription} on:submit={onPrescriptionSubmit} />
-<PopupCard4 bind:open={openDiagnosis} on:submit={onDiagnosisSubmit} />
+<PopupCard1
+  bind:open={openNote}
+  patientUuid={data.info?.uuid}
+  onsubmitted={onNoteSubmit}
+/>
+<PopupCard2
+  bind:open={openAppointment}
+  patientUuid={data.info?.uuid}
+  cpr={data.selectedCPR}
+  onsubmitted={onAppointmentSubmit}
+/>
+<PopupCard3
+  bind:open={openPrescription}
+  patientUuid={data.info?.uuid}
+  onsubmitted={onPrescriptionSubmit}
+/>
+<PopupCard4
+  bind:open={openDiagnosis}
+  patientUuid={data.info?.uuid}
+  onsubmitted={onDiagnosisSubmit}
+/>
 
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
