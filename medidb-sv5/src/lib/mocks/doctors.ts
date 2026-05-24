@@ -9,7 +9,7 @@ export interface Doctor extends User {
 
 export const MOCK_DOCTORS: Doctor[] = [
   {
-    ...MOCK_USERS[0], // Spreads Sophia Lee's data
+    ...MOCK_USERS[0],
     specialty: "General Practice",
     assignedPatients: [
       "p-001",
@@ -24,7 +24,7 @@ export const MOCK_DOCTORS: Doctor[] = [
     assignedNotifications: ["n-011"],
   },
   {
-    ...MOCK_USERS[1], // Spreads John Cena's data
+    ...MOCK_USERS[1],
     specialty: "Hematology",
     assignedPatients: ["p-009", "p-010", "p-011", "p-012"],
     assignedNotifications: ["n-012"],

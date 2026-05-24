@@ -1,7 +1,11 @@
-// DISCLAIMER: All personal identifiers, including CPR numbers, contained within this file are fictitious and randomly generated for testing purposes only. 
-// No data in this file relates to or is capable of identifying any natural person, whether directly or indirectly. 
-// Accordingly, this data does not constitute "personal data" within the meaning of Article 4(1) of the General Data Protection Regulation (EU) 2016/679, 
-// as it falls outside the scope of the GDPR in accordance with Recital 26 thereof.
+/*
+ * DISCLAIMER: All personal identifiers, including CPR numbers, contained within this file
+ * are fictitious and randomly generated for testing purposes only. No data in this file
+ * relates to or is capable of identifying any natural person, whether directly or indirectly.
+ * Accordingly, this data does not constitute "personal data" within the meaning of Article 4(1)
+ * of the General Data Protection Regulation (EU) 2016/679, as it falls outside the scope
+ * of the GDPR in accordance with Recital 26 thereof.
+ */
 
 import type { Patient } from "../types";
 
