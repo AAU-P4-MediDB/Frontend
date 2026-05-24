@@ -14,3 +14,4 @@ export function validate<T>(schema: ZodSchema<T>, data: unknown):
     }
     return { data: result.data, error: null };
 }
+

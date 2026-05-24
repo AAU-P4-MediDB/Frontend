@@ -1,21 +1,26 @@
-// src/lib/mocks/patients.ts
+// DISCLAIMER: All personal identifiers, including CPR numbers, contained within this file are fictitious and randomly generated for testing purposes only. 
+// No data in this file relates to or is capable of identifying any natural person, whether directly or indirectly. 
+// Accordingly, this data does not constitute "personal data" within the meaning of Article 4(1) of the General Data Protection Regulation (EU) 2016/679, 
+// as it falls outside the scope of the GDPR in accordance with Recital 26 thereof.
+
 import type { Patient } from "../types";
 
-const SOPHIA_LEE_UUID = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d";
-const JOHN_CENA_UUID = "a2b3c4d5-e6f7-g8h9-i0j1-k2l3m4n5o6p7";
+const JANE_DOE_UUID = "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d";
+const JOHN_DOE_UUID = "a2b3c4d5-e6f7-g8h9-i0j1-k2l3m4n5o6p7";
 const NORTH_CLINIC_UUID = "north-clinic-uuid";
 
+const PFP = "https://www.nicepng.com/png/full/367-3671905_person-icon-person-icon-silhouette.png";
+
 export const MOCK_PATIENTS: Patient[] = [
-  // Patients p-001 through p-008 assigned to Sophia Lee
   {
     uuid: "p-001",
-    name: "Colby Durdan",
+    name: "John Alexander doe",
     dob: "1972-04-12",
-    cpr_key: 1023,
+    cpr_key: 4817,
     bio_gender: true,
     pronouns: "he/him",
     clinic: NORTH_CLINIC_UUID,
-    doctor: SOPHIA_LEE_UUID,
+    doctor: JANE_DOE_UUID,
     weight: 88.2,
     height: 182,
     diagnoses: ["Hypertension"],
@@ -26,17 +31,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "97%",
     },
     prescriptions: { active: ["Lisinopril"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba3026bc4e44",
+    pfp: PFP,
   },
   {
     uuid: "p-002",
-    name: "Liam Carter",
+    name: "John Benjamin Doe ",
     dob: "1972-08-25", // Age 54
-    cpr_key: 4452,
+    cpr_key: 2953,
     bio_gender: true,
     pronouns: "he/him",
     clinic: NORTH_CLINIC_UUID,
-    doctor: SOPHIA_LEE_UUID,
+    doctor: JANE_DOE_UUID,
     weight: 75.0,
     height: 178,
     diagnoses: ["Asthma"],
@@ -47,17 +52,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "99%",
     },
     prescriptions: { active: ["Albuterol"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2c545a3381",
+    pfp: PFP,
   },
   {
     uuid: "p-003",
-    name: "Ethan Patel",
+    name: "John Christopher Doe",
     dob: "1997-01-15", // Age 29
-    cpr_key: 8891,
+    cpr_key: 7341,
     bio_gender: true,
     pronouns: "he/him",
     clinic: NORTH_CLINIC_UUID,
-    doctor: SOPHIA_LEE_UUID,
+    doctor: JANE_DOE_UUID,
     weight: 70.5,
     height: 175,
     diagnoses: ["Routine Checkup"],
@@ -68,17 +73,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "99%",
     },
     prescriptions: { active: [] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2ceafa1e19",
+    pfp: PFP,
   },
   {
     uuid: "p-004",
-    name: "Olivia Martinez",
+    name: "Jane Daniel Doe",
     dob: "1991-03-30", // Age 35
-    cpr_key: 2234,
+    cpr_key: 6028,
     bio_gender: false,
     pronouns: "she/her",
     clinic: NORTH_CLINIC_UUID,
-    doctor: JOHN_CENA_UUID, // Updated
+    doctor: JOHN_DOE_UUID, // Updated
     weight: 62.0,
     height: 165,
     diagnoses: ["Anemia"],
@@ -89,17 +94,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "98%",
     },
     prescriptions: { active: ["Iron Supplement"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2d1e53c9bf",
+    pfp: PFP,
   },
   {
     uuid: "p-005",
-    name: "Noah Kim",
+    name: "Jane Edward Doe",
     dob: "1991-07-11", // Age 35
-    cpr_key: 9901,
+    cpr_key: 1765,
     bio_gender: true,
     pronouns: "he/him",
     clinic: NORTH_CLINIC_UUID,
-    doctor: SOPHIA_LEE_UUID,
+    doctor: JANE_DOE_UUID,
     weight: 80.0,
     height: 180,
     diagnoses: ["Vitamin D Deficiency"],
@@ -110,17 +115,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "98%",
     },
     prescriptions: { active: ["Vitamin D3"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba24b41ed4ea",
+    pfp: PFP,
   },
   {
     uuid: "p-006",
-    name: "Ava Johnson",
+    name: "Jane Sofia Doe",
     dob: "1989-12-05", // Age 37
-    cpr_key: 3341,
+    cpr_key: 8462,
     bio_gender: false,
     pronouns: "she/her",
     clinic: NORTH_CLINIC_UUID,
-    doctor: JOHN_CENA_UUID, // Updated
+    doctor: JOHN_DOE_UUID, // Updated
     weight: 68.5,
     height: 168,
     diagnoses: ["Migraine"],
@@ -131,17 +136,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "99%",
     },
     prescriptions: { active: ["Sumatriptan"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2d8ead7b33",
+    pfp: PFP,
   },
   {
     uuid: "p-007",
-    name: "Lucas Brown",
+    name: "John Edward Doe",
     dob: "1986-02-18", // Age 40
-    cpr_key: 5562,
+    cpr_key: 3509,
     bio_gender: true,
     pronouns: "he/him",
     clinic: NORTH_CLINIC_UUID,
-    doctor: SOPHIA_LEE_UUID,
+    doctor: JANE_DOE_UUID,
     weight: 92.0,
     height: 185,
     diagnoses: ["Lower Back Pain"],
@@ -152,17 +157,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "97%",
     },
     prescriptions: { active: ["Ibuprofen"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2ddaa65d3f",
+    pfp: PFP,
   },
   {
     uuid: "p-008",
-    name: "Mia Rodriguez",
+    name: "Jane Frederick Doe",
     dob: "2000-05-22", // Age 26
-    cpr_key: 7781,
+    cpr_key: 9174,
     bio_gender: false,
     pronouns: "she/her",
     clinic: NORTH_CLINIC_UUID,
-    doctor: SOPHIA_LEE_UUID,
+    doctor: JANE_DOE_UUID,
     weight: 58.0,
     height: 162,
     diagnoses: ["Routine Screening"],
@@ -173,17 +178,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "100%",
     },
     prescriptions: { active: [] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2ef58f784a",
+    pfp: PFP,
   },
   {
     uuid: "p-009",
-    name: "Isabella Lee",
+    name: "Jane Lee Doe",
     dob: "1999-09-09",
-    cpr_key: 1123,
+    cpr_key: 5236,
     bio_gender: false,
     pronouns: "she/her",
     clinic: NORTH_CLINIC_UUID,
-    doctor: JOHN_CENA_UUID, // Updated
+    doctor: JOHN_DOE_UUID, // Updated
     weight: 55.5,
     height: 160,
     diagnoses: ["Allergic Rhinitis"],
@@ -194,17 +199,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "99%",
     },
     prescriptions: { active: ["Loratadine"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2e15515d35",
+    pfp: PFP,
   },
   {
     uuid: "p-010",
-    name: "Sebastian Wilson",
+    name: "John George Doe",
     dob: "1969-11-30",
-    cpr_key: 6654,
+    cpr_key: 7683,
     bio_gender: true,
     pronouns: "he/him",
     clinic: NORTH_CLINIC_UUID,
-    doctor: JOHN_CENA_UUID, // Updated
+    doctor: JOHN_DOE_UUID, // Updated
     weight: 95.2,
     height: 188,
     diagnoses: ["Type 2 Diabetes"],
@@ -215,17 +220,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "96%",
     },
     prescriptions: { active: ["Metformin"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2e502e45a7",
+    pfp: PFP,
   },
   {
     uuid: "p-011",
-    name: "Charlotte Davis",
+    name: "Jane Scarlet Doe",
     dob: "1994-06-14",
-    cpr_key: 4432,
+    cpr_key: 2041,
     bio_gender: false,
     pronouns: "she/her",
     clinic: NORTH_CLINIC_UUID,
-    doctor: JOHN_CENA_UUID, // Updated
+    doctor: JOHN_DOE_UUID, // Updated
     weight: 64.0,
     height: 170,
     diagnoses: ["Post-Op Recovery"],
@@ -236,17 +241,17 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "98%",
     },
     prescriptions: { active: ["Oxycodone (Temporary)"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2e96549117",
+    pfp: PFP,
   },
   {
     uuid: "p-012",
-    name: "Malte Jasonsen",
+    name: "John James Doe",
     dob: "1972-12-24",
-    cpr_key: 9002,
+    cpr_key: 8315,
     bio_gender: true,
     pronouns: "he/him",
     clinic: NORTH_CLINIC_UUID,
-    doctor: JOHN_CENA_UUID, // Updated
+    doctor: JOHN_DOE_UUID, // Updated
     weight: 85.0,
     height: 180,
     diagnoses: ["Hyperlipidemia"],
@@ -257,6 +262,6 @@ export const MOCK_PATIENTS: Patient[] = [
       Sp02: "98%",
     },
     prescriptions: { active: ["Atorvastatin"] },
-    pfp: "https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba2f3ac31dad",
+    pfp: PFP,
   },
 ];
