@@ -5,14 +5,15 @@
 
   let { data } = $props();
 
-  $effect(() => {
-    console.log("permission request", data.permission_requests);
-  });
+  let selectedCprs = $state<Record<string, boolean>>({});
+
+  function toggleSelection(cpr: string) {
+    selectedCprs[cpr] = !selectedCprs[cpr];
+  }
+
+  let assignDoctorId = $state("");
 
   // ── Per-request toggle state ──────────────────────────────────────────────
-  // We keep a map of requestIndex → { writeList, readList } so each card has
-  // its own independent toggle state.
-
   function makeWriteList() {
     return [
       { label: "Write All", checked: false },
@@ -39,8 +40,6 @@
     ];
   }
 
-  // Build per-request state once the requests are available.
-  // Using $state on an array of objects so Svelte tracks mutations.
   let requestStates = $state(
     (data.permission_requests?.dr_perm_requests ?? []).map(() => ({
       writeList: makeWriteList(),
@@ -48,18 +47,21 @@
     }))
   );
 
-  // ── Selected card ─────────────────────────────────────────────────────────
   let selectedIndex = $state<number | null>(null);
 
-  // Derived: the active toggle lists (fall back to empty if nothing selected)
-  let activeWrite = $derived(
-    selectedIndex !== null ? requestStates[selectedIndex].writeList : makeWriteList()
-  );
-  let activeRead = $derived(
-    selectedIndex !== null ? requestStates[selectedIndex].readList : makeReadList()
-  );
+  let activeWrite = $state(makeWriteList());
+  let activeRead = $state(makeReadList());
 
-  // ── Toggle logic ──────────────────────────────────────────────────────────
+  $effect(() => {
+    if (selectedIndex !== null) {
+      activeWrite = requestStates[selectedIndex].writeList;
+      activeRead = requestStates[selectedIndex].readList;
+    } else {
+      activeWrite = makeWriteList();
+      activeRead = makeReadList();
+    }
+  });
+
   function handleToggleLogic(
     list: ReturnType<typeof makeWriteList>,
     index: number
@@ -85,23 +87,30 @@
 
   <div class="grid grid-cols-4 content-between gap-4">
 
-    <!-- ── Left column: clickable permission-request cards ── -->
     <div>
       <CardOverlay>
         {#each data.permission_requests?.dr_perm_requests as permission, i}
-          <button
-            type="button"
-            onclick={() => (selectedIndex = i)}
-            class="w-full text-left rounded-lg border transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400
-              {selectedIndex === i
-                ? 'border-blue-500 bg-white shadow-md ring-1 ring-blue-500'
-                : 'border-gray-200 bg-gray-100 opacity-50 hover:opacity-75'}"
-          >
-            <DoctorPermissionsCard
-              pt_cpr={permission.pt_cpr}
-              note={permission.note}
+          <div class="flex items-start gap-2 p-1">
+            <input
+              type="checkbox"
+              checked={selectedCprs[permission.pt_cpr] ?? false}
+              onchange={() => toggleSelection(permission.pt_cpr)}
+              class="mt-3 h-4 w-4 cursor-pointer accent-blue-600"
             />
-          </button>
+            <button
+              type="button"
+              onclick={() => (selectedIndex = selectedIndex === i ? null : i)}
+              class="flex-1 text-left rounded-lg border transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400
+                {selectedIndex === i
+                  ? 'border-blue-500 bg-white shadow-md ring-1 ring-blue-500'
+                  : 'border-gray-200 bg-gray-100 opacity-50 hover:opacity-75'}"
+            >
+              <DoctorPermissionsCard
+                pt_cpr={permission.pt_cpr}
+                note={permission.note}
+              />
+            </button>
+          </div>
         {/each}
       </CardOverlay>
     </div>
@@ -141,6 +150,46 @@
         </div>
 
       </div>
+
+      <hr class="border-gray-200 my-6" />
+
+      <form method="POST" action="?/assign" data-sveltekit-reload>
+        <input
+          type="hidden"
+          name="pt_cprs"
+          value={JSON.stringify(Object.keys(selectedCprs).filter(cpr => selectedCprs[cpr]))}
+        />
+
+        <div class="flex items-end gap-4">
+          <div class="flex-1">
+            <label
+              for="assign-doctor"
+              class="mb-1 block text-sm font-medium text-gray-700"
+            >
+              Assign selected patients to
+            </label>
+            <select
+              id="assign-doctor"
+              name="dr_uuid"
+              bind:value={assignDoctorId}
+              class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+            >
+              <option value="">Choose a doctor...</option>
+              {#each data.doctors as doctor}
+                <option value={doctor.uuid}>{doctor.name}</option>
+              {/each}
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            disabled={Object.keys(selectedCprs).length === 0 || !assignDoctorId}
+            class="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Assign
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

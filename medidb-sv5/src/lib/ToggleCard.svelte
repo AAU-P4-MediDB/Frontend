@@ -4,11 +4,12 @@
 
   interface Props {
     checked: boolean;
+    disabled?: boolean;
     onUpdate?: () => void;
     children?: Snippet;
   }
 
-  let { checked = $bindable(false), onUpdate, children }: Props = $props();
+  let { checked = $bindable(false), disabled = false, onUpdate, children }: Props = $props();
 
   function handleChange() {
     if (onUpdate) onUpdate();
@@ -18,6 +19,7 @@
 <div class="p-1">
   <Toggle
     bind:checked
+    {disabled}
     onchange={handleChange}
     color="green"
     class="w-full cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors"

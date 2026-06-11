@@ -20,7 +20,7 @@
       if (!passwordValue) { passwordError = true; return; }
 
       loading = true;
-
+console.log("hest",emailValue,passwordValue);
       const result = await fetch("/api/auth/login", {   // ← correct SvelteKit route
           method: "POST",
           headers: { "content-type": "application/json" },
