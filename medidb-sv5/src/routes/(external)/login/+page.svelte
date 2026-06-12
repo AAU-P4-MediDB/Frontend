@@ -42,7 +42,6 @@
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ email: emailValue, password: passwordValue }),
-        cache: "no-store", // <-- CRITICAL: Forces the browser to ignore its cache jar
       });
 
       if (result.ok) {
