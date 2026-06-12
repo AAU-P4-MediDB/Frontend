@@ -1,8 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte"; // Import onMount to safely read localStorage
 
-  // Use empty strings instead of null to prevent Reactivity/HTML type mismatches
+  // Set default values from your first mock user
   let emailValue = $state("");
   let passwordValue = $state("");
 
@@ -12,21 +11,9 @@
   let loginErrorMessage = $state("");
   let loading = $state(false);
 
-  // Read saved email from localStorage on component mount
-  onMount(() => {
-    const savedEmail = localStorage.getItem("remembered_email");
-    if (savedEmail) {
-      emailValue = savedEmail;
-      rememberMe = true;
-    }
-  });
-
   async function handleLogin() {
-    emailError = false;
-    passwordError = false;
-    loginErrorMessage = "";
-
-    if (!emailValue || !emailValue.includes("@")) {
+    // 1. Validation
+    if (!emailValue.includes("@")) {
       emailError = true;
       return;
     }
@@ -36,29 +23,31 @@
     }
 
     loading = true;
+    loginErrorMessage = "";
 
     try {
       const result = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email: emailValue, password: passwordValue }),
-        cache: "no-store", // <-- CRITICAL: Forces the browser to ignore its cache jar
+        body: JSON.stringify({
+          email: emailValue,
+          password: passwordValue,
+        }),
       });
 
       if (result.ok) {
-        console.log("Login ok, forcing full session reload...");
-
-        if (rememberMe) localStorage.setItem("remembered_email", emailValue);
-
-        // Wipe client-side cache and force a hard server request to /home
-        window.location.href = "/home";
+        if (rememberMe) {
+          localStorage.setItem("remembered_email", emailValue);
+        }
+        // Successful login - move to home
+        goto("/home");
       } else {
-        loginErrorMessage = "Invalid credentials";
-        loading = false;
+        const errorData = await result.json();
+        loginErrorMessage = errorData.message || "Invalid credentials";
       }
-    } catch (err) {
-      console.error("Login fetch error:", err);
-      loginErrorMessage = "Unable to connect to the login service.";
+    } catch (e) {
+      loginErrorMessage = "Connection timed out. Is the backend running?";
+    } finally {
       loading = false;
     }
   }
@@ -75,45 +64,57 @@
         </div>
       {/if}
 
-      <form
-        onsubmit={(e) => {
-          e.preventDefault();
-          handleLogin();
-        }}
-      >
-        <div class="field" class:has-error={emailError}>
-          <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="name@company.com"
-            bind:value={emailValue}
-            oninput={() => (emailError = false)}
-          />
-          <span class="field-error">Please enter a valid email address.</span>
-        </div>
+      <div class="field" class:has-error={emailError}>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="name@company.com"
+          bind:value={emailValue}
+          oninput={() => (emailError = false)}
+        />
+        <span class="field-error">Please enter a valid email address.</span>
+      </div>
 
-        <div class="field" class:has-error={passwordError}>
-          <label for="pass">Your password</label>
-          <input
-            id="pass"
-            type="password"
-            placeholder="••••••••"
-            bind:value={passwordValue}
-            oninput={() => (passwordError = false)}
-          />
-          <span class="field-error">Password cannot be empty.</span>
-        </div>
+      <div class="field" class:has-error={passwordError}>
+        <label for="pass">Your password</label>
+        <input
+          id="pass"
+          type="password"
+          placeholder="••••••••"
+          bind:value={passwordValue}
+          oninput={() => (passwordError = false)}
+        />
+        <span class="field-error">Password cannot be empty.</span>
+      </div>
 
-        <div class="remember-row">
-          <input type="checkbox" id="remember" bind:checked={rememberMe} />
-          <label for="remember">Remember me</label>
-        </div>
+      <div class="remember-row">
+        <input type="checkbox" id="remember" bind:checked={rememberMe} />
+        <label for="remember">Remember me</label>
+      </div>
 
-        <button type="submit" class="login-btn" disabled={loading}>
-          {loading ? "Signing in…" : "Login"}
-        </button>
-      </form>
+      <button class="login-btn" disabled={loading} onclick={handleLogin}>
+        {loading ? "Signing in…" : "Login"}
+      </button>
+      <div class="dev-presets">
+        <!-- <span>Dev Quick-Login:</span>
+          <div class="preset-buttons">
+            {#each MOCK_USERS as user}
+              <button
+                type="button"
+                onclick={() => {
+                  emailValue = user.email;
+                  passwordValue = "pass";
+                }}
+                title="Load {user.name}"
+              >
+                {user.position === 3 ? "Dr." : "Staff"}: {user.name.split(
+                  " ",
+                )[1] ?? user.name}
+              </button>
+            {/each}
+          </div> -->
+      </div>
     </div>
   </div>
 </div>
@@ -130,6 +131,41 @@
     color: #8a3030;
     font-size: 13px;
     text-align: center;
+  }
+  .dev-presets {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(30, 100, 120, 0.2);
+    text-align: center;
+  }
+
+  .dev-presets span {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(30, 100, 120, 0.4);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .preset-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .preset-buttons button {
+    background: rgba(30, 100, 120, 0.05);
+    border: 1px solid rgba(30, 100, 120, 0.1);
+    color: #2a7a90;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+
+  .preset-buttons button:hover {
+    background: rgba(30, 100, 120, 0.1);
   }
 
   .scene {
