@@ -12,25 +12,19 @@
 
   let { data } = $props();
 
-  let sessionUser = $derived(data.user);
-
   $effect(() => {
     console.log("doctor", data.doctor);
     console.log("timeline_data", data.timeline_data);
     console.log("patients", data.patients);
     console.log("appointment_data", data.appointment_data);
     console.log("permission_requests", data.permission_requests);
-    console.log("Logged-in Session User:", sessionUser);
   });
 </script>
 
 <div class="grid grid-cols-3 gap-4">
   <div class="...">
     <!-- 1.3 Fetch doctor -->
-
-    {sessionUser?.position === "Doctor"
-      ? `Dr. ${sessionUser.email}`
-      : (sessionUser?.email ?? "User Session")}
+    <DoctorCard pfp={data.doctor?.pfp} name={data.doctor?.name} />
     <!-- sv3 reference code: -->
   </div>
 

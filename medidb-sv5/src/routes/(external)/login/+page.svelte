@@ -1,6 +1,11 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { onMount } from "svelte"; // Import onMount to safely read localStorage
+  import { goto } from "$app/navigation";
 
+  // Use empty strings instead of null to prevent Reactivity/HTML type mismatches
+  let emailValue = $state("");
+  let passwordValue = $state("");
   // Reactive form state (runes mode requires $state for bind:value to be reactive)
   let emailValue = $state<string | null>(null);
   let passwordValue = $state<string | null>(null);
@@ -11,16 +16,58 @@
   let loginErrorMessage = $state("");
   let loading = $state(false);
 
+  // Read saved email from localStorage on component mount
+  onMount(() => {
+    const savedEmail = localStorage.getItem("remembered_email");
+    if (savedEmail) {
+      emailValue = savedEmail;
+      rememberMe = true;
+    }
+  });
+
   async function handleLogin() {
     emailError = false;
     passwordError = false;
     loginErrorMessage = "";
 
+    if (!emailValue || !emailValue.includes("@")) {
+      emailError = true;
+      return;
+    }
+    if (!passwordValue) {
+      passwordError = true;
+      return;
+    }
     if (!emailValue || !emailValue.includes("@")) { emailError = true; return; }
     if (!passwordValue) { passwordError = true; return; }
 
     loading = true;
 
+    try {
+      const result = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email: emailValue, password: passwordValue }),
+        cache: "no-store", // <-- CRITICAL: Forces the browser to ignore its cache jar
+      });
+    loading = true;
+
+      if (result.ok) {
+        console.log("Login ok, forcing full session reload...");
+
+        if (rememberMe) localStorage.setItem("remembered_email", emailValue);
+
+        // Wipe client-side cache and force a hard server request to /home
+        window.location.href = "/home";
+      } else {
+        loginErrorMessage = "Invalid credentials";
+        loading = false;
+      }
+    } catch (err) {
+      console.error("Login fetch error:", err);
+      loginErrorMessage = "Unable to connect to the login service.";
+      loading = false;
+    }
     const result = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -48,35 +95,45 @@
         </div>
       {/if}
 
-      <div class="field" class:has-error={emailError}>
-        <label for="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="name@company.com"
-          bind:value={emailValue}
-          oninput={() => (emailError = false)}
-        />
-        <span class="field-error">Please enter a valid email address.</span>
-      </div>
+      <form
+        onsubmit={(e) => {
+          e.preventDefault();
+          handleLogin();
+        }}
+      >
+        <div class="field" class:has-error={emailError}>
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="name@company.com"
+            bind:value={emailValue}
+            oninput={() => (emailError = false)}
+          />
+          <span class="field-error">Please enter a valid email address.</span>
+        </div>
 
-      <div class="field" class:has-error={passwordError}>
-        <label for="pass">Your password</label>
-        <input
-          id="pass"
-          type="password"
-          placeholder="••••••••"
-          bind:value={passwordValue}
-          oninput={() => (passwordError = false)}
-        />
-        <span class="field-error">Password cannot be empty.</span>
-      </div>
+        <div class="field" class:has-error={passwordError}>
+          <label for="pass">Your password</label>
+          <input
+            id="pass"
+            type="password"
+            placeholder="••••••••"
+            bind:value={passwordValue}
+            oninput={() => (passwordError = false)}
+          />
+          <span class="field-error">Password cannot be empty.</span>
+        </div>
 
-      <div class="remember-row">
-        <input type="checkbox" id="remember" bind:checked={rememberMe} />
-        <label for="remember">Remember me</label>
-      </div>
+        <div class="remember-row">
+          <input type="checkbox" id="remember" bind:checked={rememberMe} />
+          <label for="remember">Remember me</label>
+        </div>
 
+        <button type="submit" class="login-btn" disabled={loading}>
+          {loading ? "Signing in…" : "Login"}
+        </button>
+      </form>
       <button class="login-btn" disabled={loading} onclick={handleLogin}>
         {loading ? "Signing in…" : "Login"}
       </button>
@@ -95,6 +152,7 @@
     font-size: 13px;
     text-align: center;
   }
+
   
   .scene {
    position: absolute;
