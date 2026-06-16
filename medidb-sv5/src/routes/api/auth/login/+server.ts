@@ -24,7 +24,7 @@ export async function POST({ request, cookies }) {
     cookies.set('jwt', data.jwt_token, {
         httpOnly: true,
         sameSite: 'strict',
-        secure: false,   // set true when behind HTTPS
+        secure: true,   
         path: '/',
         maxAge: 60 * 60 * 8
     });

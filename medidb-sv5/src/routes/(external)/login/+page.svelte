@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
-  // Set default values from your first mock user
-  let emailValue: string | null = null;
-  let passwordValue: string | null = null; // Mock password
+  // Reactive form state (runes mode requires $state for bind:value to be reactive)
+  let emailValue = $state<string | null>(null);
+  let passwordValue = $state<string | null>(null);
 
   let rememberMe = $state(true);
   let emailError = $state(false);
@@ -12,29 +12,28 @@
   let loading = $state(false);
 
   async function handleLogin() {
-      emailError = false;
-      passwordError = false;
-      loginErrorMessage = "";
+    emailError = false;
+    passwordError = false;
+    loginErrorMessage = "";
 
-      if (!emailValue || !emailValue.includes("@")) { emailError = true; return; }
-      if (!passwordValue) { passwordError = true; return; }
+    if (!emailValue || !emailValue.includes("@")) { emailError = true; return; }
+    if (!passwordValue) { passwordError = true; return; }
 
-      loading = true;
-console.log("hest",emailValue,passwordValue);
-      const result = await fetch("/api/auth/login", {   // ← correct SvelteKit route
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ email: emailValue, password: passwordValue })
-      });
+    loading = true;
 
-      if (result.ok) {
-          console.log('Login ok, redirecting...');
-          if (rememberMe) localStorage.setItem("remembered_email", emailValue);
-          goto("/home");   // ← unconditional, not gated on rememberMe
-      } else {
-          loginErrorMessage = "Invalid credentials";
-          loading = false;
-      }
+    const result = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email: emailValue, password: passwordValue }),
+    });
+
+    if (result.ok) {
+      if (rememberMe) localStorage.setItem("remembered_email", emailValue);
+      goto("/home");
+    } else {
+      loginErrorMessage = "Invalid credentials";
+      loading = false;
+    }
   }
 </script>
 
@@ -81,32 +80,11 @@ console.log("hest",emailValue,passwordValue);
       <button class="login-btn" disabled={loading} onclick={handleLogin}>
         {loading ? "Signing in…" : "Login"}
       </button>
-      <div class="dev-presets">
-        <!-- <span>Dev Quick-Login:</span>
-        <div class="preset-buttons">
-          {#each MOCK_USERS as user}
-            <button
-              type="button"
-              onclick={() => {
-                emailValue = user.email;
-                passwordValue = "pass";
-              }}
-              title="Load {user.name}"
-            >
-              {user.position === 3 ? "Dr." : "Staff"}: {user.name.split(
-                " ",
-              )[1] ?? user.name}
-            </button>
-          {/each}
-        </div> -->
-      </div>
     </div>
   </div>
 </div>
 
 <style>
-  /* ... keeping your existing styles ... */
-
   .global-error {
     margin-bottom: 1rem;
     padding: 10px;
@@ -117,63 +95,47 @@ console.log("hest",emailValue,passwordValue);
     font-size: 13px;
     text-align: center;
   }
-  .dev-presets {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px dashed rgba(30, 100, 120, 0.2);
-    text-align: center;
-  }
-
-  .dev-presets span {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: rgba(30, 100, 120, 0.4);
-    display: block;
-    margin-bottom: 8px;
-  }
-
-  .preset-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .preset-buttons button {
-    background: rgba(30, 100, 120, 0.05);
-    border: 1px solid rgba(30, 100, 120, 0.1);
-    color: #2a7a90;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    cursor: pointer;
-  }
-
-  .preset-buttons button:hover {
-    background: rgba(30, 100, 120, 0.1);
-  }
-
+  
   .scene {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+   position: absolute;
+   inset: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: #9ed6e8;
+   background-image:
+     radial-gradient(circle at 18% 22%, rgba(120, 205, 220, 0.65), transparent 55%),
+     radial-gradient(circle at 82% 28%, rgba(58, 130, 160, 0.55), transparent 52%),
+     radial-gradient(circle at 50% 88%, rgba(150, 215, 230, 0.6), transparent 55%),
+     linear-gradient(135deg, #d4eefb 0%, #9ed6e8 48%, #6fbcd2 100%);
+   background-size: cover;
+   background-position: center;
   }
 
   .card {
     width: 384px;
     border-radius: 16px;
     overflow: hidden;
-    background-image: url("https://pp.voxvoltera.com/assets/by-file-media-id/78742b37-89de-81f6-8007-ba4484ec8c29");
+    /* Solid fallback first — guarantees the card is never white if everything above fails */
+    background-color: #9ed6e8;
+    /* Self-contained gradient mimicking the flowing-blue look, no external request */
+    background-image:
+      radial-gradient(circle at 18% 22%, rgba(120, 205, 220, 0.65), transparent 55%),
+      radial-gradient(circle at 82% 28%, rgba(58, 130, 160, 0.55), transparent 52%),
+      radial-gradient(circle at 50% 88%, rgba(150, 215, 230, 0.6), transparent 55%),
+      linear-gradient(135deg, #d4eefb 0%, #9ed6e8 48%, #6fbcd2 100%);
     background-size: cover;
     background-position: center;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+
+    /* To use a real image instead, put it in /static and swap the line above for:
+       background-image: url("/login-bg.jpg"); */
   }
 
   .card-inner {
     padding: 2.5rem 2.25rem 2rem;
-    background: rgba(240, 248, 252, 0.78);
+    /* Lowered from 0.78 so the gradient reads through the frosted panel */
+    background: rgba(240, 248, 252, 0.62);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
