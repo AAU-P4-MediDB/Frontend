@@ -8,7 +8,6 @@
     };
     let { prescriptions = [] } = $props<{ prescriptions: Prescription[] }>();
 
-    console.log("PrescriptionCard received:", prescriptions);
 </script>
 
 <div class="max-h-100 overflow-y-auto pr-2 custom-scrollbar space-y-2">

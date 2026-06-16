@@ -1,22 +1,15 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte"; // Import onMount to safely read localStorage
-  import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
 
-  // Use empty strings instead of null to prevent Reactivity/HTML type mismatches
   let emailValue = $state("");
   let passwordValue = $state("");
-  // Reactive form state (runes mode requires $state for bind:value to be reactive)
-  let emailValue = $state<string | null>(null);
-  let passwordValue = $state<string | null>(null);
-
   let rememberMe = $state(true);
   let emailError = $state(false);
   let passwordError = $state(false);
   let loginErrorMessage = $state("");
   let loading = $state(false);
 
-  // Read saved email from localStorage on component mount
   onMount(() => {
     const savedEmail = localStorage.getItem("remembered_email");
     if (savedEmail) {
@@ -38,8 +31,6 @@
       passwordError = true;
       return;
     }
-    if (!emailValue || !emailValue.includes("@")) { emailError = true; return; }
-    if (!passwordValue) { passwordError = true; return; }
 
     loading = true;
 
@@ -48,16 +39,11 @@
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ email: emailValue, password: passwordValue }),
-        cache: "no-store", // <-- CRITICAL: Forces the browser to ignore its cache jar
+        cache: "no-store",
       });
-    loading = true;
 
       if (result.ok) {
-        console.log("Login ok, forcing full session reload...");
-
         if (rememberMe) localStorage.setItem("remembered_email", emailValue);
-
-        // Wipe client-side cache and force a hard server request to /home
         window.location.href = "/home";
       } else {
         loginErrorMessage = "Invalid credentials";
@@ -66,19 +52,6 @@
     } catch (err) {
       console.error("Login fetch error:", err);
       loginErrorMessage = "Unable to connect to the login service.";
-      loading = false;
-    }
-    const result = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email: emailValue, password: passwordValue }),
-    });
-
-    if (result.ok) {
-      if (rememberMe) localStorage.setItem("remembered_email", emailValue);
-      goto("/home");
-    } else {
-      loginErrorMessage = "Invalid credentials";
       loading = false;
     }
   }
@@ -134,9 +107,6 @@
           {loading ? "Signing in…" : "Login"}
         </button>
       </form>
-      <button class="login-btn" disabled={loading} onclick={handleLogin}>
-        {loading ? "Signing in…" : "Login"}
-      </button>
     </div>
   </div>
 </div>
@@ -153,30 +123,27 @@
     text-align: center;
   }
 
-  
   .scene {
-   position: absolute;
-   inset: 0;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   background-color: #9ed6e8;
-   background-image:
-     radial-gradient(circle at 18% 22%, rgba(120, 205, 220, 0.65), transparent 55%),
-     radial-gradient(circle at 82% 28%, rgba(58, 130, 160, 0.55), transparent 52%),
-     radial-gradient(circle at 50% 88%, rgba(150, 215, 230, 0.6), transparent 55%),
-     linear-gradient(135deg, #d4eefb 0%, #9ed6e8 48%, #6fbcd2 100%);
-   background-size: cover;
-   background-position: center;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #9ed6e8;
+    background-image:
+      radial-gradient(circle at 18% 22%, rgba(120, 205, 220, 0.65), transparent 55%),
+      radial-gradient(circle at 82% 28%, rgba(58, 130, 160, 0.55), transparent 52%),
+      radial-gradient(circle at 50% 88%, rgba(150, 215, 230, 0.6), transparent 55%),
+      linear-gradient(135deg, #d4eefb 0%, #9ed6e8 48%, #6fbcd2 100%);
+    background-size: cover;
+    background-position: center;
   }
 
   .card {
     width: 384px;
     border-radius: 16px;
     overflow: hidden;
-    /* Solid fallback first — guarantees the card is never white if everything above fails */
     background-color: #9ed6e8;
-    /* Self-contained gradient mimicking the flowing-blue look, no external request */
     background-image:
       radial-gradient(circle at 18% 22%, rgba(120, 205, 220, 0.65), transparent 55%),
       radial-gradient(circle at 82% 28%, rgba(58, 130, 160, 0.55), transparent 52%),
@@ -185,14 +152,10 @@
     background-size: cover;
     background-position: center;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
-
-    /* To use a real image instead, put it in /static and swap the line above for:
-       background-image: url("/login-bg.jpg"); */
   }
 
   .card-inner {
     padding: 2.5rem 2.25rem 2rem;
-    /* Lowered from 0.78 so the gradient reads through the frosted panel */
     background: rgba(240, 248, 252, 0.62);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);

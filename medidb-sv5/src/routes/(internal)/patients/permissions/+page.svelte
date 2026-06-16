@@ -49,18 +49,12 @@
 
   let selectedIndex = $state<number | null>(null);
 
-  let activeWrite = $state(makeWriteList());
-  let activeRead = $state(makeReadList());
-
-  $effect(() => {
-    if (selectedIndex !== null) {
-      activeWrite = requestStates[selectedIndex].writeList;
-      activeRead = requestStates[selectedIndex].readList;
-    } else {
-      activeWrite = makeWriteList();
-      activeRead = makeReadList();
-    }
-  });
+  let activeWrite = $derived(
+    selectedIndex !== null ? requestStates[selectedIndex].writeList : makeWriteList()
+  );
+  let activeRead = $derived(
+    selectedIndex !== null ? requestStates[selectedIndex].readList : makeReadList()
+  );
 
   function handleToggleLogic(
     list: ReturnType<typeof makeWriteList>,

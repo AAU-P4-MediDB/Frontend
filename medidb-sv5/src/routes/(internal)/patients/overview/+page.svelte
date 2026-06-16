@@ -8,10 +8,6 @@
 
   let { data } = $props();
 
-  $effect(() => {
-    console.log("Patients data:", data.patients);
-  });
-
   // your filter thing provided for  convinience
   // // 2. Then, we apply the search filter on those specific patients
   let filteredPatients = $derived(

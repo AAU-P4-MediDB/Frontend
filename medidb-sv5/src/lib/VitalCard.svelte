@@ -8,7 +8,6 @@
     }
     let { vitals } = $props<{ vitals: Vitals}>();
 
-    console.log("vitalCard received:", vitals);
 </script>
 
 <div class="max-h-100 overflow-y-auto pr-2 custom-scrollbar space-y-2">
