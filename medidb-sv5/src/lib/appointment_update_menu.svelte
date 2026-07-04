@@ -1,4 +1,4 @@
-<!-- POST http://192.168.134.6:10140/api/dpm/usrup/{uuid}/appointment -->
+<!-- POST http://192.168.134.230:10140/api/dpm/usrup/{uuid}/appointment -->
 <script lang="ts">
   interface Props {
     open?: boolean;

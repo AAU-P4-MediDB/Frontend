@@ -6,7 +6,7 @@ async function request<T>(
     cookieHeader?: string,
     token?: string
 ): Promise<T> {
-    const base = env.API_BASE_URL ?? 'http://192.168.134.6:10140';
+    const base = env.API_BASE_URL ?? 'http://192.168.134.230:10140';
     const res = await fetch(`${base}${path}`, {
         ...init,
         headers: {

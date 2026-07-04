@@ -4,7 +4,7 @@ import { env } from '$env/dynamic/private';
 export async function POST({ request, params, locals }) {
     const { uuid, type } = params;
     const body = await request.json();
-    const base = env.API_BASE_URL ?? 'http://192.168.134.6:10140';
+    const base = env.API_BASE_URL ?? 'http://192.168.134.230:10140';
 
     let res;
     try {

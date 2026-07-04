@@ -5,7 +5,7 @@ export async function POST({ request, cookies }) {
   let res;
 
   try {
-    res = await fetch("http://192.168.134.6:10140/api/um/ac/login", {
+    res = await fetch("http://192.168.134.230:10140/api/um/ac/login", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(body),

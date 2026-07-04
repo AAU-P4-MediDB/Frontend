@@ -7,7 +7,7 @@
 
   async function fetchUsers() {
     try {
-      const result = await fetch("http://192.168.134.6:10140/api/um/fetch", {
+      const result = await fetch("http://192.168.134.230:10140/api/um/fetch", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ name: nameValue, email: emailValue }),
