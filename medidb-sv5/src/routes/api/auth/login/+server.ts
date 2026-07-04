@@ -29,7 +29,7 @@ export async function POST({ request, cookies }) {
   cookies.set("jwt", data.accessToken, {
     httpOnly: true,
     sameSite: "strict",
-    secure: false,
+    secure: true,
     path: "/",
     maxAge: 60 * 60 * 8,
   });
@@ -37,7 +37,7 @@ export async function POST({ request, cookies }) {
   cookies.set("refresh_token", data.refreshToken, {
     httpOnly: true,
     sameSite: "strict",
-    secure: false,
+    secure: true,
     path: "/",
     maxAge: 60 * 60 * 8,
   });
