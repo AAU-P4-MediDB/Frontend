@@ -12,6 +12,9 @@
   let errorMessage = $state("");
   let loading = $state(false);
 
+  let totalSteps = $state(1);
+  let currentStep = $state(1);
+
   onMount(() => {
     const token = sessionStorage.getItem("mfa_token");
     if (!token) {
@@ -24,6 +27,7 @@
       const methods = JSON.parse(sessionStorage.getItem("mfa_methods") ?? "[]");
       if (Array.isArray(methods) && methods.length > 0) {
         availableMethods = methods;
+        totalSteps = methods.length;
         if (methods.includes("totp")) activeMethod = "totp";
         else if (methods.includes("yubikey")) activeMethod = "yubikey";
       }
@@ -57,13 +61,27 @@
         sessionStorage.removeItem("mfa_token");
         sessionStorage.removeItem("mfa_methods");
         window.location.href = "/home";
-      } else {
-        errorMessage = "Invalid code. Please try again.";
+        return;
+      }
+
+      if (result.status === 202) {
+        const data = await result.json();
+        mfaToken = data.mfaToken;
+        availableMethods = data.remainingMethods;
+        currentStep += 1;
         totpCode = "";
         yubikeyCode = "";
+        if (data.remainingMethods.includes("totp")) activeMethod = "totp";
+        else activeMethod = "yubikey";
         loading = false;
-        codeError = true;
+        return;
       }
+
+      errorMessage = "Invalid code. Please try again.";
+      totpCode = "";
+      yubikeyCode = "";
+      loading = false;
+      codeError = true;
     } catch (err) {
       console.error("MFA fetch error:", err);
       errorMessage = "Unable to connect to the authentication service.";
@@ -89,6 +107,10 @@
 
       {#if errorMessage}
         <div class="global-error">{errorMessage}</div>
+      {/if}
+
+      {#if totalSteps > 1}
+        <div class="step-indicator">Step {currentStep} of {totalSteps}</div>
       {/if}
 
       {#if availableMethods.length > 1}
@@ -219,6 +241,14 @@
     border-radius: 8px;
     color: #8a3030;
     font-size: 13px;
+    text-align: center;
+  }
+
+  .step-indicator {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(30, 100, 120, 0.5);
+    margin-bottom: 1rem;
     text-align: center;
   }
 
