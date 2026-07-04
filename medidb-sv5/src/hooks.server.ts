@@ -1,7 +1,7 @@
 import { redirect, type Handle } from "@sveltejs/kit";
 import { verifyJwt } from "$lib/server/auth";
 
-const PUBLIC_ROUTES = ["/", "/login", "/api/auth/login"];
+const PUBLIC_ROUTES = ["/", "/login", "/api/auth/login", "/mfa", "/api/auth/mfa"];
 
 export const handle: Handle = async ({ event, resolve }) => {
   const token = event.cookies.get("jwt");
