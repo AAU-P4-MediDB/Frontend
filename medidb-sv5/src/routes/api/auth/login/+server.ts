@@ -21,13 +21,21 @@ export async function POST({ request, cookies }) {
 
   const data = await res.json();
 
-  cookies.set("jwt", data.jwt_token, {
+  cookies.set("jwt", data.accessToken, {
     httpOnly: true,
     sameSite: "strict",
     secure: false,
-    path: "/",
+    path: "/", // Crucial: Must match your logout endpoint path exactly
     maxAge: 60 * 60 * 8, // 8 hours
   });
+
+  cookies.set("refresh_token", data.refreshToken, {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: false,
+    path: "/", // Crucial: Must match your logout endpoint path exactly
+    maxAge: 60 * 60 * 8, // 8 hours
+  })
 
   return json({ success: true });
 }
