@@ -25,6 +25,7 @@
     CalendarDays,
     LogOut,
     User2,
+    ShieldCheck,
   } from "lucide-svelte";
 
   import { isExpanded } from "$lib/stores/ui.js";
@@ -55,6 +56,7 @@
       href: "/calendar",
       roles: ["Doctor"],
     },
+    { icon: ShieldCheck, label: "Security", href: "/settings/security" },
   ];
 
   let allowedMenuItems = $derived(
