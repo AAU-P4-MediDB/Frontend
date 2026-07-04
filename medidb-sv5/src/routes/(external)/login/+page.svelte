@@ -42,6 +42,15 @@
         cache: "no-store",
       });
 
+      if (result.status === 202) {
+        const data = await result.json();
+        if (rememberMe) localStorage.setItem("remembered_email", emailValue);
+        sessionStorage.setItem("mfa_token", data.mfaToken);
+        sessionStorage.setItem("mfa_methods", JSON.stringify(data.methods ?? ["totp"]));
+        window.location.href = "/mfa";
+        return;
+      }
+
       if (result.ok) {
         if (rememberMe) localStorage.setItem("remembered_email", emailValue);
         window.location.href = "/home";
